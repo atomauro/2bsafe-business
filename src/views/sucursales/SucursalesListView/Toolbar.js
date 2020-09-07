@@ -11,7 +11,12 @@ import {
   SvgIcon,
   makeStyles,
   colors,
-  Typography
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -33,10 +38,25 @@ const useStyles = makeStyles(theme => ({
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={clsx(classes.root, className)} {...rest}>
       <Box display="flex" justifyContent="flex-end">
-        <Button color="primary" variant="contained" endIcon={<AddCircleIcon />}>
+        <Button
+          color="primary"
+          variant="contained"
+          endIcon={<AddCircleIcon />}
+          onClick={handleClickOpen}
+        >
           Agregar sucursal
         </Button>
       </Box>
@@ -54,6 +74,36 @@ const Toolbar = ({ className, ...rest }) => {
           </CardContent>
         </Card>
       </Box>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Para agregar una nueva sucursal o sede, solo es necesario ingresar a
+            continuacion el nombre o la ubicacion del establecimiento, utilice
+            una o dos palabras para hacerlo. Ejemplo: Poblado, Sede Poblado.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Nombre sucursal"
+            type="text"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Agregar sucursal
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
