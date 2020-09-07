@@ -39,104 +39,100 @@ const LoginView = () => {
         justifyContent="center"
       >
         <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: 'admin@confama',
-              password: 'Password123'
+          <Paper
+            className={{
+              width: 'auto',
+              height: 'auto'
             }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string()
-                .email('Must be a valid email')
-                .max(255)
-                .required('Email is required'),
-              password: Yup.string()
-                .max(255)
-                .required('Password is required')
-            })}
-            onSubmit={() => {
-              navigate('/app/customers', { replace: true });
-            }}
+            elevation={5}
           >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Paper
-                  className={{
-                    width: 'auto',
-                    height: 'auto',
+            <div style={{ margin: 20 }}>
+              <Formik
+                initialValues={{
+                  email: 'confama@2bsafe.com',
+                  password: 'Password123'
+                }}
+                validationSchema={Yup.object().shape({
+                  email: Yup.string()
+                    .email('Must be a valid email')
+                    .max(255)
+                    .required('Email is required'),
+                  password: Yup.string()
+                    .max(255)
+                    .required('Password is required')
+                })}
+                onSubmit={() => {
+                  navigate('/app/customers', { replace: true });
+                }}
+              >
+                {({
+                  errors,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  touched,
+                  values
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Box mb={3} style={{ paddingTop: 20 }}>
+                      <Typography color="textPrimary" variant="h2">
+                        Sign in
+                      </Typography>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="body2"
+                        style={{ marginTop: 10 }}
+                      >
+                        Internal platform of 2BSafe Business
+                      </Typography>
+                    </Box>
 
-                  }}
-                  elevation={5}
-                >
-                  
-                  <Box mb={3}>
-                    <Typography color="textPrimary" variant="h2">
-                      Sign in
-                    </Typography>
-                    <Typography
-                      color="textSecondary"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      Sign in on the internal platform
-                    </Typography>
-                  </Box>
-
-                  <TextField
-                    error={Boolean(touched.email && errors.email)}
-                    fullWidth
-                    helperText={touched.email && errors.email}
-                    label="Email Address"
-                    margin="normal"
-                    name="email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="email"
-                    value={values.email}
-                    variant="outlined"
-                  />
-                  <TextField
-                    error={Boolean(touched.password && errors.password)}
-                    fullWidth
-                    helperText={touched.password && errors.password}
-                    label="Password"
-                    margin="normal"
-                    name="password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="password"
-                    value={values.password}
-                    variant="outlined"
-                  />
-                  <Box my={2}>
-                    <Button
-                      color="primary"
-                      disabled={isSubmitting}
+                    <TextField
+                      error={Boolean(touched.email && errors.email)}
                       fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                    >
-                      Sign in now
-                    </Button>
-                  </Box>
-                  <Typography color="textSecondary" variant="body1">
-                    Don&apos;t have an account?{' '}
-                    <Link component={RouterLink} to="/register" variant="h6">
-                      Sign up
-                    </Link>
-                  </Typography>
-                </Paper>
-              </form>
-            )}
-          </Formik>
+                      helperText={touched.email && errors.email}
+                      label="Email Address"
+                      margin="normal"
+                      name="email"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="email"
+                      value={values.email}
+                      variant="outlined"
+                    />
+                    <TextField
+                      error={Boolean(touched.password && errors.password)}
+                      fullWidth
+                      helperText={touched.password && errors.password}
+                      label="Password"
+                      margin="normal"
+                      name="password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="password"
+                      value={values.password}
+                      variant="outlined"
+                    />
+                    <Box my={2}>
+                      <Button
+                        color="primary"
+                        disabled={isSubmitting}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        style={{ marginBottom: 20 }}
+                      >
+                        Sign in now
+                      </Button>
+                    </Box>
+                  </form>
+                )}
+              </Formik>
+            </div>
+          </Paper>
         </Container>
       </Box>
     </Page>
