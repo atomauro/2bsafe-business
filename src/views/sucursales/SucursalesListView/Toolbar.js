@@ -18,8 +18,11 @@ import {
   DialogContentText,
   DialogActions
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Lottie from 'react-lottie';
+
+import * as animationData from '../../../assets/lotties/ubicacion2.json';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -46,6 +49,12 @@ const Toolbar = ({ className, ...rest }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData
   };
 
   return (
@@ -79,8 +88,9 @@ const Toolbar = ({ className, ...rest }) => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">AGREGAR SUCURSAL</DialogTitle>
         <DialogContent>
+          <Lottie options={defaultOptions} height={400} width={400} />
           <DialogContentText>
             Para agregar una nueva sucursal o sede, solo es necesario ingresar a
             continuacion el nombre o la ubicacion del establecimiento, utilice
