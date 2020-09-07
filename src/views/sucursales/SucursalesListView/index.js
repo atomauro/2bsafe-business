@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   Box,
   Container,
-  makeStyles
+  makeStyles,
+  Grid
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Results from './Results';
@@ -25,13 +26,13 @@ const CustomerListView = () => {
   return (
     <Page
       className={classes.root}
-      title="Customers"
+      title="Sucursales"
     >
-      <Container maxWidth={false}>
+      <Container maxWidth={false} className={{display:'flex', justifyContent:'center'}}>
         <Toolbar />
-        <Box mt={3}>
+        <Grid item md={12} sm={12}>
           <Results customers={customers} />
-        </Box>
+        </Grid>
       </Container>
     </Page>
   );
