@@ -26,15 +26,15 @@ import NavItem from './NavItem';
 
 const user = {
   avatar: '/static/images/avatars/confama.jpg',
-  jobTitle: 'Caja de Compensación Familiar de Antioqui',
+  jobTitle: 'Caja de Compensación Familiar de Antioquia',
   name: 'CONFAMA'
 };
 
 const items = [
   {
-    href: '/app/customers',
+    href: '/app/sucursales',
     icon: UsersIcon,
-    title: 'Customers'
+    title: 'Sucursales'
   },
 ];
 
@@ -107,25 +107,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         </List>
       </Box>
       <Box flexGrow={1} />
-      <Box p={2} m={2} bgcolor="background.dark">
-        <image alt="startsco" className={{height:30,width:30}} src="/static/images/startscoLogo.webp"/>
-        <Typography align="center" gutterBottom variant="h4">
-          StartsCo Inc
-        </Typography>
-        <Typography align="center" variant="body2">
-          Growth ideas
-        </Typography>
-        <Box display="flex" justifyContent="center" mt={2}>
-          <Button
-            color="primary"
-            component="a"
-            href="https://startscoinc.com/es/"
-            variant="contained"
-          >
-            Know us
-          </Button>
-        </Box>
-      </Box>
+      
     </Box>
   );
 

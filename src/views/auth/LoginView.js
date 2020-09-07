@@ -62,7 +62,7 @@ const LoginView = () => {
                     .required('Password is required')
                 })}
                 onSubmit={() => {
-                  navigate('/app/customers', { replace: true });
+                  navigate('/app/sucursales', { replace: true });
                 }}
               >
                 {({
