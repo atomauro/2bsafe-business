@@ -18,7 +18,7 @@ import {
   makeStyles,
   withStyles
 } from '@material-ui/core';
-import getInitials from './utils/getInitials';
+import getInitials from 'src/utils/getInitials';
 
 const useStyles = makeStyles(theme => ({
   root: {},
