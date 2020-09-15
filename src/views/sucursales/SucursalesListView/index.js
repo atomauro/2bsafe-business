@@ -6,6 +6,8 @@ import Toolbar from './Toolbar';
 import data from './data';
 import Sucursales from './Sucursales';
 
+import Sucursales from './ListSucursales';
+
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -17,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [customers] = useState(data);
+  const [sucursales] = useState(data);
 
   return (
     <Page className={classes.root} title="Sucursales">
@@ -26,7 +28,7 @@ const CustomerListView = () => {
         className={{ display: 'flex', justifyContent: 'center' }}
       >
         <Toolbar />
-        <Sucursales/>
+        <Sucursales />
       </Container>
     </Page>
   );
