@@ -4,7 +4,6 @@ import Page from 'src/components/Page';
 
 import Toolbar from './Toolbar';
 import data from './data';
-import Sucursales from './Sucursales';
 
 import Sucursales from './ListSucursales';
 
