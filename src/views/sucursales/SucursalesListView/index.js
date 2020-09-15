@@ -4,6 +4,7 @@ import Page from 'src/components/Page';
 
 import Toolbar from './Toolbar';
 import data from './data';
+import Sucursales from './Sucursales';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,6 +26,7 @@ const CustomerListView = () => {
         className={{ display: 'flex', justifyContent: 'center' }}
       >
         <Toolbar />
+        <Sucursales/>
       </Container>
     </Page>
   );
