@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [customers] = useState(data);
+  const [sucursales] = useState(data);
 
   return (
     <Page className={classes.root} title="Sucursales">
