@@ -6,7 +6,7 @@ import TopBar from './TopBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: '#F4F6F8',
     display: 'flex',
     height: '100%',
     overflow: 'hidden',
@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 1 auto',
     height: '100%',
     overflow: 'auto'
+  },
+  topBar:{
+
   }
 }));
 
@@ -39,7 +42,7 @@ const DashboardLayout = () => {
 
   return (
     <div className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} className={classes.topBar} />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}

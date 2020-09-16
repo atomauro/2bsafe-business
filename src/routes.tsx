@@ -1,12 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from 'src/layouts/DashboardLayout';
-import MainLayout from 'src/layouts/MainLayout';
+import DashboardLayout from './layouts/DashboardLayout';
+import MainLayout from './layouts/MainLayout';
 
-import SucursalesListView from 'src/views/sucursales/SucursalesListView';
+import SucursalesListView from './views/sucursales/SucursalesListView';
 
-import LoginView from 'src/views/auth/LoginView';
-import NotFoundView from 'src/views/errors/NotFoundView';
+import LoginView from './views/auth/LoginView';
+import NotFoundView from './views/errors/NotFoundView';
 
 
 const routes = [

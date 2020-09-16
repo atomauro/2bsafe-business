@@ -56,7 +56,13 @@ const useStyles = makeStyles(() => ({
   },
   name: {
     margin: 10
-  }
+  },
+  divUser:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  navitem:{}
 }));
 
 const NavBar = ({ onMobileClose, openMobile }) => {
@@ -84,7 +90,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           src={user.avatar}
           draggable="false" 
         />
-        <div align="center">
+        <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h5">
             {user.name}
           </Typography>
@@ -98,6 +104,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         <List>
           {items.map(item => (
             <NavItem
+            className={classes.navitem}
               href={item.href}
               key={item.title}
               title={item.title}

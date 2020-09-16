@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Box, Container, makeStyles, Grid } from '@material-ui/core';
-import Page from 'src/components/Page';
+import Page from '../../../components/Page';
 
 import Toolbar from './Toolbar';
 import data from './data';
 
 import Sucursales from './ListSucursales';
 
+
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: '#F4F6F8',
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)

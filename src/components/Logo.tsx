@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Logo = props => {
+interface LogoProps {
+  draggable: boolean;
+  
+}
+
+const Logo = (props: LogoProps) => {
   return <img alt="Logo" src="/static/logo.png" {...props} />;
 };
 
