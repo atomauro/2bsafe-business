@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import {
   Button,
   ListItem,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
+import { Users as Icon} from 'react-feather'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -43,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
 const NavItem = ({
   className,
   href,
-  icon: Icon,
+  icon,
   title,
   ...rest
-}) => {
+}: {className: string, href:string, icon: any, title:string}) => {
   const classes = useStyles();
 
   return (

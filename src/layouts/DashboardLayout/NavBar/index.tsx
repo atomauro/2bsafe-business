@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -65,7 +64,7 @@ const useStyles = makeStyles(() => ({
   navitem:{}
 }));
 
-const NavBar = ({ onMobileClose, openMobile }) => {
+const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: boolean}) => {
   const classes = useStyles();
   const location = useLocation();
 
@@ -143,16 +142,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       </Hidden>
     </>
   );
-};
-
-NavBar.propTypes = {
-  onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
-};
-
-NavBar.defaultProps = {
-  onMobileClose: () => {},
-  openMobile: false
 };
 
 export default NavBar;

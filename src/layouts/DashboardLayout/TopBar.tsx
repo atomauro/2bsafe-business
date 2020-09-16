@@ -20,6 +20,9 @@ const useStyles = makeStyles(() => ({
   avatar: {
     width: 60,
     height: 60
+  },
+  icons:{
+    color: 'white'
   }
 }));
 
@@ -34,13 +37,13 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }: {className: string, onM
 
         <Box flexGrow={1} />
         <Hidden mdDown>
-          <IconButton color={colors.common.white}>
-            <InputIcon color={colors.common.white} />
+          <IconButton className={classes.icons}>
+            <InputIcon className={classes.icons}/>
           </IconButton>
         </Hidden>
         <Hidden lgUp>
-          <IconButton color={colors.common.white} onClick={onMobileNavOpen}>
-            <MenuIcon color={colors.common.white} />
+          <IconButton className={classes.icons} onClick={onMobileNavOpen}>
+            <MenuIcon className={classes.icons}/>
           </IconButton>
         </Hidden>
       </Toolbar>

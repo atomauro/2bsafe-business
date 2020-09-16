@@ -1,16 +1,19 @@
 import { createMuiTheme, colors } from '@material-ui/core';
+import { Palette } from '@material-ui/core/styles/createPalette'
+
 import shadows from './shadows';
 import typography from './typography';
+
 
 const theme = createMuiTheme({
   palette: {
     background: {
-      dark: '#F4F6F8',
       default: colors.common.white,
       paper: colors.common.white
     },
     primary: {
       main: '#3BA0F8',
+      dark: '#F4F6F8',
       contrastText: '#fff' //button text white instead of black
     },
     secondary: {
@@ -21,9 +24,6 @@ const theme = createMuiTheme({
       secondary: colors.blueGrey[600]
     }
   },
-
-  shadows,
-  typography
 });
 
 export default theme;

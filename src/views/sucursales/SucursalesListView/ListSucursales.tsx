@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -40,7 +39,7 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow);
 
-const ListSucursales = ({ className, lista, ...rest }) => {
+const ListSucursales = ({ className, lista, ...rest }: {className: any, lista:any}) => {
   const classes = useStyles();
 
   return (
@@ -63,9 +62,5 @@ const ListSucursales = ({ className, lista, ...rest }) => {
   );
 };
 
-ListSucursales.propTypes = {
-  className: PropTypes.string,
-  lista: PropTypes.array.isRequired
-};
 
 export default ListSucursales;

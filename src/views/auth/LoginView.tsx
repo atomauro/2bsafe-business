@@ -18,10 +18,14 @@ import Page from '../../components/Page';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: theme.palette.primary.dark,
     height: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  paper:{
+      width: 'auto',
+      height: 'auto'
   }
 }));
 
@@ -39,10 +43,7 @@ const LoginView = () => {
       >
         <Container maxWidth="sm">
           <Paper
-            className={{
-              width: 'auto',
-              height: 'auto'
-            }}
+            className={classes.paper}
             elevation={5}
           >
             <div style={{ margin: 20 }}>

@@ -1,13 +1,14 @@
 import React, { forwardRef } from 'react';
 import { Helmet } from 'react-helmet';
-import PropTypes from 'prop-types';
-
+import PropTypes, { InferProps } from 'prop-types';
 
 const Page = forwardRef(({
   children,
   title = '',
+  className,
+  ref,
   ...rest
-} : {children: React.ReactNode, title:string}, ref: any) => {
+}: {children: any, title:string, ref:any, className:any})  => {
   return (
     <div
       ref={ref}
@@ -20,10 +21,5 @@ const Page = forwardRef(({
     </div>
   );
 });
-
-Page.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string
-};
 
 export default Page;

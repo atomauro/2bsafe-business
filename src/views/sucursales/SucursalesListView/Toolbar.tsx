@@ -35,10 +35,15 @@ const useStyles = makeStyles(theme => ({
   message: {
     display: 'flex',
     justifyContent: 'center'
+  },
+  divSucursales:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }));
 
-const Toolbar = ({ className, ...rest }) => {
+const Toolbar = ({ className, ...rest }: {className: any}) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -72,7 +77,7 @@ const Toolbar = ({ className, ...rest }) => {
       <Box mt={3}>
         <Card>
           <CardContent>
-            <div align="center">
+            <div className={classes.divSucursales}>
               <Box maxWidth={500} className={classes.message}>
                 <Typography variant="h4">
                   Desde aqui puedes agregar las sucursales y visualizar las
