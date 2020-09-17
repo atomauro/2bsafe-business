@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
 import { Helmet } from 'react-helmet';
-import PropTypes, { InferProps } from 'prop-types';
 
 const Page = forwardRef(({
   children,

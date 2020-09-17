@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Container, makeStyles, Grid } from '@material-ui/core';
+import React from 'react';
+import { Container, makeStyles } from '@material-ui/core';
 import Page from '../../../components/Page';
 
 import Toolbar from './Toolbar';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [sucursales] = useState(data);
+
 
   return (
     <Page className={classes.root} title="Sucursales">
