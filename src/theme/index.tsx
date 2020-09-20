@@ -1,5 +1,8 @@
 import { createMuiTheme, colors } from '@material-ui/core';
+<<<<<<< HEAD
 import { Palette } from '@material-ui/core/styles/createPalette';
+=======
+>>>>>>> a8a4df7bae7f32b320938941e1fcb75283ece4f5
 
 import typography from './typography';
 

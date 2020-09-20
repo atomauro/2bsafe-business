@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Container, makeStyles, Grid } from '@material-ui/core';
+import React from 'react';
+import { Container, makeStyles, Grid } from '@material-ui/core';
 import Page from '../../../components/Page';
 
 import Toolbar from './Toolbar';
@@ -18,13 +18,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center' 
   },
-  toolBar:{},
-  sucursales:{}
+  toolBar:{marginTop:20},
+  sucursales:{marginTop:20}
 }));
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [sucursales] = useState(data);
 
   return (
     <Page className={classes.root} title="Sucursales">
@@ -32,9 +31,17 @@ const CustomerListView = () => {
         maxWidth={false}
         className={classes.container}
       >
-        <Toolbar className={classes.toolBar} />
-        <Sucursales className={classes.sucursales} lista={data}/>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+        >
+          <Toolbar className={classes.toolBar} />
+          <Sucursales className={classes.sucursales} lista={data}/>
+        </Grid>
       </Container>
+
     </Page>
   );
 };

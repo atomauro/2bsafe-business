@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -59,6 +58,7 @@ const ListSucursales = ({
                 <StyledTableCell>Ubicacion</StyledTableCell>
                 <StyledTableCell>Usuario</StyledTableCell>
                 <StyledTableCell>Clave</StyledTableCell>
+                <StyledTableCell>Mostrar</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody />

@@ -7,10 +7,7 @@ import {
   Card,
   CardContent,
   TextField,
-  InputAdornment,
-  SvgIcon,
   makeStyles,
-  colors,
   Typography,
   Dialog,
   DialogTitle,
@@ -34,12 +31,18 @@ const useStyles = makeStyles(theme => ({
   },
   message: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height:40
   },
+<<<<<<< HEAD
   divSucursales: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+=======
+  divSucursales:{
+    align:'center',
+>>>>>>> a8a4df7bae7f32b320938941e1fcb75283ece4f5
   }
 }));
 

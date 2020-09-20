@@ -1,26 +1,17 @@
 import React, { useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   Drawer,
   Hidden,
   List,
   Typography,
-  makeStyles
+  makeStyles,
+  Grid
 } from '@material-ui/core';
-import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon
-} from 'react-feather';
+import { Users as UsersIcon } from 'react-feather';
 import NavItem from './NavItem';
 import { useFirebaseAuth } from 'use-firebase-auth';
 
@@ -62,6 +53,9 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  title: {
+    margin: 20
+  },
   navitem: {}
 }));
 
@@ -86,23 +80,26 @@ const NavBar = ({
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <Box
-        alignItems="center"
-        display="flex"
-        flexDirection="column"
-        p={2}
-        justifyContent="center"
-      >
-        <Avatar className={classes.avatar} src={''} draggable="false" />
+      <Grid container direction="column" justify="center" alignItems="center">
+        <Avatar
+          className={classes.avatar}
+          src={user.avatar}
+          draggable="false"
+        />
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h5">
             {user?.displayName}
           </Typography>
-          <Typography color="textSecondary" variant="body2">
-            {user?.email}
-          </Typography>
         </div>
-      </Box>
+
+        <Typography
+          className={classes.title}
+          color="textSecondary"
+          variant="body2"
+        >
+          {user.jobTitle}
+        </Typography>
+      </Grid>
       <Divider />
       <Box p={2}>
         <List>
