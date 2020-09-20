@@ -39,14 +39,21 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow);
 
-const ListSucursales = ({ className, lista, ...rest }: {className: any, lista:any}) => {
+const ListSucursales = ({
+  className,
+  lista,
+  ...rest
+}: {
+  className: any;
+  lista: any;
+}) => {
   const classes = useStyles();
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <PerfectScrollbar>
         <Box width="100%">
-          <Table stickyHeader>
+          <Table stickyHeader={true}>
             <TableHead>
               <StyledTableRow>
                 <StyledTableCell>Ubicacion</StyledTableCell>
@@ -54,13 +61,12 @@ const ListSucursales = ({ className, lista, ...rest }: {className: any, lista:an
                 <StyledTableCell>Clave</StyledTableCell>
               </StyledTableRow>
             </TableHead>
-            <TableBody></TableBody>
+            <TableBody />
           </Table>
         </Box>
       </PerfectScrollbar>
     </Card>
   );
 };
-
 
 export default ListSucursales;

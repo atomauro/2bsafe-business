@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: '#F4F6F8',
     display: 'flex',
@@ -31,18 +31,19 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     overflow: 'auto'
   },
-  topBar:{
-
-  }
+  topBar: {}
 }));
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ history }: { history: any }) => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} className={classes.topBar} />
+      <TopBar
+        onMobileNavOpen={() => setMobileNavOpen(true)}
+        className={classes.topBar}
+      />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}

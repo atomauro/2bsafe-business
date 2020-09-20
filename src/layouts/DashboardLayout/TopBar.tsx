@@ -14,6 +14,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from '../../components/Logo';
+import { useFirebaseAuth } from 'use-firebase-auth';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -21,12 +22,19 @@ const useStyles = makeStyles(() => ({
     width: 60,
     height: 60
   },
-  icons:{
+  icons: {
     color: 'white'
   }
 }));
 
-const TopBar = ({ className, onMobileNavOpen, ...rest }: {className: string, onMobileNavOpen: any}) => {
+const TopBar = ({
+  className,
+  onMobileNavOpen,
+  ...rest
+}: {
+  className: string;
+  onMobileNavOpen: any;
+}) => {
   const classes = useStyles();
   const [notifications] = useState([]);
 
@@ -36,14 +44,17 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }: {className: string, onM
         <Logo draggable={false} />
 
         <Box flexGrow={1} />
-        <Hidden mdDown>
-          <IconButton className={classes.icons}>
-            <InputIcon className={classes.icons}/>
+        <Hidden mdDown={true}>
+          <IconButton
+            className={classes.icons}
+            onClick={async () => await useFirebaseAuth().signOut()}
+          >
+            <InputIcon className={classes.icons} />
           </IconButton>
         </Hidden>
-        <Hidden lgUp>
+        <Hidden lgUp={true}>
           <IconButton className={classes.icons} onClick={onMobileNavOpen}>
-            <MenuIcon className={classes.icons}/>
+            <MenuIcon className={classes.icons} />
           </IconButton>
         </Hidden>
       </Toolbar>

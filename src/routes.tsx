@@ -8,13 +8,14 @@ import SucursalesListView from './views/sucursales/SucursalesListView';
 import LoginView from './views/auth/LoginView';
 import NotFoundView from './views/errors/NotFoundView';
 
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 const routes = [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: <DashboardLayout history={history} />,
     children: [
- 
       { path: 'sucursales', element: <SucursalesListView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

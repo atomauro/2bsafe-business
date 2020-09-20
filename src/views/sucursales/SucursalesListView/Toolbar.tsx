@@ -36,14 +36,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center'
   },
-  divSucursales:{
+  divSucursales: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   }
 }));
 
-const Toolbar = ({ className, ...rest }: {className: any}) => {
+const Toolbar = ({ className, ...rest }: { className: any }) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -59,7 +59,7 @@ const Toolbar = ({ className, ...rest }: {className: any}) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: animationData
+    animationData
   };
 
   return (
@@ -102,12 +102,12 @@ const Toolbar = ({ className, ...rest }: {className: any}) => {
             una o dos palabras para hacerlo. Ejemplo: Poblado, Sede Poblado.
           </DialogContentText>
           <TextField
-            autoFocus
+            autoFocus={true}
             margin="dense"
             id="name"
             label="Nombre sucursal"
             type="text"
-            fullWidth
+            fullWidth={true}
           />
         </DialogContent>
         <DialogActions>

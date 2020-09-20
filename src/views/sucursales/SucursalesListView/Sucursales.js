@@ -48,7 +48,6 @@ const StyledTableRow = withStyles(theme => ({
 const Sucursales = ({ className, listasucursales, ...rest }) => {
   const classes = useStyles();
 
-
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <PerfectScrollbar>
@@ -62,25 +61,19 @@ const Sucursales = ({ className, listasucursales, ...rest }) => {
               </StyledTableRow>
             </TableHead>
             <TableBody>
-              {listasucursales.slice(0, limit).map(sucursal=>{
-
-              
-                <StyledTableRow key={sucursal
-                .id}>
+              {listasucursales.slice(0, limit).map(sucursal => 
+                (<StyledTableRow key={sucursal.id}>
                   <StyledTableCell>
                     <Box alignItems="center" display="flex">
                       <Typography color="textPrimary" variant="body1">
-                        {sucursal
-                        .location}
+                        {sucursal.location}
                       </Typography>
                     </Box>
                   </StyledTableCell>
-                  <StyledTableCell>{sucursal
-                  .username}</StyledTableCell>
-                  <StyledTableCell>{sucursal
-                  .password}</StyledTableCell>
-                </StyledTableRow>
-              })}
+                  <StyledTableCell>{sucursal.username}</StyledTableCell>
+                  <StyledTableCell>{sucursal.password}</StyledTableCell>
+                </StyledTableRow>;
+              ))}
             </TableBody>
           </Table>
         </Box>

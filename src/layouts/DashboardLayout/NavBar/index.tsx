@@ -22,19 +22,20 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+import { useFirebaseAuth } from 'use-firebase-auth';
 
-const user = {
-  avatar: '/static/images/avatars/confama.jpg',
-  jobTitle: 'Caja de Compensación Familiar de Antioquia',
-  name: 'CONFAMA'
-};
+// {
+//   avatar: '/static/images/avatars/confama.jpg',
+//   jobTitle: 'Caja de Compensación Familiar de Antioquia',
+//   name: 'CONFAMA'
+// };
 
 const items = [
   {
     href: '/app/sucursales',
     icon: UsersIcon,
     title: 'Sucursales'
-  },
+  }
 ];
 
 const useStyles = makeStyles(() => ({
@@ -56,17 +57,25 @@ const useStyles = makeStyles(() => ({
   name: {
     margin: 10
   },
-  divUser:{
+  divUser: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  navitem:{}
+  navitem: {}
 }));
 
-const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: boolean}) => {
+const NavBar = ({
+  onMobileClose,
+  openMobile
+}: {
+  onMobileClose: any;
+  openMobile: boolean;
+}) => {
   const classes = useStyles();
   const location = useLocation();
+  const { user } = useFirebaseAuth();
+  console.log('user', user);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -84,17 +93,13 @@ const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: 
         p={2}
         justifyContent="center"
       >
-        <Avatar
-          className={classes.avatar}
-          src={user.avatar}
-          draggable="false" 
-        />
+        <Avatar className={classes.avatar} src={''} draggable="false" />
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h5">
-            {user.name}
+            {user?.displayName}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {user.jobTitle}
+            {user?.email}
           </Typography>
         </div>
       </Box>
@@ -103,7 +108,7 @@ const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: 
         <List>
           {items.map(item => (
             <NavItem
-            className={classes.navitem}
+              className={classes.navitem}
               href={item.href}
               key={item.title}
               title={item.title}
@@ -113,13 +118,12 @@ const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: 
         </List>
       </Box>
       <Box flexGrow={1} />
-      
     </Box>
   );
 
   return (
     <>
-      <Hidden lgUp>
+      <Hidden lgUp={true}>
         <Drawer
           anchor="left"
           classes={{ paper: classes.mobileDrawer }}
@@ -130,11 +134,11 @@ const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: 
           {content}
         </Drawer>
       </Hidden>
-      <Hidden mdDown>
+      <Hidden mdDown={true}>
         <Drawer
           anchor="left"
           classes={{ paper: classes.desktopDrawer }}
-          open
+          open={true}
           variant="persistent"
         >
           {content}

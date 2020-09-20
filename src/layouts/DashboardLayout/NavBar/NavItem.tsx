@@ -2,14 +2,10 @@ import React from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  ListItem,
-  makeStyles,
-} from '@material-ui/core';
-import { Users as Icon} from 'react-feather'
+import { Button, ListItem, makeStyles } from '@material-ui/core';
+import { Users as Icon } from 'react-feather';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   item: {
     display: 'flex',
     paddingTop: 0,
@@ -47,13 +43,18 @@ const NavItem = ({
   icon,
   title,
   ...rest
-}: {className: string, href:string, icon: any, title:string}) => {
+}: {
+  className: string;
+  href: string;
+  icon: any;
+  title: string;
+}) => {
   const classes = useStyles();
 
   return (
     <ListItem
       className={clsx(classes.item, className)}
-      disableGutters
+      disableGutters={true}
       {...rest}
     >
       <Button
@@ -62,15 +63,8 @@ const NavItem = ({
         component={RouterLink}
         to={href}
       >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
-        )}
-        <span className={classes.title}>
-          {title}
-        </span>
+        {Icon && <Icon className={classes.icon} size="20" />}
+        <span className={classes.title}>{title}</span>
       </Button>
     </ListItem>
   );

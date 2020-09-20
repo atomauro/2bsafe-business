@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -16,6 +16,8 @@ import {
 
 import Page from '../../components/Page';
 
+import { useFirebaseAuth } from 'use-firebase-auth';
+
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.primary.dark,
@@ -23,15 +25,28 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
-  paper:{
-      width: 'auto',
-      height: 'auto'
+  paper: {
+    width: 'auto',
+    height: 'auto'
   }
 }));
 
 const LoginView = () => {
+  const {
+    user,
+    loading,
+    error,
+    signInWithEmailAndPassword
+  } = useFirebaseAuth();
+
   const classes = useStyles();
   const navigate = useNavigate();
+  useEffect(() => {
+    console.log('user', user);
+    if (user) {
+      navigate('/app/sucursales', { replace: true });
+    }
+  }, [user]);
 
   return (
     <Page className={classes.root} title="Login">
@@ -42,10 +57,7 @@ const LoginView = () => {
         justifyContent="center"
       >
         <Container maxWidth="sm">
-          <Paper
-            className={classes.paper}
-            elevation={5}
-          >
+          <Paper className={classes.paper} elevation={5}>
             <div style={{ margin: 20 }}>
               <Formik
                 initialValues={{
@@ -61,8 +73,17 @@ const LoginView = () => {
                     .max(255)
                     .required('Password is required')
                 })}
-                onSubmit={() => {
-                  navigate('/app/sucursales', { replace: true });
+                onSubmit={async form => {
+                  const possibleuser = await signInWithEmailAndPassword(
+                    form.email,
+                    form.password
+                  );
+                  if (possibleuser) {
+                    navigate('/app/sucursales', { replace: true });
+                  } else {
+                    // TODO: FORM WARNINGS
+                  }
+                  console.log('possibleuser', possibleuser);
                 }}
               >
                 {({
@@ -81,7 +102,7 @@ const LoginView = () => {
                       </Typography>
                       <Typography
                         color="textSecondary"
-                        gutterBottom
+                        gutterBottom={true}
                         variant="body2"
                         style={{ marginTop: 10 }}
                       >
@@ -91,7 +112,7 @@ const LoginView = () => {
 
                     <TextField
                       error={Boolean(touched.email && errors.email)}
-                      fullWidth
+                      fullWidth={true}
                       helperText={touched.email && errors.email}
                       label="Email Address"
                       margin="normal"
@@ -104,7 +125,7 @@ const LoginView = () => {
                     />
                     <TextField
                       error={Boolean(touched.password && errors.password)}
-                      fullWidth
+                      fullWidth={true}
                       helperText={touched.password && errors.password}
                       label="Password"
                       margin="normal"
@@ -119,7 +140,7 @@ const LoginView = () => {
                       <Button
                         color="primary"
                         disabled={isSubmitting}
-                        fullWidth
+                        fullWidth={true}
                         size="large"
                         type="submit"
                         variant="contained"
