@@ -51,6 +51,7 @@ const ListSucursales = ({ className, lista, ...rest }: {className: any, lista:an
                 <StyledTableCell>Ubicacion</StyledTableCell>
                 <StyledTableCell>Usuario</StyledTableCell>
                 <StyledTableCell>Clave</StyledTableCell>
+                <StyledTableCell>Mostrar</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody></TableBody>

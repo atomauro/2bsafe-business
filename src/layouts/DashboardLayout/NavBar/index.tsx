@@ -8,7 +8,8 @@ import {
   Hidden,
   List,
   Typography,
-  makeStyles
+  makeStyles,
+  Grid
 } from '@material-ui/core';
 import {
   Users as UsersIcon
@@ -53,6 +54,9 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  title:{
+margin:20
+  },
   navitem:{}
 }));
 
@@ -69,13 +73,13 @@ const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: 
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <Box
-        alignItems="center"
-        display="flex"
-        flexDirection="column"
-        p={2}
-        justifyContent="center"
-      >
+      <Grid
+  container
+  direction="column"
+  justify="center"
+  alignItems="center"
+>       
+
         <Avatar
           className={classes.avatar}
           src={user.avatar}
@@ -85,11 +89,15 @@ const NavBar = ({ onMobileClose, openMobile }: {onMobileClose: any, openMobile: 
           <Typography className={classes.name} color="textPrimary" variant="h5">
             {user.name}
           </Typography>
-          <Typography color="textSecondary" variant="body2">
+        </div>
+      
+
+          <Typography className={classes.title} color="textSecondary" variant="body2">
             {user.jobTitle}
           </Typography>
-        </div>
-      </Box>
+        
+      
+</Grid>
       <Divider />
       <Box p={2}>
         <List>

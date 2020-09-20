@@ -31,12 +31,11 @@ const useStyles = makeStyles(theme => ({
   },
   message: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height:40
   },
   divSucursales:{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    align:'center',
   }
 }));
 
