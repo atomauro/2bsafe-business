@@ -80,12 +80,12 @@ const NavBar = ({
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <Grid container direction="column" justify="center" alignItems="center">
-        <Avatar
-          className={classes.avatar}
-          src={user.avatar}
-          draggable="false"
-        />
+      <Grid
+        container={true}
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h5">
             {user?.displayName}
@@ -97,7 +97,7 @@ const NavBar = ({
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
+          {user?.email}
         </Typography>
       </Grid>
       <Divider />

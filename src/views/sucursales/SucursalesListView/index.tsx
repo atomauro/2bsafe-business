@@ -14,12 +14,12 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
-  container:{
+  container: {
     display: 'flex',
-    justifyContent: 'center' 
+    justifyContent: 'center'
   },
-  toolBar:{marginTop:20},
-  sucursales:{marginTop:20}
+  toolBar: { marginTop: 20 },
+  sucursales: { marginTop: 20 }
 }));
 
 const CustomerListView = () => {
@@ -27,21 +27,17 @@ const CustomerListView = () => {
 
   return (
     <Page className={classes.root} title="Sucursales">
-      <Container
-        maxWidth={false}
-        className={classes.container}
-      >
+      <Container maxWidth={false} className={classes.container}>
         <Grid
-          container
+          container={true}
           direction="column"
           justify="center"
           alignItems="center"
         >
           <Toolbar className={classes.toolBar} />
-          <Sucursales className={classes.sucursales} lista={data}/>
+          <Sucursales className={classes.sucursales} lista={data} />
         </Grid>
       </Container>
-
     </Page>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -12,6 +12,8 @@ import {
   makeStyles,
   withStyles
 } from '@material-ui/core';
+import data from './data';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -47,6 +49,9 @@ const ListSucursales = ({
   lista: any;
 }) => {
   const classes = useStyles();
+  const [passVisible, setPassVisible] = useState(
+    new Array(data.length).fill(false)
+  );
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
@@ -61,7 +66,32 @@ const ListSucursales = ({
                 <StyledTableCell>Mostrar</StyledTableCell>
               </StyledTableRow>
             </TableHead>
-            <TableBody />
+            <TableBody>
+              {data.map(sucursal => (
+                <StyledTableRow key={sucursal.id.toString()}>
+                  <StyledTableCell>{sucursal.location}</StyledTableCell>
+                  <StyledTableCell>{sucursal.username}</StyledTableCell>
+                  <StyledTableCell>
+                    {passVisible[sucursal.id]
+                      ? sucursal.password
+                      : '**********'}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    onClick={() => {
+                      const temp = [...passVisible];
+                      temp[sucursal.id] = !passVisible[sucursal.id];
+                      setPassVisible(temp);
+                    }}
+                  >
+                    {passVisible[sucursal.id] ? (
+                      <VisibilityOff />
+                    ) : (
+                      <Visibility />
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
           </Table>
         </Box>
       </PerfectScrollbar>

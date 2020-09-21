@@ -12,7 +12,6 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from '../../components/Logo';
-import { useFirebaseAuth } from 'use-firebase-auth';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -28,10 +27,12 @@ const useStyles = makeStyles(() => ({
 const TopBar = ({
   className,
   onMobileNavOpen,
+  onLogOut,
   ...rest
 }: {
   className: string;
   onMobileNavOpen: any;
+  onLogOut: any;
 }) => {
   const classes = useStyles();
 
@@ -44,7 +45,7 @@ const TopBar = ({
         <Hidden mdDown={true}>
           <IconButton
             className={classes.icons}
-            onClick={async () => await useFirebaseAuth().signOut()}
+            onClick={async () => await onLogOut()}
           >
             <InputIcon className={classes.icons} />
           </IconButton>

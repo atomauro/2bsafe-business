@@ -1,26 +1,24 @@
-import { v4 as uuid } from 'uuid';
-
 export default [
   {
-    id: uuid(),
+    id: 1,
     location: 'Poblado',
     username: 'poblado@confama',
     password: 'Adsafds#342'
   },
   {
-    id: uuid(),
+    id: 2,
     location: 'Campo Valdes',
     username: 'campovaldes@confama',
     password: 'Bhdsafds#765'
   },
   {
-    id: uuid(),
+    id: 3,
     location: 'Envigado',
     username: 'envigado@confama',
     password: 'Yjdsafds4220'
   },
   {
-    id: uuid(),
+    id: 4,
     location: 'Itagui',
     username: 'itagui@confama',
     password: 'Ads56dsf'
