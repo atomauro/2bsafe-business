@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import { useFirebaseAuth } from 'use-firebase-auth';
+import { useNavigate } from 'react-router-dom';
+import { AccessTokenContext } from '../../App';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,13 +38,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DashboardLayout = ({ history }: { history: any }) => {
+  const { accessTokenState } = useContext(AccessTokenContext);
+
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+  const { user, signOut } = useFirebaseAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!accessTokenState) {
+      navigate('/login', { replace: true });
+    }
+  });
 
   const signOutUser = async () => {
     try {
-      await useFirebaseAuth().signOut();
-      console.log('fuera');
+      await signOut();
     } catch (e) {
       console.log(e);
     }

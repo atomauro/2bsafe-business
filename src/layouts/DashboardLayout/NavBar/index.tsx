@@ -69,7 +69,6 @@ const NavBar = ({
   const classes = useStyles();
   const location = useLocation();
   const { user } = useFirebaseAuth();
-  console.log('user', user);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {

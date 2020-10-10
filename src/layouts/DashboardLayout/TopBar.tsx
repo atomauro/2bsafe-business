@@ -43,10 +43,7 @@ const TopBar = ({
 
         <Box flexGrow={1} />
         <Hidden mdDown={true}>
-          <IconButton
-            className={classes.icons}
-            onClick={async () => await onLogOut()}
-          >
+          <IconButton className={classes.icons} onClick={onLogOut}>
             <InputIcon className={classes.icons} />
           </IconButton>
         </Hidden>
@@ -62,7 +59,8 @@ const TopBar = ({
 
 TopBar.propTypes = {
   className: PropTypes.string,
-  onMobileNavOpen: PropTypes.func
+  onMobileNavOpen: PropTypes.func,
+  onLogOut: PropTypes.func
 };
 
 export default TopBar;

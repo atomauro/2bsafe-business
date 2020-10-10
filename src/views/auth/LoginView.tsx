@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -14,7 +14,10 @@ import {
 
 import Page from '../../components/Page';
 
-import { useFirebaseAuth } from 'use-firebase-auth';
+import api from '../../api/api';
+import { AccessTokenContext } from '../../App';
+
+import State from './../../reducers/State';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,25 +32,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginView = () => {
-  const {
-    user,
-    loading,
-    error,
-    signInWithEmailAndPassword
-  } = useFirebaseAuth();
+const LoginView = ({ empresa }: any) => {
+  const { accessTokenDispatch, accessTokenState } = useContext(
+    AccessTokenContext
+  );
 
+  const [error, setError] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const [Api2BSafe, setApi2BSafe] = useState(null as any);
   useEffect(() => {
-    console.log('user', user);
-    if (user) {
-      navigate('/app/sucursales', { replace: true });
+    if ((Api2BSafe && !Api2BSafe.loginError) || accessTokenState) {
+      accessTokenDispatch({
+        type: 'SET',
+        payload:
+          Api2BSafe && Api2BSafe.accessToken
+            ? Api2BSafe.accessToken
+            : accessTokenState
+      });
+      navigate('/app/sucursales', {
+        replace: true
+      });
+    } else if (Api2BSafe && Api2BSafe.loginError) {
+      setError(true);
     }
-  }, [user]);
+  }, [Api2BSafe, accessTokenState]);
 
   return (
     <Page className={classes.root} title="Login">
+      {console.log('accessTokenState', accessTokenState)}
+      <State state={{ accessToken: accessTokenState }} />
       <Box
         display="flex"
         flexDirection="column"
@@ -72,16 +87,16 @@ const LoginView = () => {
                     .required('Password is required')
                 })}
                 onSubmit={async form => {
-                  const possibleuser = await signInWithEmailAndPassword(
-                    form.email,
-                    form.password
-                  );
-                  if (possibleuser) {
-                    navigate('/app/sucursales', { replace: true });
-                  } else {
-                    // TODO: FORM WARNINGS
-                  }
-                  console.log('possibleuser', possibleuser);
+                  // let possibleuser = await signInWithEmailAndPassword(
+                  //   form.email,
+                  //   form.password
+                  // );
+                  api({
+                    empresa: form.email.slice(0, form.email.indexOf('@')),
+                    password: form.password
+                  }).then(apiResult => {
+                    setApi2BSafe(apiResult);
+                  });
                 }}
               >
                 {({
@@ -109,9 +124,9 @@ const LoginView = () => {
                     </Box>
 
                     <TextField
-                      error={Boolean(touched.email && errors.email)}
+                      error={Boolean(touched.email && (errors.email || error))}
                       fullWidth={true}
-                      helperText={touched.email && errors.email}
+                      helperText={touched.email && (errors.email || error)}
                       label="Email Address"
                       margin="normal"
                       name="email"

@@ -9,6 +9,7 @@ import LoginView from './views/auth/LoginView';
 import NotFoundView from './views/errors/NotFoundView';
 
 import { createBrowserHistory } from 'history';
+import { access } from 'fs';
 const history = createBrowserHistory();
 
 const routes = [
@@ -16,7 +17,10 @@ const routes = [
     path: 'app',
     element: <DashboardLayout history={history} />,
     children: [
-      { path: 'sucursales', element: <SucursalesListView /> },
+      {
+        path: 'sucursales',
+        element: <SucursalesListView empresa={'smart-fit'} />
+      },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },

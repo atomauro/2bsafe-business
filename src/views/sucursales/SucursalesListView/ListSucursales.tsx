@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -12,8 +12,9 @@ import {
   makeStyles,
   withStyles
 } from '@material-ui/core';
-import data from './data';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+
+import { AccessTokenContext } from '../../../App';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -43,14 +44,16 @@ const StyledTableRow = withStyles(theme => ({
 const ListSucursales = ({
   className,
   lista,
+  empresa,
   ...rest
 }: {
   className: any;
+  empresa: string;
   lista: any;
 }) => {
   const classes = useStyles();
   const [passVisible, setPassVisible] = useState(
-    new Array(data.length).fill(false)
+    new Array(lista.length).fill(false)
   );
 
   return (
@@ -60,37 +63,20 @@ const ListSucursales = ({
           <Table stickyHeader={true}>
             <TableHead>
               <StyledTableRow>
-                <StyledTableCell>Ubicacion</StyledTableCell>
-                <StyledTableCell>Usuario</StyledTableCell>
-                <StyledTableCell>Clave</StyledTableCell>
-                <StyledTableCell>Mostrar</StyledTableCell>
+                <StyledTableCell>Nombre Sucursal</StyledTableCell>
+                <StyledTableCell>Ver Reservas</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
-              {data.map(sucursal => (
-                <StyledTableRow key={sucursal.id.toString()}>
-                  <StyledTableCell>{sucursal.location}</StyledTableCell>
-                  <StyledTableCell>{sucursal.username}</StyledTableCell>
-                  <StyledTableCell>
-                    {passVisible[sucursal.id]
-                      ? sucursal.password
-                      : '**********'}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    onClick={() => {
-                      const temp = [...passVisible];
-                      temp[sucursal.id] = !passVisible[sucursal.id];
-                      setPassVisible(temp);
-                    }}
-                  >
-                    {passVisible[sucursal.id] ? (
-                      <VisibilityOff />
-                    ) : (
+              {lista &&
+                lista.map((sucursal: any) => (
+                  <StyledTableRow key={sucursal}>
+                    <StyledTableCell>{sucursal}</StyledTableCell>
+                    <StyledTableCell>
                       <Visibility />
-                    )}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </Box>

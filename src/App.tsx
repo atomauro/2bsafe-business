@@ -7,14 +7,24 @@ import theme from './theme';
 import routes from './routes';
 import { FirebaseAuthProvider } from 'use-firebase-auth';
 import firebase from './api/firebase/firebase';
+import AccessTokenReducer from './reducers/AccessToken';
+
+export const AccessTokenContext = React.createContext({} as any);
 
 const App = () => {
+  const [accessToken, dispatch] = React.useReducer(AccessTokenReducer, '');
   const routing = useRoutes(routes);
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <FirebaseAuthProvider firebase={firebase}>{routing}</FirebaseAuthProvider>
+      <AccessTokenContext.Provider
+        value={{ accessTokenState: accessToken, accessTokenDispatch: dispatch }}
+      >
+        <GlobalStyles />
+        <FirebaseAuthProvider firebase={firebase}>
+          {routing}
+        </FirebaseAuthProvider>
+      </AccessTokenContext.Provider>
     </ThemeProvider>
   );
 };

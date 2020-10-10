@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -21,6 +21,10 @@ import Lottie from 'react-lottie';
 
 import * as animationData from '../../../assets/lotties/ubicacion2.json';
 
+import api from './../../../api/api';
+import { AccessTokenContext } from '../../../App';
+import { useNavigate } from 'react-router-dom';
+
 const useStyles = makeStyles(theme => ({
   root: {},
   importButton: {
@@ -39,17 +43,26 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Toolbar = ({ className, ...rest }: { className: any }) => {
+const Toolbar = ({
+  className,
+  onClose,
+  ...rest
+}: {
+  className: any;
+  onClose: any;
+}) => {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
+  const [sucursalField, setSucursalField] = useState('');
+  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  useEffect(() => {
+    console.log('object');
+  }, [sucursalField]);
 
   const handleClose = () => {
     setOpen(false);
+    onClose(sucursalField);
   };
 
   const defaultOptions = {
@@ -65,7 +78,7 @@ const Toolbar = ({ className, ...rest }: { className: any }) => {
           color="primary"
           variant="contained"
           endIcon={<AddCircleIcon />}
-          onClick={handleClickOpen}
+          onClick={() => setOpen(true)}
         >
           Agregar sucursal
         </Button>
@@ -95,7 +108,8 @@ const Toolbar = ({ className, ...rest }: { className: any }) => {
           <DialogContentText>
             Para agregar una nueva sucursal o sede, solo es necesario ingresar a
             continuacion el nombre o la ubicacion del establecimiento, utilice
-            una o dos palabras para hacerlo. Ejemplo: Poblado, Sede Poblado.
+            palabras clave, sin espacios. Ejemplo: Laureles, SedeLaureles,
+            Poblado1, Poblado2
           </DialogContentText>
           <TextField
             autoFocus={true}
@@ -104,10 +118,15 @@ const Toolbar = ({ className, ...rest }: { className: any }) => {
             label="Nombre sucursal"
             type="text"
             fullWidth={true}
+            value={sucursalField}
+            onChange={(e: any) => {
+              console.log('e', e);
+              setSucursalField(e.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => setOpen(false)} color="primary">
             Cancelar
           </Button>
           <Button onClick={handleClose} color="primary">
