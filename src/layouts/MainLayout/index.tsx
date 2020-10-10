@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import TopBar from './TopBar';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: '1 1 auto',
     overflow: 'hidden',
-    paddingTop: 64
+    paddingTop: 120, 
   },
   contentContainer: {
     display: 'flex',
@@ -40,6 +41,7 @@ const MainLayout = () => {
         <div className={classes.contentContainer}>
           <div className={classes.content}>
             <Outlet />
+            <Footer/> 
           </div>
         </div>
       </div>

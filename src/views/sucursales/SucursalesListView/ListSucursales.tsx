@@ -10,9 +10,16 @@ import {
   TableHead,
   TableRow,
   makeStyles,
-  withStyles
+  withStyles,
+  Button,
+  IconButton
 } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import ReservaIcon from '@material-ui/icons/AssignmentInd';
+import IngresoIcon from '@material-ui/icons/AssignmentTurnedIn';
+
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
@@ -36,7 +43,7 @@ const StyledTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
-  root: {
+  root: {    
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover
     }
@@ -59,13 +66,18 @@ const ListSucursales = ({
   );
   const { searchFieldState } = useContext(SearchFieldContext);
 
+   const handleClickReservas = (sucur:any) => {
+    console.log(sucur)
+  }
+
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
     : lista;
 
   return (
+  <>
     <Card className={clsx(classes.root, className)} {...rest}>
-      <SearchField />
+    <SearchField />
       <PerfectScrollbar>
         <Box width="100%">
           <Table stickyHeader={true}>
@@ -73,6 +85,9 @@ const ListSucursales = ({
               <StyledTableRow>
                 <StyledTableCell>Nombre Sucursal</StyledTableCell>
                 <StyledTableCell>Ver Reservas</StyledTableCell>
+                <StyledTableCell>Ver Ingresos</StyledTableCell>
+                  <StyledTableCell>Cambiar clave</StyledTableCell>
+                  <StyledTableCell>Eliminar</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -81,7 +96,24 @@ const ListSucursales = ({
                   <StyledTableRow key={sucursal}>
                     <StyledTableCell>{sucursal}</StyledTableCell>
                     <StyledTableCell>
-                      <Visibility />
+                      <IconButton color="primary" aria-label="Ver Reservas">
+                        <ReservaIcon onClick={()=>{console.log(sucursal)}}/>
+                      </IconButton>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <IconButton color="primary" aria-label="Ver Ingresos">
+                        <IngresoIcon />
+                      </IconButton>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <IconButton color="primary" aria-label="Ver Ingresos">
+                        <EditIcon />
+                      </IconButton>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <IconButton color="primary" aria-label="Eliminar sucursal">
+                        <DeleteIcon />
+                      </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
@@ -90,6 +122,7 @@ const ListSucursales = ({
         </Box>
       </PerfectScrollbar>
     </Card>
+    </>
   );
 };
 

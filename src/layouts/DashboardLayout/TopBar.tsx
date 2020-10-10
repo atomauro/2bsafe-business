@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     color: 'white'
   },
   toolbar: {
-    height: 70,
+    height: 73,
   },
   }));
 

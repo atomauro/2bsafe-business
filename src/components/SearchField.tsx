@@ -11,6 +11,7 @@ export default function SearchField() {
     <Input
       placeholder={'Buscar sede...'}
       value={searchField}
+      fullWidth={true}
       onChange={e => {
         setSearchField(e.target.value);
         searchFieldDispatch({ type: 'SET', payload: e.target.value });

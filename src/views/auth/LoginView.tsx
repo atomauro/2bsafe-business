@@ -9,7 +9,8 @@ import {
   TextField,
   Typography,
   makeStyles,
-  Paper
+  Paper,
+  LinearProgress
 } from '@material-ui/core';
 
 import Page from '../../components/Page';
@@ -74,8 +75,8 @@ const LoginView = ({ empresa }: any) => {
             <div style={{ margin: 20 }}>
               <Formik
                 initialValues={{
-                  email: 'sucursal@smartfit.com',
-                  password: 'Password123'
+                  email: 'smart-fit@2bsafe.com',
+                  password: 'mdYd2ZSkwQ'
                 }}
                 validationSchema={Yup.object().shape({
                   email: Yup.string()
@@ -86,17 +87,20 @@ const LoginView = ({ empresa }: any) => {
                     .max(255)
                     .required('Password is required')
                 })}
-                onSubmit={async form => {
+                onSubmit={async (form, actions) => {
                   // let possibleuser = await signInWithEmailAndPassword(
                   //   form.email,
                   //   form.password
                   // );
-                  api({
+                  actions.setSubmitting(true);
+                  
+                    api({
                     empresa: form.email.slice(0, form.email.indexOf('@')),
                     password: form.password
                   }).then(apiResult => {
                     setApi2BSafe(apiResult);
                   });
+                  
                 }}
               >
                 {({
@@ -161,6 +165,7 @@ const LoginView = ({ empresa }: any) => {
                       >
                         Iniciar
                       </Button>
+                    {isSubmitting ? <LinearProgress /> : null}                       
                     </Box>
                   </form>
                 )}
