@@ -15,6 +15,8 @@ import {
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 import { AccessTokenContext } from '../../../App';
+import SearchField from '../../../components/SearchField';
+import { SearchFieldContext } from '.';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -49,15 +51,21 @@ const ListSucursales = ({
 }: {
   className: any;
   empresa: string;
-  lista: any;
+  lista: string[];
 }) => {
   const classes = useStyles();
   const [passVisible, setPassVisible] = useState(
     new Array(lista.length).fill(false)
   );
+  const { searchFieldState } = useContext(SearchFieldContext);
+
+  const FINAL_LIST = searchFieldState
+    ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
+    : lista;
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
+      <SearchField />
       <PerfectScrollbar>
         <Box width="100%">
           <Table stickyHeader={true}>
@@ -68,8 +76,8 @@ const ListSucursales = ({
               </StyledTableRow>
             </TableHead>
             <TableBody>
-              {lista &&
-                lista.map((sucursal: any) => (
+              {FINAL_LIST &&
+                FINAL_LIST.map((sucursal: any) => (
                   <StyledTableRow key={sucursal}>
                     <StyledTableCell>{sucursal}</StyledTableCell>
                     <StyledTableCell>

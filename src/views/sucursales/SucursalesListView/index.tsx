@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  createContext,
+  useReducer
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, makeStyles, Grid } from '@material-ui/core';
 import Page from '../../../components/Page';
@@ -10,6 +16,9 @@ import Sucursales from './ListSucursales';
 import { AccessTokenContext } from '../../../App';
 import api from '../../../api/api';
 import State from '../../../reducers/State';
+import SearchFieldReducer from '../../../reducers/SearchField';
+
+export const SearchFieldContext = createContext({} as any);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CustomerListView = ({ empresa }: { empresa: string }) => {
+  const [searchField, dispatch] = useReducer(SearchFieldReducer, '');
   const { accessTokenState, accessTokenDispatch } = useContext(
     AccessTokenContext
   );
@@ -76,24 +86,28 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   }, [Api2BSafe, list, needUpdate]);
 
   return (
-    <Page className={classes.root} title="Sucursales">
-      <State state={{ accessToken: accessTokenState }} />
-      <Container maxWidth={false} className={classes.container}>
-        <Grid
-          container={true}
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-          <Toolbar className={classes.toolBar} onClose={handleToolbarClose} />
-          <Sucursales
-            className={classes.sucursales}
-            lista={list}
-            empresa={empresa}
-          />
-        </Grid>
-      </Container>
-    </Page>
+    <SearchFieldContext.Provider
+      value={{ searchFieldState: searchField, searchFieldDispatch: dispatch }}
+    >
+      <Page className={classes.root} title="Sucursales">
+        <State state={{ accessToken: accessTokenState }} />
+        <Container maxWidth={false} className={classes.container}>
+          <Grid
+            container={true}
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Toolbar className={classes.toolBar} onClose={handleToolbarClose} />
+            <Sucursales
+              className={classes.sucursales}
+              lista={list}
+              empresa={empresa}
+            />
+          </Grid>
+        </Container>
+      </Page>
+    </SearchFieldContext.Provider>
   );
 };
 

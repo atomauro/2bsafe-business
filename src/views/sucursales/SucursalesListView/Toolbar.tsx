@@ -56,10 +56,6 @@ const Toolbar = ({
   const [sucursalField, setSucursalField] = useState('');
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    console.log('object');
-  }, [sucursalField]);
-
   const handleClose = () => {
     setOpen(false);
     onClose(sucursalField);
