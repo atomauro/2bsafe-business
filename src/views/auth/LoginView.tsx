@@ -74,7 +74,7 @@ const LoginView = ({ empresa }: any) => {
             <div style={{ margin: 20 }}>
               <Formik
                 initialValues={{
-                  email: 'confama@2bsafe.com',
+                  email: 'sucursal@smartfit.com',
                   password: 'Password123'
                 }}
                 validationSchema={Yup.object().shape({
@@ -111,7 +111,7 @@ const LoginView = ({ empresa }: any) => {
                   <form onSubmit={handleSubmit}>
                     <Box mb={3} style={{ paddingTop: 20 }}>
                       <Typography color="textPrimary" variant="h2">
-                        Sign in
+                        Login
                       </Typography>
                       <Typography
                         color="textSecondary"
@@ -119,7 +119,7 @@ const LoginView = ({ empresa }: any) => {
                         variant="body2"
                         style={{ marginTop: 10 }}
                       >
-                        Internal platform of 2BSafe Business
+                        Plataforma interna de Smartfit Center
                       </Typography>
                     </Box>
 
@@ -159,7 +159,7 @@ const LoginView = ({ empresa }: any) => {
                         variant="contained"
                         style={{ marginBottom: 20 }}
                       >
-                        Sign in now
+                        Iniciar
                       </Button>
                     </Box>
                   </form>

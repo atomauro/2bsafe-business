@@ -9,7 +9,7 @@ const theme = createMuiTheme({
       paper: colors.common.white
     },
     primary: {
-      main: '#3BA0F8',
+       main: '#000000',
       dark: '#F4F6F8',
       contrastText: '#fff' // button text white instead of black
     },
