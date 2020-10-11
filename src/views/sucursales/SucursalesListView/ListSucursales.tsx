@@ -21,10 +21,11 @@ import IngresoIcon from '@material-ui/icons/AssignmentTurnedIn';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
+import DialogChangePass from './DialogChangePass';
+import DialogDelete from './DialogDelete';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -57,6 +58,8 @@ const ListSucursales = ({
   empresa,
   handleShowReservas,
   handleShowIngresos,
+  handleEditPass,
+  handleDeleteSucursal,
   ...rest
 }: {
   className: any;
@@ -64,18 +67,13 @@ const ListSucursales = ({
   lista: string[];
   handleShowReservas: any;
   handleShowIngresos: any;
+  handleEditPass: any;
+  handleDeleteSucursal: any;
 }) => {
   const classes = useStyles();
 
   const { searchFieldState } = useContext(SearchFieldContext);
   
-  const handleEditPass = (sucur: string) => {
-    console.log('Editar Clave: ' + sucur)    
-  }
-   const handleDeleteSucursal = (sucur:string) => {
-    console.log('Eliminar Sucursal: ' + sucur)
-  }
-
 
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
@@ -133,7 +131,7 @@ const ListSucursales = ({
           </Table>
         </Box>
       </PerfectScrollbar>
-    </Card>
+      </Card>
     </Fade>
   );
 };

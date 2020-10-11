@@ -72,7 +72,7 @@ const Toolbar = ({
 
   const defaultOptions = {
     loop: false,
-    autoplay: true,
+    autoplay: false,
     animationData
   };
 
@@ -160,7 +160,7 @@ const Toolbar = ({
       >
         <DialogTitle id="form-dialog-title">AGREGAR SUCURSAL</DialogTitle>
         <DialogContent>
-          <Lottie options={defaultOptions} height={400} width={400} />
+          <Lottie options={defaultOptions} height={200} width={200} />
           <DialogContentText>
             Para agregar una nueva sucursal o sede, solo es necesario ingresar a
             continuacion el nombre o la ubicacion del establecimiento, utilice

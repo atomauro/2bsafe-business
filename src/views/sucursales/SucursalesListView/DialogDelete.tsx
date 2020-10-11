@@ -7,49 +7,42 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Lottie from 'react-lottie';
-import * as animationData from '../../../assets/lotties/new-pass.json';
+import * as animationData from '../../../assets/lotties/delete.json';
 
-export default function DialogChangePass({
+export default function DialogDelete({
   show,
   onClose,
     ...rest
   }: {
-      show: boolean,
-      onClose: any,
+    show: boolean,
+    onClose:any,
   }) {
-    const defaultOptions = {
-      loop: false,
+   const defaultOptions = {
+    loop: false,
+      
       animationData
-    };
+  };
 
   return (
     <div>
       <Dialog
         open={show}
         onClose={()=>{onClose()}}
-        aria-labelledby="form-dialog-changepass"
+        aria-labelledby="form-dialog-deletesucur"
       >
-        <DialogTitle id="form-dialog-changepass">Cambiar clave</DialogTitle>
+        <DialogTitle id="form-dialog-deletesucur">Eliminar sucursal</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Introduce a continuación una nueva clave para la sucursal
+            ¿Estas seguro de eliminar la Sucursal?
           </DialogContentText>
-          <Lottie options={defaultOptions} height={200} width={200} />
-          <TextField
-            autoFocus={true}
-            margin="dense"
-            id="newpass"
-            label="Nueva clave"
-            type="text"
-            fullWidth={true}
-          />
+          <Lottie options={defaultOptions} height={200} width={200} />          
         </DialogContent>
         <DialogActions>
-          <Button color="primary">
+          <Button  color="primary">
             Cancelar
           </Button>
-          <Button color="primary" variant='outlined'>
-            Cambiar
+          <Button  color="primary" variant='outlined'>
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>

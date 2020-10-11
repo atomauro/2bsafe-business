@@ -19,6 +19,8 @@ import { AccessTokenContext } from '../../../App';
 import api from '../../../api/api';
 import State from '../../../reducers/State';
 import SearchFieldReducer from '../../../reducers/SearchField';
+import DialogChangePass from './DialogChangePass';
+import DialogDelete from './DialogDelete';
 
 export const SearchFieldContext = createContext({} as any);
 
@@ -52,7 +54,27 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     const [showReservaSucursal, setReservaSucursal] = useState('')
     const [showIngresoSucursal, setIngresoSucursal] = useState('')
     const [currentView, setCurrentView] = useState('')
+    const [showEditDialog, setShowEditDialog] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  
+    const handleEditPass = (sucur: string) => {
+    console.log('Intentando Editar Clave: ' + sucur)
+    setShowEditDialog(true)    
+  }
+    const handleDeleteSucursal = (sucur:string) => {
+     console.log('Intentando Eliminar Sucursal: ' + sucur)
+     setShowDeleteDialog(true)
+  }
     
+  // Son para cerrar dialogos por fuera
+  const handleCloseEditPass = () => {
+    setShowEditDialog(false)   
+  }
+
+  const handleCloseDeleteSucursal = () => {
+    setShowDeleteDialog(false)   
+  }
+  
   const classes = useStyles();
 
   
@@ -145,6 +167,8 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   empresa={empresa}
                   handleShowReservas={handleShowReservas}
                   handleShowIngresos={handleShowIngresos}
+                  handleDeleteSucursal={handleDeleteSucursal}
+                  handleEditPass={handleEditPass}
                 />
                 : showReservaSucursal === '' ? 
                 <GenericList
@@ -161,9 +185,11 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   isReserva={isReserva}                      
                   />
             }
-            
+            <DialogChangePass show={showEditDialog} onClose={handleCloseEditPass} />
+            <DialogDelete show={showDeleteDialog} onClose={handleCloseDeleteSucursal}/>
           </Grid>
         </Container>
+        
       </Page>
     </SearchFieldContext.Provider>
   );
