@@ -20,7 +20,7 @@ import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
 
 const useStyles = makeStyles(theme => ({
-  root: {},  
+  root: {}
 }));
 
 const StyledTableCell = withStyles(theme => ({
@@ -50,17 +50,17 @@ const GenericList = ({
 }: {
   className: any;
   lista: string[];
-    sucursalSelected: string;
-    isReserva: boolean;
+  sucursalSelected: string;
+  isReserva: boolean;
 }) => {
-  const classes = useStyles();  
-    
+  const classes = useStyles();
+
   const { searchFieldState } = useContext(SearchFieldContext);
 
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
     : lista;
-  
+
   if (isReserva) {
     // llamada endpoint reservas with sucursalSelected
     // o se puede desde el componente index y se pasa en list
@@ -70,33 +70,61 @@ const GenericList = ({
   }
 
   return (
-  <Fade
+    <Fade
       in={true}
       mountOnEnter={true}
       unmountOnExit={true}
       timeout={{ enter: 500, exit: 500 }}
     >
-    <Card className={clsx(classes.root, className)} {...rest}>        
-    <SearchField isSucursales={false} />
-      <PerfectScrollbar>
-        <Box width="100%">
-          <Table stickyHeader={true}>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell>Nombre</StyledTableCell>
-                <StyledTableCell>Documento</StyledTableCell>
-                <StyledTableCell>Fecha</StyledTableCell>
-                <StyledTableCell>Hora</StyledTableCell>
-                <StyledTableCell>Temperatura</StyledTableCell>
-                <StyledTableCell>Encuesta</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody/>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-    </Card>
+      <Card className={clsx(classes.root, className)} {...rest}>
+        <SearchField isSucursales={false} />
+        <PerfectScrollbar>
+          <Box width="100%">
+            <Table stickyHeader={true}>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell>ID</StyledTableCell>
+                  <StyledTableCell>Nombre</StyledTableCell>
+                  <StyledTableCell>Documento</StyledTableCell>
+                  <StyledTableCell>Fecha</StyledTableCell>
+                  <StyledTableCell>Hora</StyledTableCell>
+                  {!isReserva && <StyledTableCell>Temperatura</StyledTableCell>}
+                  <StyledTableCell>Encuesta</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+                {lista &&
+                  lista.map((sucursal: any) => {
+                    const isoStringToDiaHora = (isoDateString: string) => {
+                      const response: any = {};
+                      response.dia = isoDateString.substring(0, 10);
+                      response.hora = isoDateString.substring(11, 16);
+                      return response;
+                    };
+
+                    const { dia, hora } = isoStringToDiaHora(sucursal.date);
+
+                    return (
+                      <StyledTableRow key={sucursal.id}>
+                        <StyledTableCell>{sucursal.id}</StyledTableCell>
+                        <StyledTableCell>{sucursal.name}</StyledTableCell>
+                        <StyledTableCell>{sucursal.documentid}</StyledTableCell>
+                        <StyledTableCell>{dia}</StyledTableCell>
+                        {sucursal.temperature && (
+                          <StyledTableCell>
+                            {sucursal.temperature}
+                          </StyledTableCell>
+                        )}
+                        <StyledTableCell>{hora}</StyledTableCell>
+                        <StyledTableCell>{sucursal.id}[OK]</StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+      </Card>
     </Fade>
   );
 };

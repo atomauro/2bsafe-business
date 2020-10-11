@@ -7,6 +7,8 @@ import { useFirebaseAuth } from 'use-firebase-auth';
 import { useNavigate } from 'react-router-dom';
 import { AccessTokenContext } from '../../App';
 
+import State from './../../reducers/State';
+
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: '#F4F6F8',
@@ -38,29 +40,29 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DashboardLayout = ({ history }: { history: any }) => {
-  const { accessTokenState } = useContext(AccessTokenContext);
+  const { accessTokenState, accessTokenDispatch } = useContext(
+    AccessTokenContext
+  );
 
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
-  const { user, signOut } = useFirebaseAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessTokenState) {
+    console.log('accessTokenState', accessTokenState);
+    if (accessTokenState === '') {
+      console.log('Por lo tanto...');
       navigate('/login', { replace: true });
     }
-  });
+  }, [accessTokenState]);
 
-  const signOutUser = async () => {
-    try {
-      await signOut();
-    } catch (e) {
-      console.log(e);
-    }
+  const signOutUser = () => {
+    accessTokenDispatch({ type: 'SET', payload: '' });
   };
 
   return (
     <div className={classes.root}>
+      <State state={{ accessToken: accessTokenState }} />
       <TopBar
         onMobileNavOpen={() => setMobileNavOpen(true)}
         className={classes.topBar}

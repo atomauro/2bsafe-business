@@ -13,6 +13,7 @@ export default ({ state }: { state: Record<string, any> }) => {
       console.log(`Storing no saved value ${value},${String(state[value])}...`);
       localStorage.setItem(value, String(state[value]));
     } else if (localStorage.getItem(value) !== accessTokenState) {
+      localStorage.setItem(value, String(state[value]));
       accessTokenDispatch({
         type: 'SET',
         payload: localStorage.getItem(value)

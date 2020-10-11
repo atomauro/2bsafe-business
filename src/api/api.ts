@@ -142,10 +142,21 @@ async function api(credenciales: {
           //       options
           //     );
           //   },
-          leerReservas: async (sucursal: string, reservaDoc: any) => {
+          nuevaReserva: async (sucursal: string, reservaDoc: any) => {
             const options = {
               method: 'POST',
               body: JSON.stringify(reservaDoc),
+              headers: authTokenHeader
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas`,
+              options
+            );
+            return response;
+          },
+          leerReservas: async (sucursal: string) => {
+            const options = {
+              method: 'GET',
               headers: authTokenHeader
             };
             const response = await callApi(

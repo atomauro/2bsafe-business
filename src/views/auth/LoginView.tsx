@@ -44,7 +44,8 @@ const LoginView = ({ empresa }: any) => {
 
   const [Api2BSafe, setApi2BSafe] = useState(null as any);
   useEffect(() => {
-    if ((Api2BSafe && !Api2BSafe.loginError) || accessTokenState) {
+    console.log('accessTokenState', accessTokenState);
+    if (Api2BSafe && (Api2BSafe.accessToken || accessTokenState)) {
       accessTokenDispatch({
         type: 'SET',
         payload:
@@ -58,11 +59,11 @@ const LoginView = ({ empresa }: any) => {
     } else if (Api2BSafe && Api2BSafe.loginError) {
       setError(true);
     }
+    console.log('Api2BSafe', Api2BSafe);
   }, [Api2BSafe, accessTokenState]);
 
   return (
     <Page className={classes.root} title="Login">
-      {console.log('accessTokenState', accessTokenState)}
       <State state={{ accessToken: accessTokenState }} />
       <Box
         display="flex"
@@ -93,14 +94,13 @@ const LoginView = ({ empresa }: any) => {
                   //   form.password
                   // );
                   actions.setSubmitting(true);
-                  
-                    api({
+
+                  api({
                     empresa: form.email.slice(0, form.email.indexOf('@')),
                     password: form.password
                   }).then(apiResult => {
                     setApi2BSafe(apiResult);
                   });
-                  
                 }}
               >
                 {({
@@ -165,7 +165,7 @@ const LoginView = ({ empresa }: any) => {
                       >
                         Iniciar
                       </Button>
-                    {isSubmitting ? <LinearProgress /> : null}                       
+                      {isSubmitting ? <LinearProgress /> : null}
                     </Box>
                   </form>
                 )}

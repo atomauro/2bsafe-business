@@ -23,9 +23,9 @@ const useStyles = makeStyles(() => ({
     color: 'white'
   },
   toolbar: {
-    height: 73,
-  },
-  }));
+    height: 73
+  }
+}));
 
 const TopBar = ({
   className,
@@ -41,11 +41,16 @@ const TopBar = ({
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
-      <Toolbar className={classes.toolbar}>  
+      <Toolbar className={classes.toolbar}>
         <Logo draggable={false} />
         <Box flexGrow={1} />
         <Hidden mdDown={true}>
-          <IconButton className={classes.icons} onClick={onLogOut}>
+          <IconButton
+            className={classes.icons}
+            onClick={() => {
+              onLogOut();
+            }}
+          >
             <InputIcon className={classes.icons} />
           </IconButton>
         </Hidden>

@@ -41,43 +41,46 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const [searchField, dispatch] = useReducer(SearchFieldReducer, '');
   const { accessTokenState, accessTokenDispatch } = useContext(
     AccessTokenContext
-    );
-    const [Api2BSafe, setApi2BSafe] = useState(null as any);
-    const [list, setList] = useState([]);
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const navigate = useNavigate();
-    const [needUpdate, setNeedUpdate] = useState(false);
+  );
+  const [Api2BSafe, setApi2BSafe] = useState(null as any);
+  const [list, setList] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const navigate = useNavigate();
+  const [needUpdate, setNeedUpdate] = useState(false);
 
-    const [isReserva, setIsReserva] = useState(false);
-    const [showReservaSucursal, setReservaSucursal] = useState('')
-    const [showIngresoSucursal, setIngresoSucursal] = useState('')
-    const [currentView, setCurrentView] = useState('')
-    
+  const [isReserva, setIsReserva] = useState(false);
+  const [showReservaSucursal, setReservaSucursal] = useState('');
+  const [showIngresoSucursal, setIngresoSucursal] = useState('');
+  const [currentView, setCurrentView] = useState('');
+
+  const [listaReservas, setListaReservas] = useState([]);
+
   const classes = useStyles();
 
-  
-  const handleShowReservas = (sucur:string) => {
-    console.log('Mostrar Reservas: ' + sucur)
-    setReservaSucursal(sucur)
-    setIngresoSucursal('')
-    setCurrentView(sucur)
-    setIsReserva(true)
-  }
+  const handleShowReservas = (sucur: string) => {
+    console.log('Mostrar Reservas: ' + sucur);
+    setReservaSucursal(sucur);
+    setIngresoSucursal('');
+    setCurrentView(sucur);
+    setIsReserva(true);
+    setNeedUpdate(true);
+  };
 
-  const handleShowIngresos = (sucur:string) => {
-    console.log('Mostrar Ingreso: ' + sucur)
-    setIngresoSucursal(sucur)
-    setReservaSucursal('')
-    setCurrentView(sucur)
-    setIsReserva(false)
-  } 
+  const handleShowIngresos = (sucur: string) => {
+    console.log('Mostrar Ingreso: ' + sucur);
+    setIngresoSucursal(sucur);
+    setReservaSucursal('');
+    setCurrentView(sucur);
+    setIsReserva(false);
+    setNeedUpdate(true);
+  };
 
   const handlePressBack = () => {
-    console.log('Atras: ')
-    setIngresoSucursal('')
-    setReservaSucursal('')
-    setCurrentView('')
-  } 
+    console.log('Atras: ');
+    setIngresoSucursal('');
+    setReservaSucursal('');
+    setCurrentView('');
+  };
 
   const handleToolbarClose = (sucursalName: string) => {
     setDialogOpen(false);
@@ -87,6 +90,9 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     });
   };
 
+  const getReservasList = async (sucursal: string) => {
+    return await Api2BSafe.reservas.leerReservas(sucursal);
+  };
 
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
@@ -115,7 +121,13 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         .catch((ex: any) => console.log('ex', ex));
       setNeedUpdate(false);
     }
-  }, [Api2BSafe, list, needUpdate]);
+    if (currentView !== '' && needUpdate) {
+      getReservasList(currentView).then(response => {
+        setListaReservas(response.data);
+        setNeedUpdate(false);
+      });
+    }
+  }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
     <SearchFieldContext.Provider
@@ -131,37 +143,35 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             alignItems="center"
           >
             <Toolbar
-              className={classes.toolBar} 
+              className={classes.toolBar}
               onClose={handleToolbarClose}
               currentView={currentView}
               handlePressBack={handlePressBack}
               isReserva={isReserva}
             />
-            {
-              currentView === '' ?
-                <Sucursales
-                  className={classes.sucursales}
-                  lista={list}
-                  empresa={empresa}
-                  handleShowReservas={handleShowReservas}
-                  handleShowIngresos={handleShowIngresos}
-                />
-                : showReservaSucursal === '' ? 
-                <GenericList
-                  className={classes.sucursales}
-                  lista={list}
-                  sucursalSelected={showIngresoSucursal}
-                  isReserva={isReserva}                  
-                  />
-                :
-                <GenericList
-                  className={classes.sucursales}
-                  lista={list}
-                  sucursalSelected={showReservaSucursal}
-                  isReserva={isReserva}                      
-                  />
-            }
-            
+            {currentView === '' ? (
+              <Sucursales
+                className={classes.sucursales}
+                lista={list}
+                empresa={empresa}
+                handleShowReservas={handleShowReservas}
+                handleShowIngresos={handleShowIngresos}
+              />
+            ) : showReservaSucursal === '' ? (
+              <GenericList
+                className={classes.sucursales}
+                lista={listaReservas}
+                sucursalSelected={showIngresoSucursal}
+                isReserva={isReserva}
+              />
+            ) : (
+              <GenericList
+                className={classes.sucursales}
+                lista={listaReservas}
+                sucursalSelected={showReservaSucursal}
+                isReserva={isReserva}
+              />
+            )}
           </Grid>
         </Container>
       </Page>
