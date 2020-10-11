@@ -101,26 +101,26 @@ const ListSucursales = ({
             <TableBody>
               {FINAL_LIST &&
                 FINAL_LIST.map((sucursal: any) => (
-                  <StyledTableRow key={sucursal}>
-                    <StyledTableCell>{sucursal}</StyledTableCell>
+                  <StyledTableRow key={sucursal.nameid}>
+                    <StyledTableCell>{sucursal.nameid}</StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Ver Reservas">
-                        <ReservaIcon onClick={()=>{handleShowReservas(sucursal)}}/>
+                        <ReservaIcon onClick={()=>{handleShowReservas(sucursal.nameid)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Ver Ingresos">
-                        <IngresoIcon onClick={()=>{handleShowIngresos(sucursal)}}/>
+                        <IngresoIcon onClick={()=>{handleShowIngresos(sucursal.nameid)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Enviar correo - Cambiar clave">
-                        <EditIcon onClick={()=>{handleEditPass(sucursal)}}/>
+                        <EditIcon onClick={()=>{handleEditPass(sucursal.nameid)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Eliminar sucursal">
-                        <DeleteIcon onClick={()=>{handleDeleteSucursal(sucursal)}}/>
+                        <DeleteIcon onClick={()=>{handleDeleteSucursal(sucursal.nameid)}}/>
                       </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
