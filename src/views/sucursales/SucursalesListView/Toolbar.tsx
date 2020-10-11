@@ -51,11 +51,13 @@ const Toolbar = ({
   onClose,
   currentView,
   handlePressBack,
+  isReserva,
   ...rest
 }: {
   className: any;
   onClose: any;
   currentView: string;
+  isReserva: boolean;
   handlePressBack: any;
 }) => {
   const classes = useStyles();
@@ -98,7 +100,7 @@ const Toolbar = ({
                   color="primary"
                   variant="contained"
                   startIcon={<BackIcon />}                
-                onClick={() => { handlePressBack('') }}
+                onClick={() => { handlePressBack() }}
                 >
                 Atras
                 </Button>
@@ -109,14 +111,44 @@ const Toolbar = ({
       <Box mt={3}>
         <Card>
           <CardContent>
-            <div className={classes.divSucursales}>
+              <div className={classes.divSucursales}>
+              <Grid
+              container={true}
+              direction="column"
+              justify="center"
+              alignItems="center"
+              >
               <Box maxWidth={500} className={classes.message}>
+              {currentView === '' ?
+                  <Typography variant="h4" align="center">
+                        Desde aqui puedes agregar las sucursales y visualizar las
+                        claves generadas
+                  </Typography>
+                    : isReserva ?                      
+                        <div>                        
+                        <Typography variant="h4" align="center" style={{ margin: 5 }}>
+                            Historico de Reservas
+                          </Typography>
+                          <Typography variant="h5" align="center" style={{margin:5}}>
+                            Sucursal:
+                          </Typography>                          
+                      </div>    
+                      :
+                      <div>                        
+                        <Typography variant="h4" align="center" style={{ margin: 5 }}>
+                            Historico de Ingresos
+                          </Typography>
+                          <Typography variant="h5" align="center" style={{margin:5}}>
+                            Sucursal:
+                          </Typography>
+                      </div>
                 
-                <Typography variant="h4" align="center">
-                  Desde aqui puedes agregar las sucursales y visualizar las
-                  claves generadas
-                </Typography>
+                  }
               </Box>
+                <Typography variant="h4" align="center" style={{color:'#FDB825', marginTop:20, fontWeight:'bold', textDecoration:'underline'}}>
+                  {currentView}
+                </Typography>
+              </Grid>
             </div>
           </CardContent>
         </Card>

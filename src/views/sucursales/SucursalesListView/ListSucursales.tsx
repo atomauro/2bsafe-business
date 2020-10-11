@@ -89,7 +89,7 @@ const ListSucursales = ({
       timeout={{ enter: 500, exit: 500 }}
     >
     <Card className={clsx(classes.root, className)} {...rest}>
-    <SearchField />
+    <SearchField isSucursales={true} />
       <PerfectScrollbar>
         <Box width="100%">
           <Table stickyHeader={true}>

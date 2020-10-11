@@ -48,6 +48,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     const navigate = useNavigate();
     const [needUpdate, setNeedUpdate] = useState(false);
 
+    const [isReserva, setIsReserva] = useState(false);
     const [showReservaSucursal, setReservaSucursal] = useState('')
     const [showIngresoSucursal, setIngresoSucursal] = useState('')
     const [currentView, setCurrentView] = useState('')
@@ -60,6 +61,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     setReservaSucursal(sucur)
     setIngresoSucursal('')
     setCurrentView(sucur)
+    setIsReserva(true)
   }
 
   const handleShowIngresos = (sucur:string) => {
@@ -67,6 +69,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     setIngresoSucursal(sucur)
     setReservaSucursal('')
     setCurrentView(sucur)
+    setIsReserva(false)
   } 
 
   const handlePressBack = () => {
@@ -127,7 +130,13 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             justify="center"
             alignItems="center"
           >
-            <Toolbar className={classes.toolBar} onClose={handleToolbarClose} currentView={currentView} handlePressBack={handlePressBack}/>
+            <Toolbar
+              className={classes.toolBar} 
+              onClose={handleToolbarClose}
+              currentView={currentView}
+              handlePressBack={handlePressBack}
+              isReserva={isReserva}
+            />
             {
               currentView === '' ?
                 <Sucursales
@@ -142,14 +151,14 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   className={classes.sucursales}
                   lista={list}
                   sucursalSelected={showIngresoSucursal}
-                  isReserva={false}                  
+                  isReserva={isReserva}                  
                   />
                 :
                 <GenericList
                   className={classes.sucursales}
                   lista={list}
                   sucursalSelected={showReservaSucursal}
-                  isReserva={true}                      
+                  isReserva={isReserva}                      
                   />
             }
             

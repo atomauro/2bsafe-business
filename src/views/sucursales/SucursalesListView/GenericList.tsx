@@ -60,6 +60,14 @@ const GenericList = ({
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
     : lista;
+  
+  if (isReserva) {
+    // llamada endpoint reservas with sucursalSelected
+    // o se puede desde el componente index y se pasa en list
+  } else {
+    // llamada endpoint ingresos with sucursalSelected
+    // o se puede desde el componente index y se pasa en list
+  }
 
   return (
   <Fade
@@ -68,10 +76,8 @@ const GenericList = ({
       unmountOnExit={true}
       timeout={{ enter: 500, exit: 500 }}
     >
-    <Card className={clsx(classes.root, className)} {...rest}>
-        {isReserva? <text>Reserva</text>: <text>Ingreso</text>}
-        <text>Para la Sucursal{sucursalSelected}</text>
-    <SearchField />
+    <Card className={clsx(classes.root, className)} {...rest}>        
+    <SearchField isSucursales={false} />
       <PerfectScrollbar>
         <Box width="100%">
           <Table stickyHeader={true}>
