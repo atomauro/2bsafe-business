@@ -100,13 +100,13 @@ const ListSucursales = ({
               <TableBody>
                 {FINAL_LIST &&
                   FINAL_LIST.map((sucursal: any) => (
-                    <StyledTableRow key={sucursal}>
-                      <StyledTableCell>{sucursal}</StyledTableCell>
+                    <StyledTableRow key={sucursal.nameid}>
+                      <StyledTableCell>{sucursal.nameid}</StyledTableCell>
                       <StyledTableCell>
                         <IconButton color="primary" aria-label="Ver Reservas">
                           <ReservaIcon
                             onClick={() => {
-                              handleShowReservas(sucursal);
+                              handleShowReservas(sucursal.nameid);
                             }}
                           />
                         </IconButton>
@@ -115,7 +115,7 @@ const ListSucursales = ({
                         <IconButton color="primary" aria-label="Ver Ingresos">
                           <IngresoIcon
                             onClick={() => {
-                              handleShowIngresos(sucursal);
+                              handleShowIngresos(sucursal.nameid);
                             }}
                           />
                         </IconButton>
@@ -127,7 +127,7 @@ const ListSucursales = ({
                         >
                           <EditIcon
                             onClick={() => {
-                              handleEditPass(sucursal);
+                              handleEditPass(sucursal.nameid);
                             }}
                           />
                         </IconButton>
@@ -139,7 +139,7 @@ const ListSucursales = ({
                         >
                           <DeleteIcon
                             onClick={() => {
-                              handleDeleteSucursal(sucursal);
+                              handleDeleteSucursal(sucursal.nameid);
                             }}
                           />
                         </IconButton>
