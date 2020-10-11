@@ -22,11 +22,11 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import Lottie from 'react-lottie';
 
-import * as animationData from '../../../assets/lotties/ubicacion2.json';
-
 import api from './../../../api/api';
 import { AccessTokenContext } from '../../../App';
 import { useNavigate } from 'react-router-dom';
+
+import DialogAddSucursal from './DialogAddSucursal';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -68,13 +68,7 @@ const Toolbar = ({
   const handleClose = () => {
     setOpen(false);
     onClose(sucursalField);
-  };
-
-  const defaultOptions = {
-    loop: false,
-    autoplay: false,
-    animationData
-  };
+  }; 
 
   return (
     <Slide direction="down" in={true} mountOnEnter={true} unmountOnExit = {true} timeout={{ enter: 500, exit: 500 }}>
@@ -152,44 +146,8 @@ const Toolbar = ({
             </div>
           </CardContent>
         </Card>
-      </Box>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">AGREGAR SUCURSAL</DialogTitle>
-        <DialogContent>
-          <Lottie options={defaultOptions} height={200} width={200} />
-          <DialogContentText>
-            Para agregar una nueva sucursal o sede, solo es necesario ingresar a
-            continuacion el nombre o la ubicacion del establecimiento, utilice
-            palabras clave, sin espacios. Ejemplo: Laureles, SedeLaureles,
-            Poblado1, Poblado2
-          </DialogContentText>
-          <TextField
-            autoFocus={true}
-            margin="dense"
-            id="name"
-            label="Nombre sucursal"
-            type="text"
-            fullWidth={true}
-            value={sucursalField}
-            onChange={(e: any) => {
-              console.log('e', e);
-              setSucursalField(e.target.value);
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Agregar sucursal
-          </Button>
-        </DialogActions>
-      </Dialog>
+      </Box>     
+        <DialogAddSucursal open={open} handleClose={handleClose}/>        
       </div>
       </Slide>
   );
