@@ -91,6 +91,22 @@ async function api(credenciales: {
       };
       const response = await callApi(`${API_2BSAFE_BASE_URL}/signup`, options);
       return { ...response, hasErrors: () => response.errors.length > 0 };
+    },
+    changePassword: async (sucursal?: string) => {
+      if (!sucursal) {
+        return; // Caso cambiar contraseña empresa
+      } else {
+        const options = {
+          method: 'POST',
+          headers: authTokenHeader,
+          body: JSON.stringify({ email: `${sucursal}@${empresa}.com` })
+        };
+        const response = await callApi(
+          `${API_2BSAFE_BASE_URL}/reset-password`,
+          options
+        );
+        return { ...response, hasErrors: () => response.errors.length > 0 };
+      }
     }
   };
 

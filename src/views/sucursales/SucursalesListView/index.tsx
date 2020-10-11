@@ -80,7 +80,6 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const handleCloseEditPass = () => {
     setShowEditDialog(false);
   };
-
   const handleCloseDeleteSucursal = () => {
     setShowDeleteDialog(false);
   };
@@ -90,13 +89,17 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     setEmail(event.target.value);
   };
 
-  const onClickSendEmail = () => {
+  const onClickSendEmail = async () => {
     console.log(
       'Se quiere cambiar la clave de la sucursal: ' +
         sucursalForEmailDialog +
         ' al correo: ' +
         email
     );
+    const response = await Api2BSafe.admin.changePassword(
+      sucursalForEmailDialog
+    );
+    console.log('response', response);
     setShowEditDialog(false);
   };
 
@@ -212,14 +215,14 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             ) : showReservaSucursal === '' ? (
               <GenericList
                 className={classes.sucursales}
-                lista={list}
+                lista={listaReservas}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
               />
             ) : (
               <GenericList
                 className={classes.sucursales}
-                lista={list}
+                lista={listaReservas}
                 sucursalSelected={showReservaSucursal}
                 isReserva={isReserva}
               />

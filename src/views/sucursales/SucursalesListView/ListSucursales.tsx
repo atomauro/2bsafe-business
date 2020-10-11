@@ -62,7 +62,7 @@ const ListSucursales = ({
 }: {
   className: any;
   empresa: string;
-  lista: string[];
+  lista: any[];
   handleShowReservas: any;
   handleShowIngresos: any;
   handleEditPass: any;
@@ -73,7 +73,9 @@ const ListSucursales = ({
   const { searchFieldState } = useContext(SearchFieldContext);
 
   const FINAL_LIST = searchFieldState
-    ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
+    ? lista.filter(
+        value => value.nameid.search(searchFieldState.toLowerCase()) !== -1
+      )
     : lista;
 
   return (

@@ -57,7 +57,7 @@ const DashboardLayout = ({ history }: { history: any }) => {
   }, [accessTokenState]);
 
   const signOutUser = () => {
-    accessTokenDispatch({ type: 'SET', payload: '' });
+    accessTokenDispatch({ type: 'RESET' });
   };
 
   return (

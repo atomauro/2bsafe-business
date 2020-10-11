@@ -45,7 +45,13 @@ const LoginView = ({ empresa }: any) => {
   const [Api2BSafe, setApi2BSafe] = useState(null as any);
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
-    if (Api2BSafe && (Api2BSafe.accessToken || accessTokenState)) {
+    if ((Api2BSafe && Api2BSafe.accessToken) || accessTokenState) {
+      console.log(
+        'payload',
+        Api2BSafe && Api2BSafe.accessToken
+          ? Api2BSafe.accessToken
+          : accessTokenState
+      );
       accessTokenDispatch({
         type: 'SET',
         payload:
