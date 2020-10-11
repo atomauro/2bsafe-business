@@ -24,7 +24,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
-import DialogChangePass from './DialogChangePass';
+import DialogChangePass from './DialogSendPass';
 import DialogDelete from './DialogDelete';
 
 const useStyles = makeStyles(theme => ({
@@ -116,7 +116,7 @@ const ListSucursales = ({
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <IconButton color="primary" aria-label="Ver Ingresos">
+                      <IconButton color="primary" aria-label="Enviar correo - Cambiar clave">
                         <EditIcon onClick={()=>{handleEditPass(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>

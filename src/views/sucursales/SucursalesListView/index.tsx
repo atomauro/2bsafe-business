@@ -19,7 +19,7 @@ import { AccessTokenContext } from '../../../App';
 import api from '../../../api/api';
 import State from '../../../reducers/State';
 import SearchFieldReducer from '../../../reducers/SearchField';
-import DialogChangePass from './DialogChangePass';
+import DialogChangePass from './DialogSendPass';
 import DialogDelete from './DialogDelete';
 
 export const SearchFieldContext = createContext({} as any);
@@ -57,9 +57,13 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   
+    const [email, setEmail] = useState('')
+    const [sucursalForEmailDialog, setSucursalForEmailDialog] = useState('')
+  
     const handleEditPass = (sucur: string) => {
     console.log('Intentando Editar Clave: ' + sucur)
-    setShowEditDialog(true)    
+      setShowEditDialog(true)    
+      setSucursalForEmailDialog(sucur)
   }
     const handleDeleteSucursal = (sucur:string) => {
      console.log('Intentando Eliminar Sucursal: ' + sucur)
@@ -74,9 +78,18 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const handleCloseDeleteSucursal = () => {
     setShowDeleteDialog(false)   
   }
+
+  // Son para el dialogo de enviar email
+  const handleChangeSendPass = (event: any) => {
+    setEmail(event.target.value)
+  }
+
+  const onClickSendEmail = () => {
+    console.log('Se quiere cambiar la clave de la sucursal: ' + sucursalForEmailDialog + ' al correo: ' + email)
+    setShowEditDialog(false) 
+  }
   
   const classes = useStyles();
-
   
   const handleShowReservas = (sucur:string) => {
     console.log('Mostrar Reservas: ' + sucur)
@@ -185,7 +198,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   isReserva={isReserva}                      
                   />
             }
-            <DialogChangePass show={showEditDialog} onClose={handleCloseEditPass} />
+            <DialogChangePass show={showEditDialog} onClose={handleCloseEditPass} onChange={handleChangeSendPass} onClick={onClickSendEmail} />
             <DialogDelete show={showDeleteDialog} onClose={handleCloseDeleteSucursal}/>
           </Grid>
         </Container>

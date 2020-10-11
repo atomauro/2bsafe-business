@@ -38,7 +38,7 @@ export default function DialogDelete({
           <Lottie options={defaultOptions} height={200} width={200} />          
         </DialogContent>
         <DialogActions>
-          <Button  color="primary">
+          <Button  color="primary" onClick={()=>{onClose()}}>
             Cancelar
           </Button>
           <Button  color="primary" variant='outlined'>
