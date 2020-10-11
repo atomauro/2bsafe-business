@@ -70,7 +70,7 @@ const ListSucursales = ({
   const { searchFieldState } = useContext(SearchFieldContext);
   
   const handleEditPass = (sucur: string) => {
-    console.log('Editar Clave: ' + sucur)
+    console.log('Editar Clave: ' + sucur)    
   }
    const handleDeleteSucursal = (sucur:string) => {
     console.log('Eliminar Sucursal: ' + sucur)
@@ -119,12 +119,12 @@ const ListSucursales = ({
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Ver Ingresos">
-                        <EditIcon />
+                        <EditIcon onClick={()=>{handleEditPass(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Eliminar sucursal">
-                        <DeleteIcon />
+                        <DeleteIcon onClick={()=>{handleDeleteSucursal(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>

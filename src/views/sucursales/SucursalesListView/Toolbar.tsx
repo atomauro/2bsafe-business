@@ -71,7 +71,7 @@ const Toolbar = ({
   };
 
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData
   };
