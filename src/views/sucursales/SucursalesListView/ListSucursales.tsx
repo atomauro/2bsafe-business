@@ -43,7 +43,7 @@ const StyledTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
-  root: {    
+  root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover
     }
@@ -71,64 +71,85 @@ const ListSucursales = ({
   const classes = useStyles();
 
   const { searchFieldState } = useContext(SearchFieldContext);
-  
 
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
     : lista;
 
   return (
-  <Fade
+    <Fade
       in={true}
       mountOnEnter={true}
       unmountOnExit={true}
       timeout={{ enter: 500, exit: 500 }}
     >
-    <Card className={clsx(classes.root, className)} {...rest}>
-    <SearchField isSucursales={true} />
-      <PerfectScrollbar>
-        <Box width="100%">
-          <Table stickyHeader={true}>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell>Nombre Sucursal</StyledTableCell>
-                <StyledTableCell>Ver Reservas</StyledTableCell>
-                <StyledTableCell>Ver Ingresos</StyledTableCell>
+      <Card className={clsx(classes.root, className)} {...rest}>
+        <SearchField isSucursales={true} />
+        <PerfectScrollbar>
+          <Box width="100%">
+            <Table stickyHeader={true}>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell>Nombre Sucursal</StyledTableCell>
+                  <StyledTableCell>Ver Reservas</StyledTableCell>
+                  <StyledTableCell>Ver Ingresos</StyledTableCell>
                   <StyledTableCell>Cambiar clave</StyledTableCell>
                   <StyledTableCell>Eliminar</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              {FINAL_LIST &&
-                FINAL_LIST.map((sucursal: any) => (
-                  <StyledTableRow key={sucursal}>
-                    <StyledTableCell>{sucursal}</StyledTableCell>
-                    <StyledTableCell>
-                      <IconButton color="primary" aria-label="Ver Reservas">
-                        <ReservaIcon onClick={()=>{handleShowReservas(sucursal)}}/>
-                      </IconButton>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <IconButton color="primary" aria-label="Ver Ingresos">
-                        <IngresoIcon onClick={()=>{handleShowIngresos(sucursal)}}/>
-                      </IconButton>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <IconButton color="primary" aria-label="Enviar correo - Cambiar clave">
-                        <EditIcon onClick={()=>{handleEditPass(sucursal)}}/>
-                      </IconButton>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <IconButton color="primary" aria-label="Eliminar sucursal">
-                        <DeleteIcon onClick={()=>{handleDeleteSucursal(sucursal)}}/>
-                      </IconButton>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+                {FINAL_LIST &&
+                  FINAL_LIST.map((sucursal: any) => (
+                    <StyledTableRow key={sucursal}>
+                      <StyledTableCell>{sucursal}</StyledTableCell>
+                      <StyledTableCell>
+                        <IconButton color="primary" aria-label="Ver Reservas">
+                          <ReservaIcon
+                            onClick={() => {
+                              handleShowReservas(sucursal);
+                            }}
+                          />
+                        </IconButton>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <IconButton color="primary" aria-label="Ver Ingresos">
+                          <IngresoIcon
+                            onClick={() => {
+                              handleShowIngresos(sucursal);
+                            }}
+                          />
+                        </IconButton>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <IconButton
+                          color="primary"
+                          aria-label="Enviar correo - Cambiar clave"
+                        >
+                          <EditIcon
+                            onClick={() => {
+                              handleEditPass(sucursal);
+                            }}
+                          />
+                        </IconButton>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <IconButton
+                          color="primary"
+                          aria-label="Eliminar sucursal"
+                        >
+                          <DeleteIcon
+                            onClick={() => {
+                              handleDeleteSucursal(sucursal);
+                            }}
+                          />
+                        </IconButton>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
       </Card>
     </Fade>
   );
