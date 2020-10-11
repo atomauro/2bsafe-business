@@ -21,7 +21,6 @@ import IngresoIcon from '@material-ui/icons/AssignmentTurnedIn';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: '#F96332',
+    backgroundColor: '#FDB825',
     color: theme.palette.common.white
   },
   body: {
@@ -57,6 +56,8 @@ const ListSucursales = ({
   empresa,
   handleShowReservas,
   handleShowIngresos,
+  handleEditPass,
+  handleDeleteSucursal,
   ...rest
 }: {
   className: any;
@@ -64,18 +65,13 @@ const ListSucursales = ({
   lista: string[];
   handleShowReservas: any;
   handleShowIngresos: any;
+  handleEditPass: any;
+  handleDeleteSucursal: any;
 }) => {
   const classes = useStyles();
 
   const { searchFieldState } = useContext(SearchFieldContext);
   
-  const handleEditPass = (sucur: string) => {
-    console.log('Editar Clave: ' + sucur)
-  }
-   const handleDeleteSucursal = (sucur:string) => {
-    console.log('Eliminar Sucursal: ' + sucur)
-  }
-
 
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
@@ -118,13 +114,13 @@ const ListSucursales = ({
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <IconButton color="primary" aria-label="Ver Ingresos">
-                        <EditIcon />
+                      <IconButton color="primary" aria-label="Enviar correo - Cambiar clave">
+                        <EditIcon onClick={()=>{handleEditPass(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Eliminar sucursal">
-                        <DeleteIcon />
+                        <DeleteIcon onClick={()=>{handleDeleteSucursal(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -133,7 +129,7 @@ const ListSucursales = ({
           </Table>
         </Box>
       </PerfectScrollbar>
-    </Card>
+      </Card>
     </Fade>
   );
 };

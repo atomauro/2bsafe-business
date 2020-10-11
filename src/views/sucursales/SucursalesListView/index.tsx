@@ -19,6 +19,8 @@ import { AccessTokenContext } from '../../../App';
 import api from '../../../api/api';
 import State from '../../../reducers/State';
 import SearchFieldReducer from '../../../reducers/SearchField';
+import DialogChangePass from './DialogSendPass';
+import DialogDelete from './DialogDelete';
 
 export const SearchFieldContext = createContext({} as any);
 
@@ -55,6 +57,55 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   const [listaReservas, setListaReservas] = useState([]);
 
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [sucursalForEmailDialog, setSucursalForEmailDialog] = useState('');
+  const [sucursalForDeleteDialog, setSucursalForDeleteDialog] = useState('');
+
+  // Son para abrir dialogos
+  const handleEditPass = (sucur: string) => {
+    console.log('Abrir dialogo Editar Clave: ' + sucur);
+    setShowEditDialog(true);
+    setSucursalForEmailDialog(sucur);
+  };
+  const handleDeleteSucursal = (sucur: string) => {
+    console.log('Abrir dialogo Eliminar Sucursal: ' + sucur);
+    setShowDeleteDialog(true);
+    setSucursalForDeleteDialog(sucur);
+  };
+
+  // Son para cerrar dialogos
+  const handleCloseEditPass = () => {
+    setShowEditDialog(false);
+  };
+
+  const handleCloseDeleteSucursal = () => {
+    setShowDeleteDialog(false);
+  };
+
+  // Son para el dialogo de enviar email
+  const handleChangeSendPass = (event: any) => {
+    setEmail(event.target.value);
+  };
+
+  const onClickSendEmail = () => {
+    console.log(
+      'Se quiere cambiar la clave de la sucursal: ' +
+        sucursalForEmailDialog +
+        ' al correo: ' +
+        email
+    );
+    setShowEditDialog(false);
+  };
+
+  // Son para el dialogo de eliminar sucursal
+  const onClickDeleteSucursal = () => {
+    console.log('Se quiere eliminar la sucursal: ' + sucursalForDeleteDialog);
+    setShowDeleteDialog(false);
+  };
+
   const classes = useStyles();
 
   const handleShowReservas = (sucur: string) => {
@@ -74,7 +125,6 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     setIsReserva(false);
     setNeedUpdate(true);
   };
-
   const handlePressBack = () => {
     console.log('Atras: ');
     setIngresoSucursal('');
@@ -156,22 +206,35 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                 empresa={empresa}
                 handleShowReservas={handleShowReservas}
                 handleShowIngresos={handleShowIngresos}
+                handleDeleteSucursal={handleDeleteSucursal}
+                handleEditPass={handleEditPass}
               />
             ) : showReservaSucursal === '' ? (
               <GenericList
                 className={classes.sucursales}
-                lista={listaReservas}
+                lista={list}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
               />
             ) : (
               <GenericList
                 className={classes.sucursales}
-                lista={listaReservas}
+                lista={list}
                 sucursalSelected={showReservaSucursal}
                 isReserva={isReserva}
               />
             )}
+            <DialogChangePass
+              show={showEditDialog}
+              onClose={handleCloseEditPass}
+              onChange={handleChangeSendPass}
+              onClick={onClickSendEmail}
+            />
+            <DialogDelete
+              show={showDeleteDialog}
+              onClose={handleCloseDeleteSucursal}
+              onClick={onClickDeleteSucursal}
+            />
           </Grid>
         </Container>
       </Page>
