@@ -58,19 +58,22 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   
     const [email, setEmail] = useState('')
-    const [sucursalForEmailDialog, setSucursalForEmailDialog] = useState('')
+  const [sucursalForEmailDialog, setSucursalForEmailDialog] = useState('')
+  const [sucursalForDeleteDialog, setSucursalForDeleteDialog] = useState('')
   
+  // Son para abrir dialogos
     const handleEditPass = (sucur: string) => {
-    console.log('Intentando Editar Clave: ' + sucur)
+    console.log('Abrir dialogo Editar Clave: ' + sucur)
       setShowEditDialog(true)    
       setSucursalForEmailDialog(sucur)
   }
     const handleDeleteSucursal = (sucur:string) => {
-     console.log('Intentando Eliminar Sucursal: ' + sucur)
-     setShowDeleteDialog(true)
+     console.log('Abrir dialogo Eliminar Sucursal: ' + sucur)
+      setShowDeleteDialog(true)
+      setSucursalForDeleteDialog(sucur)
   }
     
-  // Son para cerrar dialogos por fuera
+  // Son para cerrar dialogos
   const handleCloseEditPass = () => {
     setShowEditDialog(false)   
   }
@@ -88,7 +91,14 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     console.log('Se quiere cambiar la clave de la sucursal: ' + sucursalForEmailDialog + ' al correo: ' + email)
     setShowEditDialog(false) 
   }
-  
+
+  // Son para el dialogo de eliminar sucursal
+  const onClickDeleteSucursal = () => {
+    console.log('Se quiere eliminar la sucursal: ' + sucursalForDeleteDialog)
+    setShowDeleteDialog(false) 
+  }
+
+
   const classes = useStyles();
   
   const handleShowReservas = (sucur:string) => {
@@ -199,7 +209,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   />
             }
             <DialogChangePass show={showEditDialog} onClose={handleCloseEditPass} onChange={handleChangeSendPass} onClick={onClickSendEmail} />
-            <DialogDelete show={showDeleteDialog} onClose={handleCloseDeleteSucursal}/>
+            <DialogDelete show={showDeleteDialog} onClose={handleCloseDeleteSucursal} onClick={onClickDeleteSucursal}/>
           </Grid>
         </Container>
         

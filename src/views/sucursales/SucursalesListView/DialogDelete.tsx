@@ -12,10 +12,12 @@ import * as animationData from '../../../assets/lotties/delete.json';
 export default function DialogDelete({
   show,
   onClose,
+  onClick,
     ...rest
   }: {
     show: boolean,
-    onClose:any,
+    onClose: any,
+    onClick: any,
   }) {
    const defaultOptions = {
     loop: false,
@@ -41,7 +43,7 @@ export default function DialogDelete({
           <Button  color="primary" onClick={()=>{onClose()}}>
             Cancelar
           </Button>
-          <Button  color="primary" variant='outlined'>
+          <Button color="primary" variant='outlined' onClick={() => { onClick() }}>
             Confirmar
           </Button>
         </DialogActions>
