@@ -13,6 +13,8 @@ import Toolbar from './Toolbar';
 import data from './data';
 
 import Sucursales from './ListSucursales';
+import GenericList from './GenericList';
+
 import { AccessTokenContext } from '../../../App';
 import api from '../../../api/api';
 import State from '../../../reducers/State';
@@ -39,14 +41,40 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const [searchField, dispatch] = useReducer(SearchFieldReducer, '');
   const { accessTokenState, accessTokenDispatch } = useContext(
     AccessTokenContext
-  );
-  const [Api2BSafe, setApi2BSafe] = useState(null as any);
-  const [list, setList] = useState([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const navigate = useNavigate();
-  const [needUpdate, setNeedUpdate] = useState(false);
+    );
+    const [Api2BSafe, setApi2BSafe] = useState(null as any);
+    const [list, setList] = useState([]);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const navigate = useNavigate();
+    const [needUpdate, setNeedUpdate] = useState(false);
 
+    const [showReservaSucursal, setReservaSucursal] = useState('')
+    const [showIngresoSucursal, setIngresoSucursal] = useState('')
+    const [currentView, setCurrentView] = useState('')
+    
   const classes = useStyles();
+
+  
+  const handleShowReservas = (sucur:string) => {
+    console.log('Mostrar Reservas: ' + sucur)
+    setReservaSucursal(sucur)
+    setIngresoSucursal('')
+    setCurrentView(sucur)
+  }
+
+  const handleShowIngresos = (sucur:string) => {
+    console.log('Mostrar Ingreso: ' + sucur)
+    setIngresoSucursal(sucur)
+    setReservaSucursal('')
+    setCurrentView(sucur)
+  } 
+
+  const handlePressBack = () => {
+    console.log('Atras: ')
+    setIngresoSucursal('')
+    setReservaSucursal('')
+    setCurrentView('')
+  } 
 
   const handleToolbarClose = (sucursalName: string) => {
     setDialogOpen(false);
@@ -55,6 +83,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       setNeedUpdate(true);
     });
   };
+
 
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
@@ -98,12 +127,32 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             justify="center"
             alignItems="center"
           >
-            <Toolbar className={classes.toolBar} onClose={handleToolbarClose} />
-            <Sucursales
-              className={classes.sucursales}
-              lista={list}
-              empresa={empresa}
-            />
+            <Toolbar className={classes.toolBar} onClose={handleToolbarClose} currentView={currentView} handlePressBack={handlePressBack}/>
+            {
+              currentView === '' ?
+                <Sucursales
+                  className={classes.sucursales}
+                  lista={list}
+                  empresa={empresa}
+                  handleShowReservas={handleShowReservas}
+                  handleShowIngresos={handleShowIngresos}
+                />
+                : showReservaSucursal === '' ? 
+                <GenericList
+                  className={classes.sucursales}
+                  lista={list}
+                  sucursalSelected={showIngresoSucursal}
+                  isReserva={false}                  
+                  />
+                :
+                <GenericList
+                  className={classes.sucursales}
+                  lista={list}
+                  sucursalSelected={showReservaSucursal}
+                  isReserva={true}                      
+                  />
+            }
+            
           </Grid>
         </Container>
       </Page>

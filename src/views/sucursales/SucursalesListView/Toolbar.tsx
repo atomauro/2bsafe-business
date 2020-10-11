@@ -13,10 +13,13 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Slide,
+  Grid
 } from '@material-ui/core';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import BackIcon from '@material-ui/icons/ArrowBack';
 import Lottie from 'react-lottie';
 
 import * as animationData from '../../../assets/lotties/ubicacion2.json';
@@ -46,10 +49,14 @@ const useStyles = makeStyles(theme => ({
 const Toolbar = ({
   className,
   onClose,
+  currentView,
+  handlePressBack,
   ...rest
 }: {
   className: any;
   onClose: any;
+  currentView: string;
+  handlePressBack: any;
 }) => {
   const classes = useStyles();
 
@@ -68,23 +75,44 @@ const Toolbar = ({
   };
 
   return (
-    <div className={clsx(classes.root, className)} {...rest}>
-      <Box display="flex" justifyContent="flex-end">
-        <Button
-          color="primary"
-          variant="contained"
-          endIcon={<AddCircleIcon />}
-          onClick={() => setOpen(true)}
-        >
-          Agregar sucursal
-        </Button>
-      </Box>
+    <Slide direction="down" in={true} mountOnEnter={true} unmountOnExit = {true} timeout={{ enter: 500, exit: 500 }}>
+      <div className={clsx(classes.root, className)} {...rest}>
+        <Grid
+          container={true}
+          direction="row"
+          justify="space-evenly"
+          alignItems="center">
+           {currentView === '' ?
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  endIcon={<AddCircleIcon />}
+                  onClick={() => setOpen(true)}
+                >
+                  Agregar sucursal
+                </Button>
+              </Box>
+            : <Box display="flex" justifyContent="flex-start">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  startIcon={<BackIcon />}                
+                onClick={() => { handlePressBack('') }}
+                >
+                Atras
+                </Button>
+              </Box>
+        }
+      </Grid>
+      
       <Box mt={3}>
         <Card>
           <CardContent>
             <div className={classes.divSucursales}>
               <Box maxWidth={500} className={classes.message}>
-                <Typography variant="h4">
+                
+                <Typography variant="h4" align="center">
                   Desde aqui puedes agregar las sucursales y visualizar las
                   claves generadas
                 </Typography>
@@ -130,7 +158,8 @@ const Toolbar = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+      </div>
+      </Slide>
   );
 };
 

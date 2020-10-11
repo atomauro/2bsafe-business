@@ -12,6 +12,7 @@ import {
   makeStyles,
   withStyles,
   Button,
+  Fade,
   IconButton
 } from '@material-ui/core';
 import ReservaIcon from '@material-ui/icons/AssignmentInd';
@@ -54,28 +55,39 @@ const ListSucursales = ({
   className,
   lista,
   empresa,
+  handleShowReservas,
+  handleShowIngresos,
   ...rest
 }: {
   className: any;
   empresa: string;
   lista: string[];
+  handleShowReservas: any;
+  handleShowIngresos: any;
 }) => {
   const classes = useStyles();
-  const [passVisible, setPassVisible] = useState(
-    new Array(lista.length).fill(false)
-  );
-  const { searchFieldState } = useContext(SearchFieldContext);
 
-   const handleClickReservas = (sucur:any) => {
-    console.log(sucur)
+  const { searchFieldState } = useContext(SearchFieldContext);
+  
+  const handleEditPass = (sucur: string) => {
+    console.log('Editar Clave: ' + sucur)
   }
+   const handleDeleteSucursal = (sucur:string) => {
+    console.log('Eliminar Sucursal: ' + sucur)
+  }
+
 
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
     : lista;
 
   return (
-  <>
+  <Fade
+      in={true}
+      mountOnEnter={true}
+      unmountOnExit={true}
+      timeout={{ enter: 500, exit: 500 }}
+    >
     <Card className={clsx(classes.root, className)} {...rest}>
     <SearchField />
       <PerfectScrollbar>
@@ -97,12 +109,12 @@ const ListSucursales = ({
                     <StyledTableCell>{sucursal}</StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Ver Reservas">
-                        <ReservaIcon onClick={()=>{console.log(sucursal)}}/>
+                        <ReservaIcon onClick={()=>{handleShowReservas(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
                       <IconButton color="primary" aria-label="Ver Ingresos">
-                        <IngresoIcon />
+                        <IngresoIcon onClick={()=>{handleShowIngresos(sucursal)}}/>
                       </IconButton>
                     </StyledTableCell>
                     <StyledTableCell>
@@ -122,7 +134,7 @@ const ListSucursales = ({
         </Box>
       </PerfectScrollbar>
     </Card>
-    </>
+    </Fade>
   );
 };
 

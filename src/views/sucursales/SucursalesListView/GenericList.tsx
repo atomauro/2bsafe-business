@@ -10,7 +10,8 @@ import {
   TableHead,
   TableRow,
   makeStyles,
-  withStyles
+  withStyles,
+  Fade
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 
@@ -44,11 +45,13 @@ const GenericList = ({
   className,
   lista,
   sucursalSelected,
+  isReserva,
   ...rest
 }: {
   className: any;
   lista: string[];
-  sucursalSelected: string;
+    sucursalSelected: string;
+    isReserva: boolean;
 }) => {
   const classes = useStyles();  
     
@@ -59,8 +62,15 @@ const GenericList = ({
     : lista;
 
   return (
-  <>
+  <Fade
+      in={true}
+      mountOnEnter={true}
+      unmountOnExit={true}
+      timeout={{ enter: 500, exit: 500 }}
+    >
     <Card className={clsx(classes.root, className)} {...rest}>
+        {isReserva? <text>Reserva</text>: <text>Ingreso</text>}
+        <text>Para la Sucursal{sucursalSelected}</text>
     <SearchField />
       <PerfectScrollbar>
         <Box width="100%">
@@ -81,7 +91,7 @@ const GenericList = ({
         </Box>
       </PerfectScrollbar>
     </Card>
-    </>
+    </Fade>
   );
 };
 
