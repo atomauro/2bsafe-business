@@ -18,13 +18,14 @@ const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 // };
 
 const SMARTFIT_BASE_URL = 'https://app.smartfit.com.br/api/public/v1';
-const API_2BSAFE_BASE_URL = 'http://localhost:8000';
+const API_2BSAFE_BASE_URL = 'https://api2bsafe.herokuapp.com';
 
 async function callApi(url: string, options: any = {}) {
   console.log(`callApi: url'${url}`);
   console.log('options', options);
   try {
     const response = await fetch(url, options);
+    console.log('response', response);
     const data = await response.json();
     return data;
   } catch (ex) {
@@ -73,8 +74,7 @@ async function api(credenciales: {
     leerSucursales: async () => {
       const options = {
         method: 'GET',
-        headers: authTokenHeader,
-        body: null
+        headers: authTokenHeader
       };
       const response = await callApi(
         `${API_2BSAFE_BASE_URL}/${empresa}`,
@@ -83,11 +83,14 @@ async function api(credenciales: {
       response.hasErrors = () => response.errors.length > 0;
       return response;
     },
-    nuevaSucursal: async (sucursalName: string) => {
+    nuevaSucursal: async (sucursalName: string, sucursalDoc: any) => {
       const options = {
         method: 'POST',
         headers: authTokenHeader,
-        body: JSON.stringify({ email: `${sucursalName}@${empresa}.com` })
+        body: JSON.stringify({
+          email: `${sucursalName}@${empresa}.com`,
+          ...sucursalDoc
+        })
       };
       const response = await callApi(`${API_2BSAFE_BASE_URL}/signup`, options);
       return { ...response, hasErrors: () => response.errors.length > 0 };
@@ -105,8 +108,21 @@ async function api(credenciales: {
           `${API_2BSAFE_BASE_URL}/reset-password`,
           options
         );
-        return { ...response, hasErrors: () => response.errors.length > 0 };
+        response.hasErrors = () => response.errors.length > 0;
+        return response;
       }
+    },
+    eliminarSucursal: async (sucursal: string) => {
+      const options = {
+        method: 'DELETE',
+        headers: authTokenHeader
+      };
+      const response = await callApi(
+        `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}`,
+        options
+      );
+      response.hasErrors = () => response.errors.length > 0;
+      return response;
     }
   };
 

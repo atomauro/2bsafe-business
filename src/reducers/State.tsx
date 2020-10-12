@@ -15,6 +15,7 @@ export default ({ state }: { state: Record<string, any> }) => {
   );
 
   Object.keys(state).forEach((value: string) => {
+    console.log('value', localStorage.getItem(value));
     if (!localStorage.getItem(value)) {
       console.log(`Storing no saved value ${value},${String(state[value])}...`);
       localStorage.setItem(value, String(state[value]));

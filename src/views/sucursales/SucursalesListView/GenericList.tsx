@@ -49,7 +49,7 @@ const GenericList = ({
   ...rest
 }: {
   className: any;
-  lista: string[];
+  lista: any[];
   sucursalSelected: string;
   isReserva: boolean;
 }) => {
@@ -58,16 +58,13 @@ const GenericList = ({
   const { searchFieldState } = useContext(SearchFieldContext);
 
   const FINAL_LIST = searchFieldState
-    ? lista.filter(value => value.search(searchFieldState.toLowerCase()) !== -1)
+    ? lista.filter(value => {
+        console.log('value', value);
+        return (
+          String(value.documentid).search(searchFieldState.toLowerCase()) !== -1
+        );
+      })
     : lista;
-
-  if (isReserva) {
-    // llamada endpoint reservas with sucursalSelected
-    // o se puede desde el componente index y se pasa en list
-  } else {
-    // llamada endpoint ingresos with sucursalSelected
-    // o se puede desde el componente index y se pasa en list
-  }
 
   return (
     <Fade
@@ -93,8 +90,8 @@ const GenericList = ({
                 </StyledTableRow>
               </TableHead>
               <TableBody>
-                {lista &&
-                  lista.map((sucursal: any) => {
+                {FINAL_LIST &&
+                  FINAL_LIST.map((sucursal: any) => {
                     const isoStringToDiaHora = (isoDateString: string) => {
                       const response: any = {};
                       response.dia = isoDateString.substring(0, 10);
@@ -116,7 +113,7 @@ const GenericList = ({
                           </StyledTableCell>
                         )}
                         <StyledTableCell>{hora}</StyledTableCell>
-                        <StyledTableCell>{sucursal.id}[OK]</StyledTableCell>
+                        <StyledTableCell>[OK]</StyledTableCell>
                       </StyledTableRow>
                     );
                   })}

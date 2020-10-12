@@ -1,13 +1,13 @@
 const intitialValue = '';
-const reducer = (accessToken: any, action: any) => {
+const reducer = (dashboard2bsafeAccessToken: any, action: any) => {
   switch (action.type) {
     case 'SET':
-      return (accessToken = action.payload);
+      return (dashboard2bsafeAccessToken = action.payload);
     case 'RESET':
       localStorage.removeItem('accessToken');
-      return (accessToken = intitialValue);
+      return (dashboard2bsafeAccessToken = intitialValue);
     default:
-      return accessToken;
+      return dashboard2bsafeAccessToken;
   }
 };
 

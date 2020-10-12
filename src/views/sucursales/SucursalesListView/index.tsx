@@ -100,16 +100,32 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       sucursalForEmailDialog
     );
     console.log('response', response);
+    // ...
+    // Send email...
+    // ...
     setShowEditDialog(false);
   };
 
   // Son para el dialogo de eliminar sucursal
-  const onClickDeleteSucursal = () => {
+  const onClickDeleteSucursal = async () => {
     console.log('Se quiere eliminar la sucursal: ' + sucursalForDeleteDialog);
+    await Api2BSafe.admin.eliminarSucursal(sucursalForDeleteDialog);
+    setNeedUpdate(true);
     setShowDeleteDialog(false);
   };
 
   const classes = useStyles();
+
+  const handleAddSucursal = async (sucursalInfo: any) => {
+    const INFO = { ...sucursalInfo };
+    delete INFO.nameid;
+    const response = await Api2BSafe.admin.nuevaSucursal(
+      sucursalInfo.nameid,
+      INFO
+    );
+    console.log('response', response);
+    return true;
+  };
 
   const handleShowReservas = (sucur: string) => {
     console.log('Mostrar Reservas: ' + sucur);
@@ -187,7 +203,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       value={{ searchFieldState: searchField, searchFieldDispatch: dispatch }}
     >
       <Page className={classes.root} title="Sucursales">
-        <State state={{ accessToken: accessTokenState }} />
+        <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />
         <Container maxWidth={false} className={classes.container}>
           <Grid
             container={true}
@@ -201,6 +217,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               currentView={currentView}
               handlePressBack={handlePressBack}
               isReserva={isReserva}
+              handleAddSucursal={handleAddSucursal}
             />
             {currentView === '' ? (
               <Sucursales
