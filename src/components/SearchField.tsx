@@ -18,7 +18,7 @@ export default function SearchField({
     placeholderSearch='Buscar sede por nombre...'
   }
   else {
-    placeholderSearch='Buscar persona por ID, nombre, fecha, hora...'
+    placeholderSearch='Buscar persona por cedula...'
   }
 
   return (
