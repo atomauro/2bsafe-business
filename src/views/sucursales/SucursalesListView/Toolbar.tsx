@@ -6,27 +6,20 @@ import {
   Button,
   Card,
   CardContent,
-  TextField,
   makeStyles,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   Slide,
   Grid
 } from '@material-ui/core';
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import BackIcon from '@material-ui/icons/ArrowBack';
-import Lottie from 'react-lottie';
 
 import api from './../../../api/api';
 import { AccessTokenContext } from '../../../App';
 import { useNavigate } from 'react-router-dom';
 
-import DialogAddSucursal from './DialogAddSucursal';
+import DialogAddSucursal from './DialogAdd';
 
 const useStyles = makeStyles(theme => ({
   root: {},

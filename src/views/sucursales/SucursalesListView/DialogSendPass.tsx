@@ -59,6 +59,7 @@ export default function DialogChangePass({
               }}
             required={true}
             value={email}
+            variant="outlined"
           />
         </DialogContent>
         <DialogActions>
