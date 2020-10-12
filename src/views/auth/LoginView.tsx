@@ -70,7 +70,7 @@ const LoginView = ({ empresa }: any) => {
 
   return (
     <Page className={classes.root} title="Login">
-      <State state={{ accessToken: accessTokenState }} />
+      <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />
       <Box
         display="flex"
         flexDirection="column"

@@ -62,7 +62,7 @@ const DashboardLayout = ({ history }: { history: any }) => {
 
   return (
     <div className={classes.root}>
-      <State state={{ accessToken: accessTokenState }} />
+      <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />
       <TopBar
         onMobileNavOpen={() => setMobileNavOpen(true)}
         className={classes.topBar}

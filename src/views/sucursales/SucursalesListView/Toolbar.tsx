@@ -45,6 +45,7 @@ const Toolbar = ({
   currentView,
   handlePressBack,
   isReserva,
+  handleAddSucursal,
   ...rest
 }: {
   className: any;
@@ -52,6 +53,7 @@ const Toolbar = ({
   currentView: string;
   isReserva: boolean;
   handlePressBack: any;
+  handleAddSucursal: any;
 }) => {
   const classes = useStyles();
 
@@ -61,88 +63,126 @@ const Toolbar = ({
   const handleClose = () => {
     setOpen(false);
     onClose(sucursalField);
-  }; 
+  };
 
   return (
-    <Slide direction="down" in={true} mountOnEnter={true} unmountOnExit = {true} timeout={{ enter: 500, exit: 500 }}>
+    <Slide
+      direction="down"
+      in={true}
+      mountOnEnter={true}
+      unmountOnExit={true}
+      timeout={{ enter: 500, exit: 500 }}
+    >
       <div className={clsx(classes.root, className)} {...rest}>
         <Grid
           container={true}
           direction="row"
           justify="space-evenly"
-          alignItems="center">
-           {currentView === '' ?
-              <Box display="flex" justifyContent="flex-end">
-                <Button
-                  color="primary"
-                  variant="contained"
-                  endIcon={<AddCircleIcon />}
-                  onClick={() => setOpen(true)}
-                >
-                  Agregar sucursal
-                </Button>
-              </Box>
-            : <Box display="flex" justifyContent="flex-start">
-                <Button
-                  color="primary"
-                  variant="contained"
-                  startIcon={<BackIcon />}                
-                onClick={() => { handlePressBack() }}
-                >
-                Atras
-                </Button>
-              </Box>
-        }
-      </Grid>
-      
-      <Box mt={3}>
-        <Card>
-          <CardContent>
-              <div className={classes.divSucursales}>
-              <Grid
-              container={true}
-              direction="column"
-              justify="center"
-              alignItems="center"
+          alignItems="center"
+        >
+          {currentView === '' ? (
+            <Box display="flex" justifyContent="flex-end">
+              <Button
+                color="primary"
+                variant="contained"
+                endIcon={<AddCircleIcon />}
+                onClick={() => setOpen(true)}
               >
-              <Box maxWidth={500} className={classes.message}>
-              {currentView === '' ?
-                  <Typography variant="h4" align="center">
-                        Desde aqui puedes agregar las sucursales y visualizar las
-                        claves generadas
-                  </Typography>
-                    : isReserva ?                      
-                        <div>                        
-                        <Typography variant="h4" align="center" style={{ margin: 5 }}>
-                            Historico de Reservas
-                          </Typography>
-                          <Typography variant="h5" align="center" style={{margin:5}}>
-                            Sucursal:
-                          </Typography>                          
-                      </div>    
-                      :
-                      <div>                        
-                        <Typography variant="h4" align="center" style={{ margin: 5 }}>
-                            Historico de Ingresos
-                          </Typography>
-                          <Typography variant="h5" align="center" style={{margin:5}}>
-                            Sucursal:
-                          </Typography>
+                Agregar sucursal
+              </Button>
+            </Box>
+          ) : (
+            <Box display="flex" justifyContent="flex-start">
+              <Button
+                color="primary"
+                variant="contained"
+                startIcon={<BackIcon />}
+                onClick={() => {
+                  handlePressBack();
+                }}
+              >
+                Atras
+              </Button>
+            </Box>
+          )}
+        </Grid>
+
+        <Box mt={3}>
+          <Card>
+            <CardContent>
+              <div className={classes.divSucursales}>
+                <Grid
+                  container={true}
+                  direction="column"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Box maxWidth={500} className={classes.message}>
+                    {currentView === '' ? (
+                      <Typography variant="h4" align="center">
+                        Desde aqui puedes agregar las sucursales y visualizar
+                        las claves generadas
+                      </Typography>
+                    ) : isReserva ? (
+                      <div>
+                        <Typography
+                          variant="h4"
+                          align="center"
+                          style={{ margin: 5 }}
+                        >
+                          Historico de Reservas
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          align="center"
+                          style={{ margin: 5 }}
+                        >
+                          Sucursal:
+                        </Typography>
                       </div>
-                
-                  }
-              </Box>
-                <Typography variant="h4" align="center" style={{color:'#FDB825', marginTop:20, fontWeight:'bold', textDecoration:'underline'}}>
-                  {currentView}
-                </Typography>
-              </Grid>
-            </div>
-          </CardContent>
-        </Card>
-      </Box>     
-        <DialogAddSucursal open={open} handleClose={handleClose}/>        
+                    ) : (
+                      <div>
+                        <Typography
+                          variant="h4"
+                          align="center"
+                          style={{ margin: 5 }}
+                        >
+                          Historico de Ingresos
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          align="center"
+                          style={{ margin: 5 }}
+                        >
+                          Sucursal:
+                        </Typography>
+                      </div>
+                    )}
+                  </Box>
+                  <Typography
+                    variant="h4"
+                    align="center"
+                    style={{
+                      color: '#FDB825',
+                      marginTop: 20,
+                      fontWeight: 'bold',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    {currentView}
+                  </Typography>
+                </Grid>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+        <DialogAddSucursal
+          open={open}
+          handleClose={handleClose}
+          handleAddSucursal={handleAddSucursal}
+        />
       </div>
-      </Slide>
+    </Slide>
   );
 };
 
