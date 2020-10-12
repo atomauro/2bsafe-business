@@ -44,9 +44,7 @@ const DashboardLayout = ({ history }: { history: any }) => {
   const { accessTokenState, accessTokenDispatch } = useContext(
     AccessTokenContext
   );
-  const { userNameState, userNameDispatch } = useContext(
-    AccessTokenContext
-  );
+  const { userNameState, userNameDispatch } = useContext(UserNameContext);
 
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
@@ -67,7 +65,12 @@ const DashboardLayout = ({ history }: { history: any }) => {
 
   return (
     <div className={classes.root}>
-      <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />
+      <State
+        state={{
+          dashboard2bsafeAccessToken: accessTokenState,
+          userName: userNameState
+        }}
+      />
       <TopBar
         onMobileNavOpen={() => setMobileNavOpen(true)}
         className={classes.topBar}

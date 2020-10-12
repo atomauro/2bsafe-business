@@ -38,9 +38,7 @@ const LoginView = ({ empresa }: any) => {
   const { accessTokenDispatch, accessTokenState } = useContext(
     AccessTokenContext
   );
-  const { userNameDispatch, userNameState } = useContext(
-    UserNameContext
-  );
+  const { userNameDispatch, userNameState } = useContext(UserNameContext);
 
   const [error, setError] = useState(false);
   const classes = useStyles();
@@ -74,7 +72,12 @@ const LoginView = ({ empresa }: any) => {
 
   return (
     <Page className={classes.root} title="Login">
-      <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />
+      <State
+        state={{
+          dashboard2bsafeAccessToken: accessTokenState,
+          userName: userNameState
+        }}
+      />
       <Box
         display="flex"
         flexDirection="column"
@@ -112,7 +115,7 @@ const LoginView = ({ empresa }: any) => {
                     setApi2BSafe(apiResult);
                     userNameDispatch({
                       type: 'SET',
-                      payload: form.email,
+                      payload: form.email
                     });
                   });
                 }}
