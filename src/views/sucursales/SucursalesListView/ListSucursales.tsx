@@ -22,6 +22,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { AccessTokenContext } from '../../../App';
+import { UserNameContext } from '../../../App';
 
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';

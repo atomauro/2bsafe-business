@@ -14,6 +14,7 @@ import {
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import BackIcon from '@material-ui/icons/ArrowBack';
+import RefreshICon from '@material-ui/icons/Cached';
 
 import api from './../../../api/api';
 import { AccessTokenContext } from '../../../App';
@@ -46,6 +47,7 @@ const Toolbar = ({
   handlePressBack,
   isReserva,
   handleAddSucursal,
+  handlePressRefresh,
   ...rest
 }: {
   className: any;
@@ -54,6 +56,7 @@ const Toolbar = ({
   isReserva: boolean;
   handlePressBack: any;
   handleAddSucursal: any;
+  handlePressRefresh: any;
 }) => {
   const classes = useStyles();
 
@@ -92,7 +95,7 @@ const Toolbar = ({
               </Button>
             </Box>
           ) : (
-            <Box display="flex" justifyContent="flex-start">
+            <Box display="flex" justifyContent="space-evenly">
               <Button
                 color="primary"
                 variant="contained"
@@ -101,7 +104,18 @@ const Toolbar = ({
                   handlePressBack();
                 }}
               >
-                Atras
+                  Atras
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                style={{backgroundColor:'#FDB825'}}
+                endIcon={<RefreshICon />}
+                onClick={() => {
+                  handlePressBack();
+                }}
+              >
+                Actualizar
               </Button>
             </Box>
           )}

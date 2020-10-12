@@ -127,6 +127,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     return true;
   };
 
+  const handlePressRefresh = () => {
+    console.log('Trying to refresh data...')
+  }
+
   const handleShowReservas = (sucur: string) => {
     console.log('Mostrar Reservas: ' + sucur);
     setReservaSucursal(sucur);
@@ -218,6 +222,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               handlePressBack={handlePressBack}
               isReserva={isReserva}
               handleAddSucursal={handleAddSucursal}
+              handlePressRefresh={handlePressRefresh}
             />
             {currentView === '' ? (
               <Sucursales
