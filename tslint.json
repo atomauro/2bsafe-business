@@ -16,8 +16,7 @@
     "exclude": [
       "config/**/*.js",
       "node_modules/**/*.ts",
-      "src/assets/lotties/*.json",
-      "src/serviceWorker.tsx"
+      "src/assets/lotties/*.json"
     ]
   }
 }
