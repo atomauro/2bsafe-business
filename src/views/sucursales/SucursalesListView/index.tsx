@@ -15,7 +15,7 @@ import data from './data';
 import Sucursales from './ListSucursales';
 import GenericList from './GenericList';
 
-import { AccessTokenContext } from '../../../App';
+import { AccessTokenContext, UserNameContext } from '../../../App';
 import api from '../../../api/api';
 import State from '../../../reducers/State';
 import SearchFieldReducer from '../../../reducers/SearchField';
@@ -44,6 +44,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const { accessTokenState, accessTokenDispatch } = useContext(
     AccessTokenContext
   );
+  const { userNameState, userNameDispatch } = useContext(UserNameContext);
   const [Api2BSafe, setApi2BSafe] = useState(null as any);
   const [list, setList] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -170,7 +171,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
     if (!Api2BSafe && accessTokenState) {
-      api({ empresa, accessToken: accessTokenState })
+      api({ email: userNameState, accessToken: accessTokenState })
         .then((apiResult: any) => {
           setApi2BSafe(apiResult);
           setNeedUpdate(true);

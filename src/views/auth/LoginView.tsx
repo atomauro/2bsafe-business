@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginView = ({ empresa }: any) => {
+const LoginView = () => {
   const { accessTokenDispatch, accessTokenState } = useContext(
     AccessTokenContext
   );
@@ -109,7 +109,7 @@ const LoginView = ({ empresa }: any) => {
                   actions.setSubmitting(true);
 
                   api({
-                    empresa: form.email.slice(0, form.email.indexOf('@')),
+                    email: form.email,
                     password: form.password
                   }).then(apiResult => {
                     setApi2BSafe(apiResult);
