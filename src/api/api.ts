@@ -19,6 +19,7 @@ const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 
 const SMARTFIT_BASE_URL = 'https://app.smartfit.com.br/api/public/v1';
 const API_2BSAFE_BASE_URL = 'https://api2bsafe.herokuapp.com';
+const ERRORS: any[] = [];
 
 async function callApi(url: string, options: any = {}) {
   console.log(`callApi: url'${url}`);
@@ -38,23 +39,32 @@ async function callApi(url: string, options: any = {}) {
 }
 
 async function api(credenciales: {
-  empresa: string;
+  email: string;
   password?: string;
   accessToken?: string;
 }) {
-  const { empresa, password, accessToken } = credenciales;
+  const { email, password, accessToken } = credenciales;
+  const { empresa, posibleSucursal } = {
+    empresa: email.slice(0, email.indexOf('@')),
+    posibleSucursal: email.slice(email.indexOf('@'), email.indexOf('.com'))
+  };
+  // if (sucursal === "2bsafe") {
+
+  // }
   const getAccessToken = async () => {
-    const response = await login(`${empresa}@2bsafe.com`, password || '');
+    const response = await login(`${email}`, password || '');
+    console.log('responseGETACCESSTOKEN', response);
     if (response.hasErrors()) {
+      ERRORS.concat(response.errors);
       return response;
     } else {
       return { data: response.data.accessToken, hasErrors: false };
     }
   };
-  const login = async (email: string, pass: string) => {
+  const login = async (emailLogin: string, pass: string) => {
     const options = {
       method: 'POST',
-      body: JSON.stringify({ email, password: pass }),
+      body: JSON.stringify({ email: emailLogin, password: pass }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -201,8 +211,9 @@ async function api(credenciales: {
       }
     : {
         loginError: {
+          errors: ERRORS,
           login: async (credencialesNuevas: {
-            empresa: string;
+            email: string;
             password?: string;
             accessToken?: string;
           }) => {
