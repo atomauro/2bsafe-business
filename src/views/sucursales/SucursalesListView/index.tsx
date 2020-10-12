@@ -134,7 +134,14 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   };
 
   const handlePressRefresh = () => {
-    console.log('Trying to refresh data...')
+    if (isReserva) {
+      console.log('Trying to refresh Reserva data from: ', currentView)
+      handleShowReservas(currentView)
+    }
+    else {
+      console.log('Trying to refresh Ingresos data from: ', currentView)
+      handleShowIngresos(currentView)
+    }
   }
 
   const handleShowReservas = (sucur: string) => {

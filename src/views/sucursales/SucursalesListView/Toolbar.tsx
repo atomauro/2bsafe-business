@@ -151,7 +151,7 @@ const Toolbar = ({
                         style={{ backgroundColor: '#FDB825' }}
                         endIcon={<RefreshICon />}
                         onClick={() => {
-                          handlePressBack();
+                          handlePressRefresh()
                         }}
                       >
                         Actualizar
@@ -226,7 +226,7 @@ const Toolbar = ({
                 >
                   <Box maxWidth={500} className={classes.message}>
                         {typeUser==='admin'?
-                          currentView === '' ? (
+                          (currentView === '' ? (
                             <Typography variant="h4" align="center">
                               Desde aqui puedes agregar, editar y eliminar las sucursales.
                             </Typography>
@@ -288,8 +288,8 @@ const Toolbar = ({
                                 {currentView}
                               </Typography>
                             </div>
-                              ) :
-                          currentView === '' ? (
+                              )) :
+                          (currentView === '' ? (
                             <Typography variant="h4" align="center">
                               Desde aqui puedes visualizar las reservas e ingresos
                             </Typography>
@@ -351,8 +351,7 @@ const Toolbar = ({
                                 {name}
                               </Typography>
                             </div>
-                          )
-                            
+                          ))                            
                         }
                   </Box>
                   
