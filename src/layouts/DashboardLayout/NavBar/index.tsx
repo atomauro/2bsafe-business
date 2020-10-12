@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import {
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10
   },
   name: {
-    margin: 10
+    margin: 15
   },
   divUser: {
     display: 'flex',
@@ -90,10 +90,21 @@ const NavBar = ({
   const classes = useStyles();
   const location = useLocation();
 
+  const [typeUser, setTypeUser] = useState('');  
+
+  const name   = userName.substring(0, userName.lastIndexOf("@"));
+  const domain = userName.substring(userName.lastIndexOf("@") + 1);
+
+  
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
+    if (domain === '2bsafe.com') { 
+      setTypeUser('admin')
+    }else{
+      setTypeUser('sucursal')
+    }     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -106,17 +117,23 @@ const NavBar = ({
         alignItems="center"
       >
         <div className={classes.divUser}>
-          <Typography className={classes.name} color="textPrimary" variant="h5">
-            {userName}
+          <Typography className={classes.name} color="textPrimary" variant="h4">
+           {
+              typeUser === 'admin' ?
+                'Administrador' : 'Administrador'
+            }
           </Typography>
         </div>
 
         <Typography
           className={classes.title}
           color="textSecondary"
-          variant="body2"
+          variant="h5"
         >
-          Rol
+          {
+              typeUser === 'admin' ?
+                'SmartFit' : name
+          }  
         </Typography>
       </Grid>
       <Divider />
