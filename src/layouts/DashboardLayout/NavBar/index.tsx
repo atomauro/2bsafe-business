@@ -97,6 +97,7 @@ const NavBar = ({
 
   
   useEffect(() => {
+    console.log(name,domain)
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
