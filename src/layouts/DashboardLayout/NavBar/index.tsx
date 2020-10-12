@@ -85,7 +85,7 @@ const NavBar = ({
   onMobileClose: any;
   openMobile: boolean;
   onLogOut: any;
-  userName: 'string';
+  userName: string;
 }) => {
   const classes = useStyles();
   const location = useLocation();

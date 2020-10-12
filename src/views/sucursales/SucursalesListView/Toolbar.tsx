@@ -16,16 +16,23 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import RefreshICon from '@material-ui/icons/Cached';
 
+import ReservaIcon from '@material-ui/icons/AssignmentInd';
+import IngresoIcon from '@material-ui/icons/AssignmentTurnedIn';
+
 import api from './../../../api/api';
-import { AccessTokenContext } from '../../../App';
 import { useNavigate } from 'react-router-dom';
 
 import DialogAddSucursal from './DialogAdd';
 
+import { AccessTokenContext } from '../../../App';
+import { UserNameContext } from '../../../App';
+import State from './../../../reducers/State';
+
+
 const useStyles = makeStyles(theme => ({
   root: {},
   importButton: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1)   
   },
   exportButton: {
     marginRight: theme.spacing(1)
@@ -41,34 +48,63 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Toolbar = ({
-  className,
-  onClose,
-  currentView,
-  handlePressBack,
-  isReserva,
-  handleAddSucursal,
-  handlePressRefresh,
-  ...rest
-}: {
-  className: any;
-  onClose: any;
-  currentView: string;
-  isReserva: boolean;
-  handlePressBack: any;
-  handleAddSucursal: any;
-  handlePressRefresh: any;
-}) => {
-  const classes = useStyles();
+    className,
+    onClose,
+    currentView,
+    handlePressBack,
+    isReserva,
+    handleAddSucursal,
+    handlePressRefresh,
+    
+    ...rest
+  }: {
+    className: any;
+    onClose: any;
+    currentView: string;
+    isReserva: boolean;
+    handlePressBack: any;
+    handleAddSucursal: any;
+    handlePressRefresh: any;
+    
+  }) => {
+    const classes = useStyles();
 
-  const [sucursalField, setSucursalField] = useState('');
-  const [open, setOpen] = useState(false);
+    const [sucursalField, setSucursalField] = useState('');
+    const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-    onClose(sucursalField);
-  };
+    const { accessTokenState, accessTokenDispatch } = useContext(
+      AccessTokenContext
+    );
+    const { userNameState, userNameDispatch } = useContext(UserNameContext);
 
-  return (
+    const [typeUser, setTypeUser] = useState('');
+
+    const name = userNameState.substring(0, userNameState.lastIndexOf("@"));
+    const domain = userNameState.substring(userNameState.lastIndexOf("@") + 1);
+  
+    const handleClose = () => {
+      setOpen(false);
+      onClose(sucursalField);
+    };
+
+    useEffect(() => {
+      console.log(name, domain)
+      if (domain === '2bsafe.com') {
+        setTypeUser('admin')
+      } else {
+        setTypeUser('sucursal')
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+    <>
+        <State
+        state={{
+          dashboard2bsafeAccessToken: accessTokenState,
+          userName: userNameState
+        }}
+      />
     <Slide
       direction="down"
       in={true}
@@ -82,43 +118,72 @@ const Toolbar = ({
           direction="row"
           justify="space-evenly"
           alignItems="center"
-        >
-          {currentView === '' ? (
-            <Box display="flex" justifyContent="flex-end">
-              <Button
-                color="primary"
-                variant="contained"
-                endIcon={<AddCircleIcon />}
-                onClick={() => setOpen(true)}
-              >
-                Agregar sucursal
+            >
+              {typeUser === 'admin' ?
+                currentView === '' ? (
+                  <Box display="flex" justifyContent="flex-end">
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      endIcon={<AddCircleIcon />}
+                      onClick={() => setOpen(true)}
+                    >
+                      Agregar sucursal
               </Button>
-            </Box>
-          ) : (
-            <Box display="flex" justifyContent="space-evenly">
-              <Button
-                color="primary"
-                variant="contained"
-                startIcon={<BackIcon />}
-                onClick={() => {
-                  handlePressBack();
-                }}
-              >
-                  Atras
+                  </Box>
+                ) : (
+                    <Box display="flex" justifyContent="space-evenly">
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        startIcon={<BackIcon />}
+                        onClick={() => {
+                          handlePressBack();
+                        }}
+                      >
+                        Atras
               </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                style={{backgroundColor:'#FDB825'}}
-                endIcon={<RefreshICon />}
-                onClick={() => {
-                  handlePressBack();
-                }}
-              >
-                Actualizar
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        style={{ backgroundColor: '#FDB825' }}
+                        endIcon={<RefreshICon />}
+                        onClick={() => {
+                          handlePressBack();
+                        }}
+                      >
+                        Actualizar
               </Button>
-            </Box>
-          )}
+                    </Box>
+                  ) :
+                typeUser === 'sucursal' ?
+                  (
+                   <Box display="flex" justifyContent="space-evenly">
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        startIcon={<ReservaIcon />}
+                        onClick={() => {
+                          handlePressBack();
+                        }}
+                      >
+                        Reservas
+              </Button>
+                      <Button
+                        color="primary"
+                        variant="contained"                        
+                        endIcon={<IngresoIcon />}
+                        style={{ backgroundColor: '#FDB825' }}
+                        onClick={() => {
+                          handlePressBack();
+                        }}
+                      >
+                        Ingresos
+              </Button>
+                    </Box>   
+                  ):
+                    null
+              }
         </Grid>
 
         <Box mt={3}>
@@ -132,58 +197,137 @@ const Toolbar = ({
                   alignItems="center"
                 >
                   <Box maxWidth={500} className={classes.message}>
-                    {currentView === '' ? (
-                      <Typography variant="h4" align="center">
-                        Desde aqui puedes agregar, editar y eliminar las sucursales.
-                      </Typography>
-                    ) : isReserva ? (
-                      <div>
-                        <Typography
-                          variant="h4"
-                          align="center"
-                          style={{ margin: 5 }}
-                        >
-                          Historico de Reservas
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          style={{ margin: 5 }}
-                        >
-                          Sucursal:
-                        </Typography>
-                      </div>
-                    ) : (
-                      <div>
-                        <Typography
-                          variant="h4"
-                          align="center"
-                          style={{ margin: 5 }}
-                        >
-                          Historico de Ingresos
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          align="center"
-                          style={{ margin: 5 }}
-                        >
-                          Sucursal:
-                        </Typography>
-                      </div>
-                    )}
+                        {typeUser==='admin'?
+                          currentView === '' ? (
+                            <Typography variant="h4" align="center">
+                              Desde aqui puedes agregar, editar y eliminar las sucursales.
+                            </Typography>
+                          ) : isReserva ? (
+                            <div>
+                              <Typography
+                                variant="h4"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                Historico de Reservas
+                              </Typography>
+                              <Typography
+                                variant="h5"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                  Sucursal:
+                              </Typography>
+                                <Typography
+                                variant="h4"
+                                align="center"
+                                style={{
+                                  color: '#FDB825',
+                                  marginTop: 20,
+                                  fontWeight: 'bold',
+                                  textDecoration: 'underline'
+                                }}
+                              >
+                                {currentView}
+                              </Typography>
+                            </div>
+                          ) : (
+                            <div>
+                              <Typography
+                                variant="h4"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                Historico de Ingresos
+                              </Typography>
+                              <Typography
+                                variant="h5"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                    Sucursal:
+                              </Typography>
+                                  <Typography
+                                variant="h4"
+                                align="center"
+                                style={{
+                                  color: '#FDB825',
+                                  marginTop: 20,
+                                  fontWeight: 'bold',
+                                  textDecoration: 'underline'
+                                }}
+                              >
+                                {currentView}
+                              </Typography>
+                            </div>
+                              ) :
+                          currentView === '' ? (
+                            <Typography variant="h4" align="center">
+                              Desde aqui puedes visualizar las reservas e ingresos
+                            </Typography>
+                          ) : isReserva ? (
+                            <div>
+                              <Typography
+                                variant="h4"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                Historico de Reservas
+                              </Typography>
+                              <Typography
+                                variant="h5"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                Sucursal:
+                              </Typography>
+                              <Typography
+                                variant="h4"
+                                align="center"
+                                style={{
+                                  color: '#FDB825',
+                                  marginTop: 20,
+                                  fontWeight: 'bold',
+                                  textDecoration: 'underline'
+                                }}
+                              >
+                                {currentView}
+                              </Typography>
+                            </div>
+                          ) : (
+                            <div>
+                              <Typography
+                                variant="h4"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                Historico de Ingresos
+                              </Typography>
+                              <Typography
+                                variant="h5"
+                                align="center"
+                                style={{ margin: 5 }}
+                              >
+                                    Sucursal:
+                              </Typography>
+                              <Typography
+                                variant="h4"
+                                align="center"
+                                style={{
+                                  color: '#FDB825',
+                                  marginTop: 20,
+                                  fontWeight: 'bold',
+                                  textDecoration: 'underline'
+                                }}
+                              >
+                                {currentView}
+                              </Typography>
+                            </div>
+                          )
+                            
+                        }
                   </Box>
-                  <Typography
-                    variant="h4"
-                    align="center"
-                    style={{
-                      color: '#FDB825',
-                      marginTop: 20,
-                      fontWeight: 'bold',
-                      textDecoration: 'underline'
-                    }}
-                  >
-                    {currentView}
-                  </Typography>
+                  
                 </Grid>
               </div>
             </CardContent>
@@ -195,7 +339,8 @@ const Toolbar = ({
           handleAddSucursal={handleAddSucursal}
         />
       </div>
-    </Slide>
+        </Slide>
+      </>
   );
 };
 
