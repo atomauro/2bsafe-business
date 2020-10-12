@@ -59,8 +59,8 @@ const DashboardLayout = ({ history }: { history: any }) => {
   }, [accessTokenState]);
 
   const signOutUser = () => {
-    accessTokenDispatch({ type: 'RESET' });
     userNameDispatch({ type: 'RESET' });
+    accessTokenDispatch({ type: 'RESET' });
   };
 
   return (

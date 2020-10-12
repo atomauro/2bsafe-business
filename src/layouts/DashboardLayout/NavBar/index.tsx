@@ -26,6 +26,14 @@ const items = [
   }, 
 ];
 
+const itemsSucursales = [
+  {
+    href: '/app/sucursales',
+    icon: UsersIcon,
+    title: 'Principal'
+  }, 
+];
+
 const useStyles = makeStyles((theme) => ({
   mobileDrawer: {
     width: 256
@@ -140,7 +148,8 @@ const NavBar = ({
       <Divider />
       <Box p={2}>
         <List>
-          {items.map(item => (
+          {typeUser === 'admin' ? (
+            items.map(item => (
             <NavItem
               className={classes.navitem}
               href={item.href}
@@ -148,7 +157,18 @@ const NavBar = ({
               title={item.title}
               icon={item.icon}
             />
-          ))}
+          ))
+          ) :
+           ( itemsSucursales.map(item => (
+            <NavItem
+              className={classes.navitem}
+              href={item.href}
+              key={item.title}
+              title={item.title}
+              icon={item.icon}
+             />))
+           )
+            }
 
       <ListItem
           className={clsx(classes.item)}
