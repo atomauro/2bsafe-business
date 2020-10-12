@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import {
-  Avatar,
+  Button,
   Box,
   Divider,
   Drawer,
@@ -9,27 +10,23 @@ import {
   List,
   Typography,
   makeStyles,
-  Grid
+  Grid,
+  ListItem
 } from '@material-ui/core';
-import { Users as UsersIcon } from 'react-feather';
+import { Users as UsersIcon} from 'react-feather';
 import NavItem from './NavItem';
 import { useFirebaseAuth } from 'use-firebase-auth';
-
-// {
-//   avatar: '/static/images/avatars/confama.jpg',
-//   jobTitle: 'Caja de Compensación Familiar de Antioquia',
-//   name: 'CONFAMA'
-// };
+import LogOutIcon from '@material-ui/icons/ExitToApp';
 
 const items = [
   {
     href: '/app/sucursales',
     icon: UsersIcon,
     title: 'Sucursales'
-  }
+  }, 
 ];
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   mobileDrawer: {
     width: 256
   },
@@ -56,15 +53,37 @@ const useStyles = makeStyles(() => ({
   title: {
     margin: 20
   },
-  navitem: {}
+  navitem: {},
+  item: {
+    display: 'flex',
+    paddingTop: 0,
+    paddingBottom: 0
+  },
+  button: {
+    color: theme.palette.text.secondary,
+    fontWeight: theme.typography.fontWeightMedium,
+    justifyContent: 'flex-start',
+    letterSpacing: 0,
+    padding: '10px 8px',
+    textTransform: 'none',
+    width: '100%'
+  },
+  icon: {
+    marginRight: theme.spacing(1)
+  },
+  titleItem: {
+    marginRight: 'auto'
+  },
 }));
 
 const NavBar = ({
   onMobileClose,
-  openMobile
+  openMobile,
+  onLogOut
 }: {
   onMobileClose: any;
   openMobile: boolean;
+  onLogOut: any;
 }) => {
   const classes = useStyles();
   const location = useLocation();
@@ -87,7 +106,7 @@ const NavBar = ({
       >
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h5">
-            {user?.displayName}
+            Usuario
           </Typography>
         </div>
 
@@ -96,7 +115,7 @@ const NavBar = ({
           color="textSecondary"
           variant="body2"
         >
-          {user?.email}
+          Rol
         </Typography>
       </Grid>
       <Divider />
@@ -111,6 +130,22 @@ const NavBar = ({
               icon={item.icon}
             />
           ))}
+
+      <ListItem
+          className={clsx(classes.item)}
+          disableGutters={true}
+        >
+          <Button
+            className={classes.button}
+            onClick={() => {
+              onLogOut();
+            }}
+          >
+            <LogOutIcon className={classes.icon} />
+            <span className={classes.titleItem}>Cerrar sesion</span>
+          </Button>
+      </ListItem>
+          
         </List>
       </Box>
       <Box flexGrow={1} />

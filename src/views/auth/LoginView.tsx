@@ -17,6 +17,7 @@ import Page from '../../components/Page';
 
 import api from '../../api/api';
 import { AccessTokenContext } from '../../App';
+import { UserNameContext } from '../../App';
 
 import State from './../../reducers/State';
 
@@ -36,6 +37,9 @@ const useStyles = makeStyles(theme => ({
 const LoginView = ({ empresa }: any) => {
   const { accessTokenDispatch, accessTokenState } = useContext(
     AccessTokenContext
+  );
+  const { userNameDispatch, userNameState } = useContext(
+    UserNameContext
   );
 
   const [error, setError] = useState(false);
@@ -106,6 +110,10 @@ const LoginView = ({ empresa }: any) => {
                     password: form.password
                   }).then(apiResult => {
                     setApi2BSafe(apiResult);
+                    userNameDispatch({
+                      type: 'SET',
+                      payload: form.email,
+                    });
                   });
                 }}
               >
@@ -132,7 +140,6 @@ const LoginView = ({ empresa }: any) => {
                         Plataforma interna de Smartfit Center
                       </Typography>
                     </Box>
-
                     <TextField
                       error={Boolean(touched.email && (errors.email || error))}
                       fullWidth={true}
