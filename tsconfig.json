@@ -18,6 +18,6 @@
     "noImplicitThis": true,
     "strictNullChecks": true
   },
-  "include": ["src", "public"],
+  "include": ["src", "public", "declarations.d.ts"],
   "exclude": ["node_modules"]
 }
