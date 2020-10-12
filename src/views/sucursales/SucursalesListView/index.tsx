@@ -65,6 +65,11 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const [sucursalForEmailDialog, setSucursalForEmailDialog] = useState('');
   const [sucursalForDeleteDialog, setSucursalForDeleteDialog] = useState('');
 
+  const [typeUser, setTypeUser] = useState('');
+
+  const name = userNameState.substring(0, userNameState.lastIndexOf("@"));
+  const domain = userNameState.substring(userNameState.lastIndexOf("@") + 1);
+  
   // Son para abrir dialogos
   const handleEditPass = (sucur: string) => {
     console.log('Abrir dialogo Editar Clave: ' + sucur);
@@ -170,6 +175,14 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
+    console.log(name, domain)
+
+    if (domain === '2bsafe.com') {
+      setTypeUser('admin')
+    } else {
+      setTypeUser('sucursal')
+    }
+    
     if (!Api2BSafe && accessTokenState) {
       api({ email: userNameState, accessToken: accessTokenState })
         .then((apiResult: any) => {
@@ -224,8 +237,12 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               isReserva={isReserva}
               handleAddSucursal={handleAddSucursal}
               handlePressRefresh={handlePressRefresh}
+              handleShowReservas={handleShowReservas}
+              handleShowIngresos={handleShowIngresos}
             />
-            {currentView === '' ? (
+            {typeUser==='admin'?
+              (
+                currentView === '' ? (
               <Sucursales
                 className={classes.sucursales}
                 lista={list}
@@ -249,7 +266,27 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                 sucursalSelected={showReservaSucursal}
                 isReserva={isReserva}
               />
-            )}
+            )
+            ): (
+                currentView === '' ? (
+                null
+            ) : showReservaSucursal === '' ? (
+              <GenericList
+                className={classes.sucursales}
+                lista={listaReservas}
+                sucursalSelected={showIngresoSucursal}
+                isReserva={isReserva}
+              />
+            ) : (
+              <GenericList
+                className={classes.sucursales}
+                lista={listaReservas}
+                sucursalSelected={showReservaSucursal}
+                isReserva={isReserva}
+              />
+            )
+              )
+          }
             <DialogChangePass
               show={showEditDialog}
               onClose={handleCloseEditPass}

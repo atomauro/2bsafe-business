@@ -55,7 +55,8 @@ const Toolbar = ({
     isReserva,
     handleAddSucursal,
     handlePressRefresh,
-    
+    handleShowReservas,
+    handleShowIngresos,
     ...rest
   }: {
     className: any;
@@ -65,7 +66,8 @@ const Toolbar = ({
     handlePressBack: any;
     handleAddSucursal: any;
     handlePressRefresh: any;
-    
+    handleShowReservas: any;
+    handleShowIngresos: any;    
   }) => {
     const classes = useStyles();
 
@@ -164,8 +166,9 @@ const Toolbar = ({
                         variant="contained"
                         startIcon={<ReservaIcon />}
                         onClick={() => {
-                          handlePressBack();
-                        }}
+                          console.log("Toolbar: trayendo reservas de:",name)    
+                            handleShowReservas(name);
+                            }}
                       >
                         Reservas
               </Button>
@@ -175,14 +178,39 @@ const Toolbar = ({
                         endIcon={<IngresoIcon />}
                         style={{ backgroundColor: '#FDB825' }}
                         onClick={() => {
-                          handlePressBack();
-                        }}
+                           console.log("Toolbar: trayendo registros de:",name)
+                              handleShowIngresos(name);
+                            }}
                       >
                         Ingresos
               </Button>
                     </Box>   
                   ):
-                    null
+                    (
+                    <Box display="flex" justifyContent="space-evenly">
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        startIcon={<BackIcon />}
+                        onClick={() => {
+                          handlePressBack();
+                        }}
+                      >
+                        Atras
+              </Button>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        style={{ backgroundColor: '#FDB825' }}
+                        endIcon={<RefreshICon />}
+                        onClick={() => {
+                          handlePressBack();
+                        }}
+                      >
+                        Actualizar
+              </Button>
+                    </Box>
+                  )
               }
         </Grid>
 
@@ -291,7 +319,7 @@ const Toolbar = ({
                                   textDecoration: 'underline'
                                 }}
                               >
-                                {currentView}
+                                {name}
                               </Typography>
                             </div>
                           ) : (
@@ -320,7 +348,7 @@ const Toolbar = ({
                                   textDecoration: 'underline'
                                 }}
                               >
-                                {currentView}
+                                {name}
                               </Typography>
                             </div>
                           )
