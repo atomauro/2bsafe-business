@@ -120,8 +120,7 @@ const Toolbar = ({
                   <Box maxWidth={500} className={classes.message}>
                     {currentView === '' ? (
                       <Typography variant="h4" align="center">
-                        Desde aqui puedes agregar las sucursales y visualizar
-                        las claves generadas
+                        Desde aqui puedes agregar, editar y eliminar las sucursales.
                       </Typography>
                     ) : isReserva ? (
                       <div>
