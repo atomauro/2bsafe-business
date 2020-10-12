@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import {
@@ -79,15 +79,16 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = ({
   onMobileClose,
   openMobile,
+  userName,
   onLogOut
 }: {
   onMobileClose: any;
   openMobile: boolean;
   onLogOut: any;
+  userName: 'string';
 }) => {
   const classes = useStyles();
   const location = useLocation();
-  const { user } = useFirebaseAuth();
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -106,7 +107,7 @@ const NavBar = ({
       >
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h5">
-            Usuario
+            {userName}
           </Typography>
         </div>
 
