@@ -6,9 +6,9 @@
   "private": false,
   "scripts": {
     "start": "react-scripts-ts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "react-scripts-ts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -16,7 +16,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
@@ -57,11 +56,16 @@
     "react-perfect-scrollbar": "^1.5.8",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
-    "react-scripts": "^3.4.3",
     "react-scripts-ts": "^3.1.0",
     "use-firebase-auth": "^2.1.0",
     "uuid": "^8.3.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "typescript": "^4.0.2",
+    "@types/jest": "^23.1.1",
+    "@types/node": "^10.3.5",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^4.2.7"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -72,12 +76,12 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "prettier": "^1.19.1",
-    "@types/jest": "^23.1.1",
-    "@types/node": "^10.3.5",
-    "@types/react": "^16.4.1",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^4.2.7",
-    "typescript": "^4.0.2"
-  }
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "gh-pages": "^3.1.0",
+    "prettier": "^1.19.1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "homepage": "http://juandardilag.github.io/dashboard2bsafe"
 }

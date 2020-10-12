@@ -4,7 +4,7 @@ const reducer = (dashboard2bsafeAccessToken: any, action: any) => {
     case 'SET':
       return (dashboard2bsafeAccessToken = action.payload);
     case 'RESET':
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem('dashboard2bsafeAccessToken');
       return (dashboard2bsafeAccessToken = intitialValue);
     default:
       return dashboard2bsafeAccessToken;
