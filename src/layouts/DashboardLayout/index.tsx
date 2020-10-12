@@ -6,6 +6,7 @@ import TopBar from './TopBar';
 import { useFirebaseAuth } from 'use-firebase-auth';
 import { useNavigate } from 'react-router-dom';
 import { AccessTokenContext } from '../../App';
+import { UserNameContext } from '../../App';
 
 import State from './../../reducers/State';
 
@@ -43,6 +44,9 @@ const DashboardLayout = ({ history }: { history: any }) => {
   const { accessTokenState, accessTokenDispatch } = useContext(
     AccessTokenContext
   );
+  const { userNameState, userNameDispatch } = useContext(
+    AccessTokenContext
+  );
 
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
@@ -58,6 +62,7 @@ const DashboardLayout = ({ history }: { history: any }) => {
 
   const signOutUser = () => {
     accessTokenDispatch({ type: 'RESET' });
+    userNameDispatch({ type: 'RESET' });
   };
 
   return (
@@ -71,6 +76,7 @@ const DashboardLayout = ({ history }: { history: any }) => {
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
+        userName={userNameState}
         onLogOut={signOutUser}
       />
       <div className={classes.wrapper}>
