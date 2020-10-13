@@ -214,13 +214,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       setNeedUpdate(false);
     }
     if (currentView !== '' && needUpdate) {
-      if (Api2BSafe.admin) {
-        getReservasList(currentView).then(response => {
-          setListaReservas(response.data);
-          setNeedUpdate(false);
-        });
-      } else {
-      }
+      getReservasList(currentView).then(response => {
+        setListaReservas(response.data);
+        setNeedUpdate(false);
+      });
     }
   }, [Api2BSafe, list, needUpdate, currentView]);
 
