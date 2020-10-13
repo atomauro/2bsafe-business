@@ -104,7 +104,7 @@ const IndexDialogAddSucursal = ({
                 error={Boolean(touched.nameid && (errors.nameid || error))}
                 fullWidth={true}
                 helperText={touched.nameid && (errors.nameid || error)}
-                label="Usuario de la Sucursal - Nombre sin espacios"
+                label="Usuario de la Sucursal - minusculas sin espacios Ej: milladeoro"
                 margin="normal"
                 name="nameid"
                 onBlur={handleBlur}
@@ -117,7 +117,7 @@ const IndexDialogAddSucursal = ({
                 error={Boolean(touched.name && (errors.name || error))}
                 fullWidth={true}
                 helperText={touched.name && (errors.name || error)}
-                label="Nombre de la Sucursal"
+                label="Nombre de la Sucursal - Ej: Milla de oro"
                 margin="normal"
                 name="name"
                 onBlur={handleBlur}
@@ -130,7 +130,7 @@ const IndexDialogAddSucursal = ({
                 error={Boolean(touched.address && (errors.address || error))}
                 fullWidth={true}
                 helperText={touched.address && (errors.address || error)}
-                label="Dirección de la Sucursal"
+                label="Dirección de la Sucursal - Ej: Carrera 88 # 44 - 80"
                 margin="normal"
                 name="address"
                 onBlur={handleBlur}
@@ -143,7 +143,7 @@ const IndexDialogAddSucursal = ({
                 error={Boolean(touched.location && (errors.location || error))}
                 fullWidth={true}
                 helperText={touched.location && (errors.location || error)}
-                label="Locación de la Sucursal"
+                label="Locación de la Sucursal - Ej: Antioquia, Medellin"
                 margin="normal"
                 name="location"
                 onBlur={handleBlur}
@@ -152,14 +152,14 @@ const IndexDialogAddSucursal = ({
                 value={values.location}
                 variant="outlined"
               />
-              <label>
+              <Typography variant="body1" color="textPrimary">
                 <Field
                   type="checkbox"
                   name="needSchedule"
-                  style={{ width: 20, height: 20 }}
+                  style={{ width: 20, height: 20, marginLeft:5, marginBottom:3 }}
                 />
                 Necesita Reserva?
-              </label>
+              </Typography>
 
               <DialogActions>
                 <Button

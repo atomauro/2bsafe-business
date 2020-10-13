@@ -237,11 +237,11 @@ const LoginView = () => {
                         variant="contained"
                         style={{ marginBottom: 20 }}
                       >
-                        Iniciar
-                      </Button>                      
+                            Iniciar
+                      </Button>                    
+                      {isSubmitting ? <LinearProgress /> : null}    
                       </Box>
-                  </form>
-                  {isSubmitting ? <LinearProgress /> : null}
+                  </form>                  
                 </>
                 )}
               </Formik>
