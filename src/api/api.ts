@@ -45,7 +45,7 @@ async function api(credenciales: {
   const { email, password, accessToken } = credenciales;
   let { empresa, posibleSucursal } = {
     empresa: email.slice(0, email.indexOf('@')),
-    posibleSucursal: email.slice(email.indexOf('@'), email.indexOf('.com'))
+    posibleSucursal: email.slice(email.indexOf('@') + 1, email.indexOf('.com'))
   };
   if (posibleSucursal !== '2bsafe') {
     const empresatemp = empresa;
