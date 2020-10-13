@@ -5,8 +5,6 @@ import { ThemeProvider } from '@material-ui/core';
 import GlobalStyles from './components/GlobalStyles';
 import theme from './theme';
 import routes from './routes';
-import { FirebaseAuthProvider } from 'use-firebase-auth';
-import firebase from './api/firebase/firebase';
 import AccessTokenReducer from './reducers/AccessToken';
 import UserNameReducer from './reducers/AccessToken';
 
@@ -21,15 +19,16 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AccessTokenContext.Provider
-        value={{ accessTokenState: accessToken, accessTokenDispatch: tokenDispatch }}
+        value={{
+          accessTokenState: accessToken,
+          accessTokenDispatch: tokenDispatch
+        }}
       >
         <UserNameContext.Provider
-        value={{ userNameState: userName, userNameDispatch: userDispatch }}
-      >
-        <GlobalStyles />
-        <FirebaseAuthProvider firebase={firebase}>
+          value={{ userNameState: userName, userNameDispatch: userDispatch }}
+        >
+          <GlobalStyles />
           {routing}
-          </FirebaseAuthProvider>
         </UserNameContext.Provider>
       </AccessTokenContext.Provider>
     </ThemeProvider>

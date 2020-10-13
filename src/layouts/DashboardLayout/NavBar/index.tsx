@@ -13,9 +13,8 @@ import {
   Grid,
   ListItem
 } from '@material-ui/core';
-import { Users as UsersIcon} from 'react-feather';
+import { Users as UsersIcon } from 'react-feather';
 import NavItem from './NavItem';
-import { useFirebaseAuth } from 'use-firebase-auth';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
 
 const items = [
@@ -23,7 +22,7 @@ const items = [
     href: '/app/sucursales',
     icon: UsersIcon,
     title: 'Sucursales'
-  }, 
+  }
 ];
 
 const itemsSucursales = [
@@ -31,10 +30,10 @@ const itemsSucursales = [
     href: '/app/sucursales',
     icon: UsersIcon,
     title: 'Principal'
-  }, 
+  }
 ];
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   mobileDrawer: {
     width: 256
   },
@@ -81,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleItem: {
     marginRight: 'auto'
-  },
+  }
 }));
 
 const NavBar = ({
@@ -98,22 +97,21 @@ const NavBar = ({
   const classes = useStyles();
   const location = useLocation();
 
-  const [typeUser, setTypeUser] = useState('');  
+  const [typeUser, setTypeUser] = useState('');
 
-  const name   = userName.substring(0, userName.lastIndexOf("@"));
-  const domain = userName.substring(userName.lastIndexOf("@") + 1);
+  const name = userName.substring(0, userName.lastIndexOf('@'));
+  const domain = userName.substring(userName.lastIndexOf('@') + 1);
 
-  
   useEffect(() => {
-    console.log(name,domain)
+    console.log(name, domain);
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    if (domain === '2bsafe.com') { 
-      setTypeUser('admin')
-    }else{
-      setTypeUser('sucursal')
-    }     
+    if (domain === '2bsafe.com') {
+      setTypeUser('admin');
+    } else {
+      setTypeUser('sucursal');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -127,10 +125,7 @@ const NavBar = ({
       >
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h4">
-           {
-              typeUser === 'admin' ?
-                'Administrador' : 'Administrador'
-            }
+            {typeUser === 'admin' ? 'Administrador' : 'Administrador'}
           </Typography>
         </div>
 
@@ -139,52 +134,43 @@ const NavBar = ({
           color="textSecondary"
           variant="h5"
         >
-          {
-              typeUser === 'admin' ?
-                'SmartFit' : name
-          }  
+          {typeUser === 'admin' ? 'SmartFit' : name}
         </Typography>
       </Grid>
       <Divider />
       <Box p={2}>
         <List>
-          {typeUser === 'admin' ? (
-            items.map(item => (
-            <NavItem
-              className={classes.navitem}
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
-          ))
-          ) :
-           ( itemsSucursales.map(item => (
-            <NavItem
-              className={classes.navitem}
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-             />))
-           )
-            }
+          {typeUser === 'admin'
+            ? items.map(item => (
+                <NavItem
+                  className={classes.navitem}
+                  href={item.href}
+                  key={item.title}
+                  title={item.title}
+                  icon={item.icon}
+                />
+              ))
+            : itemsSucursales.map(item => (
+                <NavItem
+                  className={classes.navitem}
+                  href={item.href}
+                  key={item.title}
+                  title={item.title}
+                  icon={item.icon}
+                />
+              ))}
 
-      <ListItem
-          className={clsx(classes.item)}
-          disableGutters={true}
-        >
-          <Button
-            className={classes.button}
-            onClick={() => {
-              onLogOut();
-            }}
-          >
-            <LogOutIcon className={classes.icon} />
-            <span className={classes.titleItem}>Cerrar sesion</span>
-          </Button>
-      </ListItem>
-          
+          <ListItem className={clsx(classes.item)} disableGutters={true}>
+            <Button
+              className={classes.button}
+              onClick={() => {
+                onLogOut();
+              }}
+            >
+              <LogOutIcon className={classes.icon} />
+              <span className={classes.titleItem}>Cerrar sesion</span>
+            </Button>
+          </ListItem>
         </List>
       </Box>
       <Box flexGrow={1} />
