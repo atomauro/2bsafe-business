@@ -67,9 +67,9 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   const [typeUser, setTypeUser] = useState('');
 
-  const name = userNameState.substring(0, userNameState.lastIndexOf("@"));
-  const domain = userNameState.substring(userNameState.lastIndexOf("@") + 1);
-  
+  const name = userNameState.substring(0, userNameState.lastIndexOf('@'));
+  const domain = userNameState.substring(userNameState.lastIndexOf('@') + 1);
+
   // Son para abrir dialogos
   const handleEditPass = (sucur: string) => {
     console.log('Abrir dialogo Editar Clave: ' + sucur);
@@ -135,14 +135,13 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   const handlePressRefresh = () => {
     if (isReserva) {
-      console.log('Trying to refresh Reserva data from: ', currentView)
-      handleShowReservas(currentView)
+      console.log('Trying to refresh Reserva data from: ', currentView);
+      handleShowReservas(currentView);
+    } else {
+      console.log('Trying to refresh Ingresos data from: ', currentView);
+      handleShowIngresos(currentView);
     }
-    else {
-      console.log('Trying to refresh Ingresos data from: ', currentView)
-      handleShowIngresos(currentView)
-    }
-  }
+  };
 
   const handleShowReservas = (sucur: string) => {
     console.log('Mostrar Reservas: ' + sucur);
@@ -182,14 +181,13 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
-    console.log(name, domain)
 
-    if (domain === '2bsafe.com') {
-      setTypeUser('admin')
+    if (Api2BSafe && Api2BSafe.admin) {
+      setTypeUser('admin');
     } else {
-      setTypeUser('sucursal')
+      setTypeUser('sucursal');
     }
-    
+
     if (!Api2BSafe && accessTokenState) {
       api({ email: userNameState, accessToken: accessTokenState })
         .then((apiResult: any) => {
@@ -216,10 +214,13 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       setNeedUpdate(false);
     }
     if (currentView !== '' && needUpdate) {
-      getReservasList(currentView).then(response => {
-        setListaReservas(response.data);
-        setNeedUpdate(false);
-      });
+      if (Api2BSafe.admin) {
+        getReservasList(currentView).then(response => {
+          setListaReservas(response.data);
+          setNeedUpdate(false);
+        });
+      } else {
+      }
     }
   }, [Api2BSafe, list, needUpdate, currentView]);
 
@@ -247,53 +248,47 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               handleShowReservas={handleShowReservas}
               handleShowIngresos={handleShowIngresos}
             />
-            {typeUser==='admin'?
-              (
-                currentView === '' ? (
-              <Sucursales
-                className={classes.sucursales}
-                lista={list}
-                empresa={empresa}
-                handleShowReservas={handleShowReservas}
-                handleShowIngresos={handleShowIngresos}
-                handleDeleteSucursal={handleDeleteSucursal}
-                handleEditPass={handleEditPass}
-              />
-            ) : showReservaSucursal === '' ? (
-              <GenericList
-                className={classes.sucursales}
-                lista={listaReservas}
-                sucursalSelected={showIngresoSucursal}
-                isReserva={isReserva}
-              />
-            ) : (
-              <GenericList
-                className={classes.sucursales}
-                lista={listaReservas}
-                sucursalSelected={showReservaSucursal}
-                isReserva={isReserva}
-              />
-            )
-            ): (
-                currentView === '' ? (
-                null
-            ) : showReservaSucursal === '' ? (
-              <GenericList
-                className={classes.sucursales}
-                lista={listaReservas}
-                sucursalSelected={showIngresoSucursal}
-                isReserva={isReserva}
-              />
-            ) : (
-              <GenericList
-                className={classes.sucursales}
-                lista={listaReservas}
-                sucursalSelected={showReservaSucursal}
-                isReserva={isReserva}
-              />
-            )
+            {typeUser === 'admin' ? (
+              currentView === '' ? (
+                <Sucursales
+                  className={classes.sucursales}
+                  lista={list}
+                  empresa={empresa}
+                  handleShowReservas={handleShowReservas}
+                  handleShowIngresos={handleShowIngresos}
+                  handleDeleteSucursal={handleDeleteSucursal}
+                  handleEditPass={handleEditPass}
+                />
+              ) : showReservaSucursal === '' ? (
+                <GenericList
+                  className={classes.sucursales}
+                  lista={listaReservas}
+                  sucursalSelected={showIngresoSucursal}
+                  isReserva={isReserva}
+                />
+              ) : (
+                <GenericList
+                  className={classes.sucursales}
+                  lista={listaReservas}
+                  sucursalSelected={showReservaSucursal}
+                  isReserva={isReserva}
+                />
               )
-          }
+            ) : currentView === '' ? null : showReservaSucursal === '' ? (
+              <GenericList
+                className={classes.sucursales}
+                lista={listaReservas}
+                sucursalSelected={showIngresoSucursal}
+                isReserva={isReserva}
+              />
+            ) : (
+              <GenericList
+                className={classes.sucursales}
+                lista={listaReservas}
+                sucursalSelected={showReservaSucursal}
+                isReserva={isReserva}
+              />
+            )}
             <DialogChangePass
               show={showEditDialog}
               onClose={handleCloseEditPass}

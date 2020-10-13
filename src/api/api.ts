@@ -43,13 +43,17 @@ async function api(credenciales: {
   accessToken?: string;
 }) {
   const { email, password, accessToken } = credenciales;
-  const { empresa, posibleSucursal } = {
+  let { empresa, posibleSucursal } = {
     empresa: email.slice(0, email.indexOf('@')),
     posibleSucursal: email.slice(email.indexOf('@'), email.indexOf('.com'))
   };
-  // if (sucursal === "2bsafe") {
+  if (posibleSucursal !== '2bsafe') {
+    const empresatemp = empresa;
+    empresa = posibleSucursal;
+    posibleSucursal = empresatemp;
+  }
+  const isAdmin: boolean = posibleSucursal === '2bsafe';
 
-  // }
   const getAccessToken = async () => {
     const response = await login(`${email}`, password || '');
     console.log('responseGETACCESSTOKEN', response);
@@ -137,7 +141,7 @@ async function api(credenciales: {
 
   return ACCESS_TOKEN
     ? {
-        admin: AdminActions,
+        admin: isAdmin ? AdminActions : null,
         accessToken: ACCESS_TOKEN,
         users: {
           info: async (singleAccessToken: string) => {
