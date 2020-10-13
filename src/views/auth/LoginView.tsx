@@ -10,8 +10,11 @@ import {
   Typography,
   makeStyles,
   Paper,
-  LinearProgress
+  LinearProgress,
+  Fade
 } from '@material-ui/core';
+
+import Alert from '@material-ui/lab/Alert';
 
 import Page from '../../components/Page';
 
@@ -44,7 +47,57 @@ const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
+  const [alertStatus, setAlertStatus] = useState('invisible');
+
+  const handleAlertStatus = (status: string) => {
+    setAlertStatus(status);      
+    setTimeout(() => {
+      setAlertStatus('invisible');   
+    }, 600);
+  };
+
+  const getMessageAlert = () => {
+    switch (alertStatus) {
+      case 'success':
+        return 'Ingreso Exitoso';
+        break;
+      case 'warning':
+        return 'Revisa y vuelve a intentarlo';
+        break;
+      case 'offline':
+        return 'Te encuentras sin internet';
+        break;
+      case 'online':
+        return 'Te encuentras con internet';
+        break;
+      default:
+        return 'Revisa y vuelve a intentarlo';
+        break;
+    }
+  };
+
+  const getTypeAlert = () => {
+    switch (alertStatus) {
+      case 'success':
+        return alertStatus;
+        break;
+      case 'warning':
+        return alertStatus;
+        break;
+      case 'offline':
+        return 'info';
+        break;
+      case 'online':
+        return 'info';
+        break;
+      default:
+        return 'warning';
+        break;
+    }
+  };
+
   const [Api2BSafe, setApi2BSafe] = useState(null as any);
+
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
     if ((Api2BSafe && Api2BSafe.accessToken) || accessTokenState) {
@@ -65,7 +118,7 @@ const LoginView = () => {
         replace: true
       });
     } else if (Api2BSafe && Api2BSafe.loginError) {
-      setError(true);
+      setError(true);      
     }
     console.log('Api2BSafe', Api2BSafe);
   }, [Api2BSafe, accessTokenState]);
@@ -89,35 +142,39 @@ const LoginView = () => {
             <div style={{ margin: 20 }}>
               <Formik
                 initialValues={{
-                  email: 'calle80bogota@smart-fit.com',
-                  password: '2rYoPfxO7K'
+                  email: 'sucursal@smart-fit.com',
+                  password: 'mdYd2ZSkwQ'
                 }}
                 validationSchema={Yup.object().shape({
                   email: Yup.string()
-                    .email('Must be a valid email')
+                    .email('Debe ser un correo valido')
                     .max(255)
-                    .required('Email is required'),
+                    .required('El correo es requerido'),
                   password: Yup.string()
                     .max(255)
-                    .required('Password is required')
+                    .required('La clave es necesaria')
                 })}
-                onSubmit={async (form, actions) => {
-                  // let possibleuser = await signInWithEmailAndPassword(
-                  //   form.email,
-                  //   form.password
-                  // );
-                  actions.setSubmitting(true);
-
-                  api({
+                onSubmit={async (form, actions) => {                  
+                  actions.setSubmitting(true);                  
+                  setTimeout(() => {
+                    api({
                     email: form.email,
                     password: form.password
-                  }).then(apiResult => {
-                    setApi2BSafe(apiResult);
-                    userNameDispatch({
-                      type: 'SET',
-                      payload: form.email
+                    }).then(apiResult => {
+                      if (apiResult.loginError) {
+                        actions.setErrors({email:'',password:''})
+                        handleAlertStatus('warning')
+                      } else {
+                        handleAlertStatus('success')
+                        setApi2BSafe(apiResult);
+                        userNameDispatch({
+                          type: 'SET',
+                          payload: form.email
+                        });                        
+                    }
                     });
-                  });
+                    actions.setSubmitting(false); 
+                  }, 1000);                                                  
                 }}
               >
                 {({
@@ -129,6 +186,7 @@ const LoginView = () => {
                   touched,
                   values
                 }) => (
+                    <>
                   <form onSubmit={handleSubmit}>
                     <Box mb={3} style={{ paddingTop: 20 }}>
                       <Typography color="textPrimary" variant="h2">
@@ -147,7 +205,7 @@ const LoginView = () => {
                       error={Boolean(touched.email && (errors.email || error))}
                       fullWidth={true}
                       helperText={touched.email && (errors.email || error)}
-                      label="Email Address"
+                      label="Correo electrónico"
                       margin="normal"
                       name="email"
                       onBlur={handleBlur}
@@ -160,7 +218,7 @@ const LoginView = () => {
                       error={Boolean(touched.password && errors.password)}
                       fullWidth={true}
                       helperText={touched.password && errors.password}
-                      label="Password"
+                      label="Contraseña"
                       margin="normal"
                       name="password"
                       onBlur={handleBlur}
@@ -180,15 +238,28 @@ const LoginView = () => {
                         style={{ marginBottom: 20 }}
                       >
                         Iniciar
-                      </Button>
-                      {isSubmitting ? <LinearProgress /> : null}
-                    </Box>
+                      </Button>                      
+                      </Box>
                   </form>
+                  {isSubmitting ? <LinearProgress /> : null}
+                </>
                 )}
               </Formik>
             </div>
           </Paper>
         </Container>
+        <Fade
+          in={!(alertStatus === 'invisible')}
+          timeout={{ enter: 500, exit: 500 }}
+        >
+          <Alert
+            variant="filled"
+            severity={getTypeAlert()}
+            style={{ margin: 20, display: 'flex', justifyContent: 'center' }}
+          >
+            {getMessageAlert()}
+          </Alert>
+        </Fade>
       </Box>
     </Page>
   );

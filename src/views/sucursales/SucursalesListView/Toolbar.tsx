@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   message: {
     display: 'flex',
     justifyContent: 'center',
-    height: 40
+    height: 'auto'
   },
   divSucursales: {
     align: 'center'
@@ -319,7 +319,7 @@ const Toolbar = ({
                                   textDecoration: 'underline'
                                 }}
                               >
-                                {name}
+                                {currentView}
                               </Typography>
                             </div>
                           ) : (
@@ -348,7 +348,7 @@ const Toolbar = ({
                                   textDecoration: 'underline'
                                 }}
                               >
-                                {name}
+                                {currentView}
                               </Typography>
                             </div>
                           ))                            
