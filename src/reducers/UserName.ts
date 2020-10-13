@@ -4,6 +4,7 @@ const reducer = (userName: any, action: any) => {
     case 'SET':
       return (userName = action.payload);
     case 'RESET':
+      console.log('RESET Username')
       localStorage.removeItem('userName');
       return (userName = intitialValue);
     default:

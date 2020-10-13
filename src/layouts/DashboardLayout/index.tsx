@@ -59,6 +59,7 @@ const DashboardLayout = ({ history }: { history: any }) => {
   }, [accessTokenState]);
 
   const signOutUser = () => {
+    localStorage.clear();
     userNameDispatch({ type: 'RESET' });
     accessTokenDispatch({ type: 'RESET' });
   };
