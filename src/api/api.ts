@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import FormData from 'form-data';
 
 const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 // const getAccessToken = async () => {
