@@ -143,7 +143,7 @@ const LoginView = () => {
               <Formik
                 initialValues={{
                   email: 'sucursal@smart-fit.com',
-                  password: 'mdYd2ZSkwQ'
+                  password: ''
                 }}
                 validationSchema={Yup.object().shape({
                   email: Yup.string()
@@ -210,6 +210,7 @@ const LoginView = () => {
                       name="email"
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      placeholder={"Correo electrónico"}
                       type="email"
                       value={values.email}
                       variant="outlined"
@@ -223,6 +224,7 @@ const LoginView = () => {
                       name="password"
                       onBlur={handleBlur}
                       onChange={handleChange}
+                      placeholder={"Contraseña"}
                       type="password"
                       value={values.password}
                       variant="outlined"
