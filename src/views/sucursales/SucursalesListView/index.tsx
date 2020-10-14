@@ -22,6 +22,8 @@ import SearchFieldReducer from '../../../reducers/SearchField';
 import DialogChangePass from './DialogSendPass';
 import DialogDelete from './DialogDelete';
 
+import emailjs from 'emailjs-com';
+
 export const SearchFieldContext = createContext({} as any);
 
 const useStyles = makeStyles(theme => ({
@@ -116,6 +118,20 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   const sendEmailWithPass = (sucur: string, password: string) => {
     console.log('Sending email... TO: ' + email + ' para sucursal: ' + sucur + ' con la clave: ' + password)
+    const serviceID = 'service_pdisp0p';
+    const templateID = 'template_ves4r02';
+    const userID = 'user_AKwufQ2kKIuGDO19wuI6h';
+    emailjs.send(serviceID, templateID,{
+      sucursal: sucur,
+      password,
+      email,
+      }, userID)
+      .then(() => {
+          alert("Se ha enviado correctamente el correo, revisa por favor incluso en tu carpeta de spam");
+      }, (err: any) => {
+          // alert(JSON.stringify(err));
+          alert("No se ha enviado el correo, revisa la dirección de correo que has ingresado e intentalo de nuevo");
+      });
   }
 
   // Son para el dialogo de eliminar sucursal
