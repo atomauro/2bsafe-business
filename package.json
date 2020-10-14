@@ -1,0 +1,88 @@
+{
+  "name": "2bsafe-business",
+  "author": "startsco inc",
+  "licence": "MIT",
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@material-ui/styles": "^4.10.0",
+    "@types/firebase": "^3.2.1",
+    "@types/form-data": "^2.5.0",
+    "@types/jest": "^23.1.1",
+    "@types/node": "^10.3.5",
+    "@types/node-fetch": "^2.5.7",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-helmet": "^6.1.0",
+    "@types/react-lottie": "^1.2.5",
+    "@types/react-router-dom": "^4.2.7",
+    "@types/uuid": "^8.3.0",
+    "@types/yup": "^0.29.7",
+    "chart.js": "^2.9.3",
+    "clsx": "^1.1.1",
+    "emailjs-com": "^2.6.3",
+    "firebase": "^7.20.0",
+    "firebase-auth": "^0.1.2",
+    "form-data": "^3.0.0",
+    "formik": "^2.1.5",
+    "history": "^5.0.0",
+    "lodash": "^4.17.19",
+    "moment": "^2.27.0",
+    "nprogress": "^0.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-chartjs-2": "^2.10.0",
+    "react-dom": "^16.13.1",
+    "react-feather": "^2.0.8",
+    "react-helmet": "^6.1.0",
+    "react-lottie": "^1.2.3",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-router": "^6.0.0-beta.0",
+    "react-router-dom": "^6.0.0-beta.0",
+    "react-scripts-ts": "^3.1.0",
+    "typescript": "^4.0.2",
+    "use-firebase-auth": "^2.1.0",
+    "uuid": "^8.3.0",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "gh-pages": "^3.1.0",
+    "prettier": "^1.19.1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "homepage": "http://juandardilag.github.io/dashboard2bsafe"
+}
