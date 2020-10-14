@@ -111,7 +111,12 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     // ...
     alert('El usuario de esta sucursal es: ' + response.data.sucursal +', y la clave es: ' + response.data.password)
     setShowEditDialog(false);
+    sendEmailWithPass(response.data.sucursal, response.data.password)
   };
+
+  const sendEmailWithPass = (sucur: string, password: string) => {
+    console.log('Sending email... TO: ' + email + ' para sucursal: ' + sucur + ' con la clave: ' + password)
+  }
 
   // Son para el dialogo de eliminar sucursal
   const onClickDeleteSucursal = async () => {
