@@ -151,7 +151,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       sucursalInfo.nameid,
       INFO
     );
-    console.log('response', response);
+    console.log('RESPONDE ADD SUCURSAL', response);
     return true;
   };
 

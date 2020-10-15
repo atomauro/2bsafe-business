@@ -177,7 +177,7 @@ const IndexDialogAddSucursal = ({
                     handleSubmit();
                   }}
                 >
-                  Cambiar
+                  Agregar
                 </Button>
               </DialogActions>
             </form>
