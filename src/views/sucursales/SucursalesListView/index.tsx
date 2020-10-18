@@ -324,8 +324,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               onClose={handleCloseDeleteSucursal}
               onClick={onClickDeleteSucursal}
             />
-            <Grid item={true}>            
-            </Grid>
+           
           </Grid>
         </Container>
       </Page>
