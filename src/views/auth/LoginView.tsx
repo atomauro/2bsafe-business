@@ -142,14 +142,13 @@ const LoginView = () => {
             <div style={{ margin: 20 }}>
               <Formik
                 initialValues={{
-                  email: 'sucursal@smart-fit.com',
+                  email: '',
                   password: ''
                 }}
                 validationSchema={Yup.object().shape({
                   email: Yup.string()
-                    .email('Debe ser un correo valido')
                     .max(255)
-                    .required('El correo es requerido'),
+                    .required('La Sede es requerida'),
                   password: Yup.string()
                     .max(255)
                     .required('La clave es necesaria')
@@ -158,7 +157,7 @@ const LoginView = () => {
                   actions.setSubmitting(true);                  
                   setTimeout(() => {
                     api({
-                    email: form.email,
+                    email: form.email + '@smart-fit.com',
                     password: form.password
                     }).then(apiResult => {
                       if (apiResult.loginError) {
@@ -205,13 +204,13 @@ const LoginView = () => {
                       error={Boolean(touched.email && (errors.email || error))}
                       fullWidth={true}
                       helperText={touched.email && (errors.email || error)}
-                      label="Correo electrónico"
+                      label="Sucursal o Sede"
                       margin="normal"
                       name="email"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      placeholder={"Correo electrónico"}
-                      type="email"
+                      placeholder={"Usuario de Sucursal"}
+                      type="text"
                       value={values.email}
                       variant="outlined"
                     />
