@@ -6,7 +6,8 @@ import { Button, ListItem, makeStyles } from '@material-ui/core';
 import { Users as Icon } from 'react-feather';
 import {  User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  BarChart as BarChartIcon,
 } from 'react-feather';
 
 const useStyles = makeStyles(theme => ({
@@ -69,8 +70,8 @@ const NavItem = ({
       >
         {
           title === 'Perfiles' ?
-            (<UserIcon className={classes.icon} size="20" /> ):
-            (<UsersIcon className={classes.icon} size="20" /> )
+            (<UsersIcon className={classes.icon} size="20" /> ):
+            (<BarChartIcon className={classes.icon} size="20" /> )
         }
         
         <span className={classes.title}>{title}</span>
