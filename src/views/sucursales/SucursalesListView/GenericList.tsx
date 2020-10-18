@@ -59,6 +59,8 @@ const GenericList = ({
   const classes = useStyles();
 
   const { searchFieldState } = useContext(SearchFieldContext);
+  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [userInfo, setUserInfo] = useState({} as any);
 
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
@@ -66,6 +68,7 @@ const GenericList = ({
       if (response && response.authToken) {
         response = await API2BSafe.users?.info(response.authToken);
         alert(response);
+        setUserInfo(response);
       }
     });
   };
