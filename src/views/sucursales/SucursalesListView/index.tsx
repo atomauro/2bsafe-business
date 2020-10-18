@@ -6,7 +6,7 @@ import React, {
   useReducer
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, makeStyles, Grid } from '@material-ui/core';
+import { Container, makeStyles, Grid, Typography } from '@material-ui/core';
 import Page from '../../../components/Page';
 
 import Toolbar from './Toolbar';
@@ -24,6 +24,8 @@ import DialogDelete from './DialogDelete';
 
 import emailjs from 'emailjs-com';
 
+import SearchUser from './SearchUser';
+
 export const SearchFieldContext = createContext({} as any);
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +40,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   },
   toolBar: { marginTop: 20 },
-  sucursales: { marginTop: 20 }
+  sucursales: { marginTop: 20 },
+  searchUser: {
+    marginTop:20
+  }
 }));
 
 const CustomerListView = ({ empresa }: { empresa: string }) => {
@@ -319,6 +324,8 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               onClose={handleCloseDeleteSucursal}
               onClick={onClickDeleteSucursal}
             />
+            <Grid item={true}>            
+            </Grid>
           </Grid>
         </Container>
       </Page>

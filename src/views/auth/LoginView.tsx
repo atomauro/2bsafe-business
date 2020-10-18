@@ -168,7 +168,7 @@ const LoginView = () => {
                         setApi2BSafe(apiResult);
                         userNameDispatch({
                           type: 'SET',
-                          payload: form.email
+                          payload: form.email + '@smart-fit.com'
                         });                        
                     }
                     });
