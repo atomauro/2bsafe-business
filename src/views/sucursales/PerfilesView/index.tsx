@@ -43,16 +43,8 @@ const PerfilesView = (props:any) => {
   );
   const { userNameState, userNameDispatch } = useContext(UserNameContext);
   const [Api2BSafe, setApi2BSafe] = useState(null as any);
- 
- 
-
   const classes = useStyles();
-
   
-
- 
-  
-
   return (  
       <Page className={classes.root} title="Sucursales">
         <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />

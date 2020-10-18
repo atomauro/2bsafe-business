@@ -246,6 +246,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         setNeedUpdate(false);
       });
     }
+    if (typeUser === 'sucursal') {
+      handleShowReservas(name);
+    }
+
   }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
