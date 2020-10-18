@@ -16,7 +16,8 @@ import {
 import {
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  BarChart as BarChartIcon
 } from 'react-feather';
 
 import NavItem from './NavItem';

@@ -6,7 +6,7 @@ import React, {
   useReducer
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, makeStyles, Grid, Typography } from '@material-ui/core';
+import { Container, makeStyles, Grid, Typography, Fade } from '@material-ui/core';
 import Page from '../../../components/Page';
 
 
@@ -48,18 +48,19 @@ const PerfilesView = (props:any) => {
   return (  
       <Page className={classes.root} title="Sucursales">
         <State state={{ dashboard2bsafeAccessToken: accessTokenState }} />
-        <Container maxWidth={false} className={classes.container}>
+      <Container maxWidth={false} className={classes.container}>
           <Grid
             container={true}
             direction="column"
             justify="center"
             alignItems="center"
           >          
-            
+      
             <Grid item={true}>
 
             <SearchUser className={classes.searchUser}/>
             </Grid>
+          
           </Grid>
         </Container>
       </Page>

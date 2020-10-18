@@ -6,6 +6,7 @@ import {
   Card,
   makeStyles,
   Fade,
+  Slide,
   Button,
   CardContent,
   Typography,
@@ -37,13 +38,14 @@ const SearchUserF = ({
   const classes = useStyles();
 
   return (
-    <Fade
+    <>
+    <Slide
+      direction="down"
       in={true}
       mountOnEnter={true}
       unmountOnExit={true}
       timeout={{ enter: 500, exit: 500 }}
     >
-      <>
       <Card className={clsx(classes.root, className)} {...rest}>
         <Box className={classes.message}>
             <Typography variant="h4" align="center" style={{margin:20}}>
@@ -51,10 +53,16 @@ const SearchUserF = ({
             </Typography>
           </Box>
       </Card>
+      </Slide>
+      
+      <Fade
+      in={true}
+      mountOnEnter={true}
+      unmountOnExit={true}
+      timeout={{ enter: 500, exit: 500 }}
+    >
       <Card className={clsx(classes.root, className)} {...rest}>       
-        <PerfectScrollbar>
-
-          
+        <PerfectScrollbar>          
           <Box width="100%">          
               <TextField
                 fullWidth={true}
@@ -78,8 +86,10 @@ const SearchUserF = ({
           </Box>
         </PerfectScrollbar>
         </Card>
-        </>
-    </Fade>
+      </Fade>
+      
+
+ </>
   );
 };
 
