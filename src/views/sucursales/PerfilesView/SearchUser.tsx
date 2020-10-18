@@ -18,7 +18,12 @@ import SearchField from '../../../components/SearchField';
 import SearchIcon from '@material-ui/icons/Search'
 
 const useStyles = makeStyles(theme => ({
-  root: {}
+  root: {},
+   message: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: 'auto'
+  },
 }));
 
 
@@ -38,8 +43,18 @@ const SearchUserF = ({
       unmountOnExit={true}
       timeout={{ enter: 500, exit: 500 }}
     >
+      <>
+      <Card className={clsx(classes.root, className)} {...rest}>
+        <Box className={classes.message}>
+            <Typography variant="h4" align="center" style={{margin:20}}>
+              Busca la información del usuario con su documento
+            </Typography>
+          </Box>
+      </Card>
       <Card className={clsx(classes.root, className)} {...rest}>       
         <PerfectScrollbar>
+
+          
           <Box width="100%">          
               <TextField
                 fullWidth={true}
@@ -52,7 +67,7 @@ const SearchUserF = ({
                     </InputAdornment>
                   )
                 }}
-                placeholder="Documento de usuario"
+                placeholder="Documento"
                 variant="outlined"
             />
             <div style={{display:'flex', justifyContent:'center'}}>
@@ -62,7 +77,8 @@ const SearchUserF = ({
             </div>
           </Box>
         </PerfectScrollbar>
-      </Card>
+        </Card>
+        </>
     </Fade>
   );
 };

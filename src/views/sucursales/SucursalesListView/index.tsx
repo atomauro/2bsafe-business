@@ -246,7 +246,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         setNeedUpdate(false);
       });
     }
-    if (typeUser === 'sucursal') {
+    if (typeUser === 'sucursal' && currentView === '') {
       handleShowReservas(name);
     }
 
