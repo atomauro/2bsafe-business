@@ -15,7 +15,9 @@ import {
     Grid,
     InputAdornment,
 } from '@material-ui/core';
-import SearchField from '../../../components/SearchField';
+
+import DialogUser from '../DialogUser'
+
 import SearchIcon from '@material-ui/icons/Search'
 
 const useStyles = makeStyles(theme => ({
@@ -25,10 +27,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     height: 'auto'
   },
+  button: {
+     margin:10
+   }
 }));
 
 
-const SearchUserF = ({
+
+const SearchUser = ({
   className,
   ...rest
 }: {
@@ -36,6 +42,29 @@ const SearchUserF = ({
  
 }) => {
   const classes = useStyles();
+
+  const [userDocument, setUserDocument] = useState('');
+  const [showDialogUser, setShowDialogUser] = useState(false);
+
+const handleFetchUser = () => {
+  console.log('user fetchs')
+  setShowDialogUser(true)
+}
+
+  const user = {
+    email: "mauro.henaog@gmail.com",
+    name: 'Mauricio Henao Gómez',
+    phone: '31237864324',
+    status: 'ACTIVE',
+    birthdate: '16/07/08',
+    remaining_guests: '2',
+    plan: 'black',
+    photo_url: 'https://data.whicdn.com/images/341136098/original.jpg',
+    address: {
+      city: 'Medellin',
+      state: 'Antioquia'
+  }
+  }
 
   return (
     <>
@@ -66,6 +95,8 @@ const SearchUserF = ({
           <Box width="100%">          
               <TextField
                 fullWidth={true}
+                value={userDocument}
+                type="text"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -79,7 +110,7 @@ const SearchUserF = ({
                 variant="outlined"
             />
             <div style={{display:'flex', justifyContent:'center'}}>
-                <Button variant="contained" color="primary" style={{margin: 10}}>
+                <Button variant="contained" color="primary" className={classes.button} onClick={handleFetchUser}>
                     Buscar
                 </Button>            
             </div>
@@ -87,10 +118,10 @@ const SearchUserF = ({
         </PerfectScrollbar>
         </Card>
       </Fade>
-      
+      <DialogUser show={showDialogUser} onClose={() => { setShowDialogUser(false) }} user={user}/>
 
  </>
   );
 };
 
-export default SearchUserF;
+export default SearchUser;
