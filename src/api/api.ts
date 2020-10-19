@@ -90,7 +90,7 @@ async function api(credenciales: {
         headers: authTokenHeader
       };
       const response = await callApi(
-        `${API_2BSAFE_BASE_URL}/${empresa}`,
+        `${API_2BSAFE_BASE_URL}/${empresa}?all=true`,
         options
       );
       response.hasErrors = () => response.errors.length > 0;
