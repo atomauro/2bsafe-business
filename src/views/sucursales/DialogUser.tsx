@@ -88,13 +88,13 @@ export default function DialogUser({
                   color="textSecondary"
                   variant="h4"
                 >
-                    Estado Actual:
+                    Estado Actual: 
           </Typography>
                    <Typography
                   color="textSecondary"
                   variant="body1"
                 >
-                  {user.status}
+                   {user.status}
           </Typography>
 
                 </Box>
@@ -122,6 +122,22 @@ export default function DialogUser({
                 value={user.name}
                 className={classes.text}
 
+              />
+            </Grid>
+            <Grid
+              item={true}
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth={true}
+                label="Genero"
+                name="gender"
+                type="text"
+                variant="outlined"
+                    disabled={true}
+                    value={user.gender}
+                    className={classes.text}
               />
             </Grid>
             <Grid
@@ -166,7 +182,7 @@ export default function DialogUser({
                 type="text"
                 variant="outlined"
                     disabled={true}
-                    value={user.phone}
+                    value={user.full_phone}
                     className={classes.text}
               />
             </Grid>
@@ -179,7 +195,7 @@ export default function DialogUser({
                 fullWidth={true}
                 label="Departamento"
                     name="country"
-                    value={user.address.state}
+                    value={user.name}
                     variant="outlined"
                     disabled={true}
                     className={classes.text}
@@ -196,7 +212,7 @@ export default function DialogUser({
                 name="state"                              
                     variant="outlined"
                     disabled={true}
-                    value={user.address.city}
+                    value={user.name  }
                     className={classes.text}
               />
               

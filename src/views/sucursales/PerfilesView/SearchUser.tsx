@@ -9,6 +9,8 @@ import {
   Slide,
   Button,
   CardContent,
+  Backdrop,
+  CircularProgress,
   Typography,
   TextField,
   Paper,   
@@ -19,6 +21,7 @@ import {
 import DialogUser from '../DialogUser'
 
 import SearchIcon from '@material-ui/icons/Search'
+import api from '../../../api/api';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -29,48 +32,57 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
      margin:10
-   }
+   },
+   backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
-
-
 
 const SearchUser = ({
   className,
+  credentials,
   ...rest
 }: {
   className: any;
- 
+  credentials: any;
 }) => {
   const classes = useStyles();
 
   const [userDocument, setUserDocument] = useState('');
   const [showDialogUser, setShowDialogUser] = useState(false);
+  const [isLoading, setisLoading] = useState(false)
+
+  const [userInfo, setUserInfo] = useState({} as any);
+
+  const fetchUserInfo = (documentid: string) => {
+    api(credentials).then(async API2BSafe => {
+      let response = await API2BSafe.users?.login(documentid);
+      if (response && response.authToken) {
+        response = await API2BSafe.users?.info(response.authToken);
+        console.log(response)
+        setisLoading(false)
+         setUserInfo(response);
+         setShowDialogUser(true)
+      }
+      if(response?.error){
+        console.log(response.error)
+        setisLoading(false)
+        alert('Usuario no encontrado, intentalo de nuevo')
+      }
+    });
+  };
 
 const handleFetchUser = () => {
-  console.log('user fetchs')
-  setShowDialogUser(true)
+  setisLoading(true)
+  fetchUserInfo(userDocument)  
   }
   
   const handleChange = (e: any) => {
     setUserDocument(e.target.value)
     console.log("SEARCH USER:",e.target.value)
   }
-  
-
-  const user = {
-    email: "mauro.henaog@gmail.com",
-    name: 'Mauricio Henao Gómez',
-    phone: '31237864324',
-    status: 'ACTIVE',
-    birthdate: '16/07/08',
-    remaining_guests: '2',
-    plan: 'black',
-    photo_url: 'https://data.whicdn.com/images/341136098/original.jpg',
-    address: {
-      city: 'Medellin',
-      state: 'Antioquia'
-  }
-  }
+   
 
   return (
     <>
@@ -115,6 +127,7 @@ const handleFetchUser = () => {
                 }}
                 placeholder="Documento"
                 variant="outlined"
+                style={{marginTop:20, marginBottom:20}}
             />
             <div style={{display:'flex', justifyContent:'center'}}>
                 <Button variant="contained" color="primary" className={classes.button} onClick={handleFetchUser}>
@@ -125,8 +138,10 @@ const handleFetchUser = () => {
         </PerfectScrollbar>
         </Card>
       </Fade>
-      <DialogUser show={showDialogUser} onClose={() => { setShowDialogUser(false) }} user={user}/>
-
+      <DialogUser show={showDialogUser} onClose={() => { setShowDialogUser(false) }} user={userInfo}/>
+      <Backdrop className={classes.backdrop} open={isLoading} onClick={()=>{console.log('dont close')}}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
  </>
   );
 };
