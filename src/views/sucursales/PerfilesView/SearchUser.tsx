@@ -49,7 +49,13 @@ const SearchUser = ({
 const handleFetchUser = () => {
   console.log('user fetchs')
   setShowDialogUser(true)
-}
+  }
+  
+  const handleChange = (e: any) => {
+    setUserDocument(e.target.value)
+    console.log("SEARCH USER:",e.target.value)
+  }
+  
 
   const user = {
     email: "mauro.henaog@gmail.com",
@@ -96,6 +102,7 @@ const handleFetchUser = () => {
               <TextField
                 fullWidth={true}
                 value={userDocument}
+                onChange={handleChange}
                 type="text"
                 InputProps={{
                   startAdornment: (

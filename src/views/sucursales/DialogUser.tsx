@@ -25,6 +25,11 @@ const useStyles = makeStyles(() => ({
     height: 100,
     width: 100,
     marginTop:20
+  },
+  text: {
+    "& .MuiInputBase-root.Mui-disabled": {
+      color: "#000000" // (default alpha is 0.38)
+    }
   }
 }));
 
@@ -114,6 +119,8 @@ export default function DialogUser({
                 name="fullname"
                     variant="outlined"
                     disabled={true}
+                value={user.name}
+                className={classes.text}
 
               />
             </Grid>
@@ -129,6 +136,7 @@ export default function DialogUser({
                     variant="outlined"
                     disabled={true}
                     value={user.plan}
+                    className={classes.text}
               />
             </Grid>
             <Grid
@@ -142,7 +150,8 @@ export default function DialogUser({
                 name="email"                
                 variant="outlined"
                 value={user.email}
-                disabled={true}
+                    disabled={true}
+                    className={classes.text}
               />
             </Grid>
             <Grid
@@ -158,6 +167,7 @@ export default function DialogUser({
                 variant="outlined"
                     disabled={true}
                     value={user.phone}
+                    className={classes.text}
               />
             </Grid>
             <Grid
@@ -172,6 +182,7 @@ export default function DialogUser({
                     value={user.address.state}
                     variant="outlined"
                     disabled={true}
+                    className={classes.text}
               />
             </Grid>
             <Grid
@@ -186,6 +197,7 @@ export default function DialogUser({
                     variant="outlined"
                     disabled={true}
                     value={user.address.city}
+                    className={classes.text}
               />
               
                 </Grid>
@@ -202,6 +214,7 @@ export default function DialogUser({
                 variant="outlined"
                     disabled={true}
                     value={user.birthdate}
+                    className={classes.text}
               />
             </Grid>
           </Grid>
