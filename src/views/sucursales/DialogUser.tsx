@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
   },
   text: {
     "& .MuiInputBase-root.Mui-disabled": {
-      color: "#000000" // (default alpha is 0.38)
+      color: "#000000" 
     }
   }
 }));
