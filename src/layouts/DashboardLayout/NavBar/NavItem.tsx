@@ -4,6 +4,11 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Button, ListItem, makeStyles } from '@material-ui/core';
 import { Users as Icon } from 'react-feather';
+import {  User as UserIcon,
+  UserPlus as UserPlusIcon,
+  Users as UsersIcon,
+  BarChart as BarChartIcon,
+} from 'react-feather';
 
 const useStyles = makeStyles(theme => ({
   item: {
@@ -63,7 +68,12 @@ const NavItem = ({
         component={RouterLink}
         to={href}
       >
-        {Icon && <Icon className={classes.icon} size="20" />}
+        {
+          title === 'Perfiles' ?
+            (<UsersIcon className={classes.icon} size="20" /> ):
+            (<BarChartIcon className={classes.icon} size="20" /> )
+        }
+        
         <span className={classes.title}>{title}</span>
       </Button>
     </ListItem>

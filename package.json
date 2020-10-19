@@ -8,7 +8,13 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "predeploy": "npm run build",
+<<<<<<< HEAD
     "deploy": "gh-pages -d build"
+=======
+    "deploy": "gh-pages -d build",
+    "heroku-prebuild": "npm install -f",
+    "heroku-postbuild": "npm run build"
+>>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -83,6 +89,13 @@
   },
   "engines": {
     "node": "12.x"
+<<<<<<< HEAD
   },
   "homepage": "http://juandardilag.github.io/dashboard2bsafe"
+=======
+  },  
+  "compilerOptions": {
+    "baseUrl": "."
+    }
+>>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
 }

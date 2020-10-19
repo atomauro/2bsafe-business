@@ -4,6 +4,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import MainLayout from './layouts/MainLayout';
 
 import SucursalesListView from './views/sucursales/SucursalesListView';
+import PerfilesView from './views/sucursales/PerfilesView';
 
 import LoginView from './views/auth/LoginView';
 import NotFoundView from './views/errors/NotFoundView';
@@ -20,6 +21,10 @@ const routes = [
       {
         path: 'sucursales',
         element: <SucursalesListView empresa={'smart-fit'} />
+      },
+      {
+        path: 'perfiles',
+        element: <PerfilesView/>
       },
       { path: '*', element: <Navigate to="/404" /> }
     ]

@@ -13,9 +13,17 @@ import {
   Grid,
   ListItem
 } from '@material-ui/core';
-import { Users as UsersIcon } from 'react-feather';
+import {
+  User as UserIcon,
+  UserPlus as UserPlusIcon,
+  Users as UsersIcon,
+  BarChart as BarChartIcon
+} from 'react-feather';
+
 import NavItem from './NavItem';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
+// import ProfileIcon from '@material-ui/icons/AccountCircle'
+
 
 const items = [
   {
@@ -30,6 +38,11 @@ const itemsSucursales = [
     href: '/app/sucursales',
     icon: UsersIcon,
     title: 'Principal'
+  },
+  {
+    href: '/app/perfiles',
+    icon: UserIcon,
+    title: 'Perfiles'
   }
 ];
 

@@ -1,5 +1,8 @@
 import fetch from 'node-fetch';
+<<<<<<< HEAD
 import FormData from 'form-data';
+=======
+>>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
 
 const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 // const getAccessToken = async () => {
@@ -57,6 +60,10 @@ async function api(credenciales: {
 
   const getAccessToken = async () => {
     const response = await login(`${email}`, password || '');
+<<<<<<< HEAD
+=======
+    console.log('responseGETACCESSTOKEN', response);
+>>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
     if (response.hasErrors()) {
       ERRORS.concat(response.errors);
       return response;
@@ -144,6 +151,7 @@ async function api(credenciales: {
         admin: isAdmin ? AdminActions : null,
         accessToken: ACCESS_TOKEN,
         users: {
+<<<<<<< HEAD
           login: async (id: string) => {
             const form = new FormData();
             form.append('login', id);
@@ -170,6 +178,8 @@ async function api(credenciales: {
 
             return { authToken: response.auth_token };
           },
+=======
+>>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
           info: async (singleAccessToken: string) => {
             const options = {
               method: 'GET',
@@ -186,7 +196,17 @@ async function api(credenciales: {
             }
 
             return {
+<<<<<<< HEAD
               ...response
+=======
+              name: response.name,
+              email: response.email,
+              status: response.status,
+              address: {
+                city: response.address.city,
+                state: response.address.state
+              }
+>>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
             };
           }
         },
