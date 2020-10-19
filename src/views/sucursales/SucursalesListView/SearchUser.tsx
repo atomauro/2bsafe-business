@@ -51,7 +51,8 @@ const SearchUserF = ({
                   )
                 }}
                 placeholder="Documento de usuario"
-                variant="outlined"
+              variant="outlined"
+              style={{margin:20}}
             />
             <div style={{display:'flex', justifyContent:'center'}}>
                 <Button variant="contained" color="primary" style={{margin: 10}}>

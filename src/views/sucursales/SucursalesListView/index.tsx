@@ -192,6 +192,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     setIngresoSucursal('');
     setReservaSucursal('');
     setCurrentView('');
+    setNeedUpdate(true)
   };
 
   const handleToolbarClose = (sucursalName: string) => {
@@ -246,9 +247,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         setNeedUpdate(false);
       });
     }
-    if (typeUser === 'sucursal' && currentView === '') {
-      handleShowReservas(name);
-    }
+    /* if (domain === 'smart-fit.com' && currentView === '') {
+      console.log("Iniciar pantalla Principal en reservas")
+      handleShowReservas(name)
+    } */
 
   }, [Api2BSafe, list, needUpdate, currentView]);
 

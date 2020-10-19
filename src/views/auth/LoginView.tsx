@@ -156,7 +156,26 @@ const LoginView = () => {
                 onSubmit={async (form, actions) => {                  
                   actions.setSubmitting(true);                  
                   setTimeout(() => {
-                    api({
+                    if (form.email.toLowerCase() === 'smart-fit@2bsafe.com') { 
+                        api({
+                    email: form.email,
+                    password: form.password
+                    }).then(apiResult => {
+                      if (apiResult.loginError) {
+                        actions.setErrors({email:'',password:''})
+                        handleAlertStatus('warning')
+                      } else {
+                        handleAlertStatus('success')
+                        setApi2BSafe(apiResult);
+                        userNameDispatch({
+                          type: 'SET',
+                          payload: form.email
+                        });                        
+                    }
+                    });
+                    }
+                    else {
+                       api({
                     email: form.email + '@smart-fit.com',
                     password: form.password
                     }).then(apiResult => {
@@ -172,6 +191,8 @@ const LoginView = () => {
                         });                        
                     }
                     });
+                    }
+                   
                     actions.setSubmitting(false); 
                   }, 1000);                                                  
                 }}

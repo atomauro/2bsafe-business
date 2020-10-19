@@ -107,12 +107,12 @@ const GenericList = ({
                         <StyledTableCell>{sucursal.name}</StyledTableCell>
                         <StyledTableCell>{sucursal.documentid}</StyledTableCell>
                         <StyledTableCell>{dia}</StyledTableCell>
+                        <StyledTableCell>{hora}</StyledTableCell>
                         {sucursal.temperature && (
                           <StyledTableCell>
                             {sucursal.temperature}
                           </StyledTableCell>
                         )}
-                        <StyledTableCell>{hora}</StyledTableCell>
                         <StyledTableCell>[OK]</StyledTableCell>
                       </StyledTableRow>
                     );
