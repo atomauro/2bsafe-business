@@ -26,8 +26,8 @@ async function callApi(url: string, options: any = {}) {
   console.log('options', options);
   try {
     const response = await fetch(url, options);
-    console.log('response', response);
     const data = await response.json();
+    console.log('data', data);
     return data;
   } catch (ex) {
     console.error('ex', ex);
@@ -190,23 +190,21 @@ async function api(credenciales: {
             };
           }
         },
+        registros: {
+          leerRegistros: async (sucursal: string) => {
+            const options = {
+              method: 'GET',
+              headers: authTokenHeader
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/registros`,
+              options
+            );
+            console.log('response', response);
+            return response;
+          }
+        },
         reservas: {
-          //   nuevaReserva: async (empresa: string, sucursal: string, doc: any) => {
-          //     if (!TOKEN_API_FIREBASE) {
-          //       TOKEN_API_FIREBASE = await getAccessToken();
-          //     }
-          //     const options = {
-          //       method: 'POST',
-          //       body: JSON.stringify(doc),
-          //       headers: {
-          //         'x-auth-token': TOKEN_API_FIREBASE
-          //       }
-          //     };
-          //     return await callApi(
-          //       `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas`,
-          //       options
-          //     );
-          //   },
           nuevaReserva: async (sucursal: string, reservaDoc: any) => {
             const options = {
               method: 'POST',
@@ -228,6 +226,7 @@ async function api(credenciales: {
               `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas`,
               options
             );
+            console.log('response', response);
             return response;
           }
         }

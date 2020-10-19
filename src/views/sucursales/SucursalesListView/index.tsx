@@ -64,6 +64,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
   const [currentView, setCurrentView] = useState('');
 
   const [listaReservas, setListaReservas] = useState([]);
+  const [listaRegistros, setListaRegistros] = useState([]);
 
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -217,7 +218,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     setIngresoSucursal('');
     setReservaSucursal('');
     setCurrentView('');
-    setNeedUpdate(true)
+    setNeedUpdate(true);
   };
 
   const handleToolbarClose = (sucursalName: string) => {
@@ -230,6 +231,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   const getReservasList = async (sucursal: string) => {
     return await Api2BSafe.reservas.leerReservas(sucursal);
+  };
+
+  const getRegistrosList = async (sucursal: string) => {
+    return await Api2BSafe.registros.leerRegistros(sucursal);
   };
 
   useEffect(() => {
@@ -269,14 +274,18 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     if (currentView !== '' && needUpdate) {
       getReservasList(currentView).then(response => {
         setListaReservas(response.data);
-        setNeedUpdate(false);
       });
+
+      getRegistrosList(currentView).then(response => {
+        setListaRegistros(response.data);
+      });
+
+      setNeedUpdate(false);
     }
     /* if (domain === 'smart-fit.com' && currentView === '') {
       console.log("Iniciar pantalla Principal en reservas")
       handleShowReservas(name)
     } */
-
   }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
@@ -317,7 +326,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               ) : showReservaSucursal === '' ? (
                 <GenericList
                   className={classes.sucursales}
-                  lista={listaReservas}
+                  lista={listaRegistros}
                   sucursalSelected={showIngresoSucursal}
                   isReserva={isReserva}
                   credentials={{
@@ -340,7 +349,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             ) : currentView === '' ? null : showReservaSucursal === '' ? (
               <GenericList
                 className={classes.sucursales}
-                lista={listaReservas}
+                lista={listaRegistros}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
                 credentials={{
