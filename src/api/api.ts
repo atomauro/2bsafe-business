@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import FormData from 'form-data';
 
 const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 // const getAccessToken = async () => {
@@ -56,7 +57,6 @@ async function api(credenciales: {
 
   const getAccessToken = async () => {
     const response = await login(`${email}`, password || '');
-    console.log('responseGETACCESSTOKEN', response);
     if (response.hasErrors()) {
       ERRORS.concat(response.errors);
       return response;
@@ -144,6 +144,32 @@ async function api(credenciales: {
         admin: isAdmin ? AdminActions : null,
         accessToken: ACCESS_TOKEN,
         users: {
+          login: async (id: string) => {
+            const form = new FormData();
+            form.append('login', id);
+            form.append('authentication_field', 'client_token');
+            // TODO: environment variable
+            form.append(
+              'authentication_value',
+              'd3da0b76e5af241fcd1e59a0c2c6b106'
+            );
+            const options = {
+              method: 'POST',
+              body: form,
+              headers: {
+                Authorization: `Token token=${TOKEN_SMARTFIT}`
+              }
+            };
+            const response = await callApi(
+              `${SMARTFIT_BASE_URL}/person_session`,
+              options
+            );
+            if (!response.auth_token) {
+              return { error: 'Error' };
+            }
+
+            return { authToken: response.auth_token };
+          },
           info: async (singleAccessToken: string) => {
             const options = {
               method: 'GET',
@@ -160,13 +186,7 @@ async function api(credenciales: {
             }
 
             return {
-              name: response.name,
-              email: response.email,
-              status: response.status,
-              address: {
-                city: response.address.city,
-                state: response.address.state
-              }
+              ...response
             };
           }
         },

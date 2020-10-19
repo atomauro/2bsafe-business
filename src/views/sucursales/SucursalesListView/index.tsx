@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   toolBar: { marginTop: 20 },
   sucursales: { marginTop: 20 },
   searchUser: {
-    marginTop:20
+    marginTop: 20
   }
 }));
 
@@ -116,28 +116,53 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     // ...
     // Send email...
     // ...
-    alert('El usuario de esta sucursal es: ' + response.data.sucursal +', y la clave es: ' + response.data.password)
+    alert(
+      'El usuario de esta sucursal es: ' +
+        response.data.sucursal +
+        ', y la clave es: ' +
+        response.data.password
+    );
     setShowEditDialog(false);
-    sendEmailWithPass(response.data.sucursal, response.data.password)
+    sendEmailWithPass(response.data.sucursal, response.data.password);
   };
 
   const sendEmailWithPass = (sucur: string, password: string) => {
-    console.log('Sending email... TO: ' + email + ' para sucursal: ' + sucur + ' con la clave: ' + password)
+    console.log(
+      'Sending email... TO: ' +
+        email +
+        ' para sucursal: ' +
+        sucur +
+        ' con la clave: ' +
+        password
+    );
     const serviceID = 'service_pdisp0p';
     const templateID = 'template_ves4r02';
     const userID = 'user_AKwufQ2kKIuGDO19wuI6h';
-    emailjs.send(serviceID, templateID,{
-      sucursal: sucur,
-      password,
-      email,
-      }, userID)
-      .then(() => {
-          alert("Se ha enviado correctamente el correo, revisa por favor incluso en tu carpeta de spam");
-      }, (err: any) => {
+    emailjs
+      .send(
+        serviceID,
+        templateID,
+        {
+          sucursal: sucur,
+          password,
+          email
+        },
+        userID
+      )
+      .then(
+        () => {
+          alert(
+            'Se ha enviado correctamente el correo, revisa por favor incluso en tu carpeta de spam'
+          );
+        },
+        (err: any) => {
           // alert(JSON.stringify(err));
-          alert("No se ha enviado el correo, revisa la dirección de correo que has ingresado e intentalo de nuevo");
-      });
-  }
+          alert(
+            'No se ha enviado el correo, revisa la dirección de correo que has ingresado e intentalo de nuevo'
+          );
+        }
+      );
+  };
 
   // Son para el dialogo de eliminar sucursal
   const onClickDeleteSucursal = async () => {
@@ -295,6 +320,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   lista={listaReservas}
                   sucursalSelected={showIngresoSucursal}
                   isReserva={isReserva}
+                  credentials={{
+                    email: userNameState,
+                    accessToken: accessTokenState
+                  }}
                 />
               ) : (
                 <GenericList
@@ -302,6 +331,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   lista={listaReservas}
                   sucursalSelected={showReservaSucursal}
                   isReserva={isReserva}
+                  credentials={{
+                    email: userNameState,
+                    accessToken: accessTokenState
+                  }}
                 />
               )
             ) : currentView === '' ? null : showReservaSucursal === '' ? (
@@ -310,6 +343,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                 lista={listaReservas}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
+                credentials={{
+                  email: userNameState,
+                  accessToken: accessTokenState
+                }}
               />
             ) : (
               <GenericList
@@ -317,6 +354,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                 lista={listaReservas}
                 sucursalSelected={showReservaSucursal}
                 isReserva={isReserva}
+                credentials={{
+                  email: userNameState,
+                  accessToken: accessTokenState
+                }}
               />
             )}
             <DialogChangePass
@@ -330,7 +371,6 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               onClose={handleCloseDeleteSucursal}
               onClick={onClickDeleteSucursal}
             />
-           
           </Grid>
         </Container>
       </Page>

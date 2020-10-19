@@ -156,7 +156,12 @@ const IndexDialogAddSucursal = ({
                 <Field
                   type="checkbox"
                   name="needSchedule"
-                  style={{ width: 20, height: 20, marginLeft:5, marginBottom:3 }}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    marginLeft: 5,
+                    marginBottom: 3
+                  }}
                 />
                 Necesita Reserva?
               </Typography>

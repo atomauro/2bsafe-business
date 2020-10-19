@@ -18,6 +18,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
+import api from '../../../api/api';
 
 const useStyles = makeStyles(theme => ({
   root: {}
@@ -46,17 +47,31 @@ const GenericList = ({
   lista,
   sucursalSelected,
   isReserva,
+  credentials,
   ...rest
 }: {
   className: any;
   lista: any[];
   sucursalSelected: string;
   isReserva: boolean;
+  credentials: any;
 }) => {
   const classes = useStyles();
 
   const { searchFieldState } = useContext(SearchFieldContext);
+  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [userInfo, setUserInfo] = useState({} as any);
 
+  const fetchUserInfo = (documentid: string) => {
+    api(credentials).then(async API2BSafe => {
+      let response = await API2BSafe.users?.login(documentid);
+      if (response && response.authToken) {
+        response = await API2BSafe.users?.info(response.authToken);
+        alert(response);
+        setUserInfo(response);
+      }
+    });
+  };
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => {
         console.log('value', value);
@@ -102,7 +117,12 @@ const GenericList = ({
                     const { dia, hora } = isoStringToDiaHora(sucursal.date);
 
                     return (
-                      <StyledTableRow key={sucursal.id}>
+                      <StyledTableRow
+                        key={sucursal.id}
+                        onClick={() => {
+                          fetchUserInfo(sucursal.documentid);
+                        }}
+                      >
                         <StyledTableCell>{sucursal.id}</StyledTableCell>
                         <StyledTableCell>{sucursal.name}</StyledTableCell>
                         <StyledTableCell>{sucursal.documentid}</StyledTableCell>
