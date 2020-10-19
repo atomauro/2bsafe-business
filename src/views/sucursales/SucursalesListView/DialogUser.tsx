@@ -58,8 +58,8 @@ export default function DialogUser({
           AUTORIZACION DE USO DE DATOS PERSONALES
         </DialogTitle>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+          <Grid container={true} spacing={2}>
+            <Grid item={true} xs={12} md={6}>
               <Typography variant="h6" className={classes.title}>
                 Text only
               </Typography>
