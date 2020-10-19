@@ -6,11 +6,7 @@ import React, {
   useReducer
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { Container, makeStyles, Grid } from '@material-ui/core';
-=======
 import { Container, makeStyles, Grid, Typography } from '@material-ui/core';
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
 import Page from '../../../components/Page';
 
 import Toolbar from './Toolbar';
@@ -28,11 +24,8 @@ import DialogDelete from './DialogDelete';
 
 import emailjs from 'emailjs-com';
 
-<<<<<<< HEAD
-=======
 import SearchUser from './SearchUser';
 
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
 export const SearchFieldContext = createContext({} as any);
 
 const useStyles = makeStyles(theme => ({
@@ -47,14 +40,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   },
   toolBar: { marginTop: 20 },
-<<<<<<< HEAD
-  sucursales: { marginTop: 20 }
-=======
   sucursales: { marginTop: 20 },
   searchUser: {
-    marginTop:20
+    marginTop: 20
   }
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
 }));
 
 const CustomerListView = ({ empresa }: { empresa: string }) => {
@@ -127,7 +116,6 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     // ...
     // Send email...
     // ...
-<<<<<<< HEAD
     alert(
       'El usuario de esta sucursal es: ' +
         response.data.sucursal +
@@ -175,30 +163,6 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         }
       );
   };
-=======
-    alert('El usuario de esta sucursal es: ' + response.data.sucursal +', y la clave es: ' + response.data.password)
-    setShowEditDialog(false);
-    sendEmailWithPass(response.data.sucursal, response.data.password)
-  };
-
-  const sendEmailWithPass = (sucur: string, password: string) => {
-    console.log('Sending email... TO: ' + email + ' para sucursal: ' + sucur + ' con la clave: ' + password)
-    const serviceID = 'service_pdisp0p';
-    const templateID = 'template_ves4r02';
-    const userID = 'user_AKwufQ2kKIuGDO19wuI6h';
-    emailjs.send(serviceID, templateID,{
-      sucursal: sucur,
-      password,
-      email,
-      }, userID)
-      .then(() => {
-          alert("Se ha enviado correctamente el correo, revisa por favor incluso en tu carpeta de spam");
-      }, (err: any) => {
-          // alert(JSON.stringify(err));
-          alert("No se ha enviado el correo, revisa la dirección de correo que has ingresado e intentalo de nuevo");
-      });
-  }
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
 
   // Son para el dialogo de eliminar sucursal
   const onClickDeleteSucursal = async () => {
@@ -217,11 +181,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       sucursalInfo.nameid,
       INFO
     );
-<<<<<<< HEAD
-    console.log('response', response);
-=======
     console.log('RESPONDE ADD SUCURSAL', response);
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
     return true;
   };
 
@@ -311,13 +271,9 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         setNeedUpdate(false);
       });
     }
-<<<<<<< HEAD
-=======
     if (typeUser === 'sucursal' && currentView === '') {
       handleShowReservas(name);
     }
-
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
   }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
@@ -361,13 +317,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   lista={listaReservas}
                   sucursalSelected={showIngresoSucursal}
                   isReserva={isReserva}
-<<<<<<< HEAD
                   credentials={{
                     email: userNameState,
                     accessToken: accessTokenState
                   }}
-=======
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
                 />
               ) : (
                 <GenericList
@@ -375,13 +328,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                   lista={listaReservas}
                   sucursalSelected={showReservaSucursal}
                   isReserva={isReserva}
-<<<<<<< HEAD
                   credentials={{
                     email: userNameState,
                     accessToken: accessTokenState
                   }}
-=======
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
                 />
               )
             ) : currentView === '' ? null : showReservaSucursal === '' ? (
@@ -390,13 +340,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                 lista={listaReservas}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
-<<<<<<< HEAD
                 credentials={{
                   email: userNameState,
                   accessToken: accessTokenState
                 }}
-=======
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
               />
             ) : (
               <GenericList
@@ -404,13 +351,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
                 lista={listaReservas}
                 sucursalSelected={showReservaSucursal}
                 isReserva={isReserva}
-<<<<<<< HEAD
                 credentials={{
                   email: userNameState,
                   accessToken: accessTokenState
                 }}
-=======
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
               />
             )}
             <DialogChangePass
@@ -424,10 +368,6 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               onClose={handleCloseDeleteSucursal}
               onClick={onClickDeleteSucursal}
             />
-<<<<<<< HEAD
-=======
-           
->>>>>>> d22ab7b014e30d195bb7eda133c73e20800d0de7
           </Grid>
         </Container>
       </Page>
