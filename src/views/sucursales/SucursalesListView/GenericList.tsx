@@ -11,9 +11,14 @@ import {
   TableRow,
   makeStyles,
   withStyles,
+  IconButton,
+  Backdrop,
+  CircularProgress,
   Fade
 } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { AccountCircle } from '@material-ui/icons';
+import DialogUser from '../DialogUser'
+
 
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
@@ -21,7 +26,11 @@ import { SearchFieldContext } from '.';
 import api from '../../../api/api';
 
 const useStyles = makeStyles(theme => ({
-  root: {}
+  root: {},
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 const StyledTableCell = withStyles(theme => ({
@@ -53,25 +62,41 @@ const GenericList = ({
   className: any;
   lista: any[];
   sucursalSelected: string;
-  isReserva: boolean;
+  isReserva: boolean; 
   credentials: any;
 }) => {
   const classes = useStyles();
 
   const { searchFieldState } = useContext(SearchFieldContext);
-  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [showDialogUser, setShowDialogUser] = useState(false);
+  const [isLoading, setisLoading] = useState(false)
   const [userInfo, setUserInfo] = useState({} as any);
+  const [page, setPage] = useState(0);
 
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
       let response = await API2BSafe.users?.login(documentid);
       if (response && response.authToken) {
         response = await API2BSafe.users?.info(response.authToken);
-        alert(response);
-        setUserInfo(response);
+        console.log(response)
+        setisLoading(false)
+         setUserInfo(response);
+         setShowDialogUser(true)
+      }
+      if(response?.error){
+        console.log(response.error)
+        setisLoading(false)
+        alert('Usuario no encontrado, intentalo de nuevo')
       }
     });
   };
+
+  const handleFetchUser = (documento: string) => {
+    console.log('Fetching user', documento)
+    setisLoading(true)
+    fetchUserInfo(documento)  
+    }
+
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => {
         console.log('value', value);
@@ -102,6 +127,7 @@ const GenericList = ({
                   <StyledTableCell>Hora</StyledTableCell>
                   {!isReserva && <StyledTableCell>Temperatura</StyledTableCell>}
                   <StyledTableCell>Encuesta</StyledTableCell>
+                  <StyledTableCell>Ver Perfil</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
@@ -118,10 +144,7 @@ const GenericList = ({
 
                     return (
                       <StyledTableRow
-                        key={sucursal.id}
-                        onClick={() => {
-                          fetchUserInfo(sucursal.documentid);
-                        }}
+                        key={sucursal.id}                        
                       >
                         <StyledTableCell>{sucursal.id}</StyledTableCell>
                         <StyledTableCell>{sucursal.name}</StyledTableCell>
@@ -134,6 +157,13 @@ const GenericList = ({
                           </StyledTableCell>
                         )}
                         <StyledTableCell>[OK]</StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton onClick={() => {
+                          handleFetchUser(sucursal.documentid);
+                        }}>
+                            <AccountCircle/>
+                          </IconButton>
+                        </StyledTableCell>
                       </StyledTableRow>
                     );
                   })}
@@ -141,6 +171,11 @@ const GenericList = ({
             </Table>
           </Box>
         </PerfectScrollbar>
+        <DialogUser show={showDialogUser} onClose={() => { setShowDialogUser(false) }} user={userInfo}/>
+
+      <Backdrop className={classes.backdrop} open={isLoading} onClick={()=>{console.log('dont close')}}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       </Card>
     </Fade>
   );

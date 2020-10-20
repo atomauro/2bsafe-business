@@ -16,7 +16,8 @@
     "jsx": "react",
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "baseUrl": "."
   },
   "include": ["src", "public", "declarations.d.ts"],
   "exclude": ["node_modules"]

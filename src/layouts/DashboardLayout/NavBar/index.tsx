@@ -30,6 +30,11 @@ const items = [
     href: '/app/sucursales',
     icon: UsersIcon,
     title: 'Sucursales'
+  },
+  {
+    href: '/app/perfiles',
+    icon: UserIcon,
+    title: 'Perfiles'
   }
 ];
 
