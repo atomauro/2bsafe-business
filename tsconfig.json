@@ -17,7 +17,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "baseUrl": "./public/"
+    "baseUrl": "./src"
   },
   "include": ["src", "public", "declarations.d.ts"],
   "exclude": ["node_modules"]
