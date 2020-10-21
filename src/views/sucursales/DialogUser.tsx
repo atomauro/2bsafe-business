@@ -84,18 +84,22 @@ export default function DialogUser({
           </Typography>
           
                 <Box display='flex' flexDirection="row">
-                <Typography
-                  color="textSecondary"
-                  variant="h4"
-                >
-                    Estado Actual: 
-          </Typography>
-                   <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                   {user.status}
-          </Typography>
+                {user.status==='active'?
+                    (<Typography
+                    style={{color:'#00FF00'}}
+                    variant="h4"
+                  >
+                      {user.status} 
+                    </Typography>):
+                
+                    (<Typography
+                      color="textSecondary"
+                    variant="h4"
+                  >
+                      {user.status} 
+                    </Typography>)
+                }                
+                   
 
                 </Box>
         </Box>          
