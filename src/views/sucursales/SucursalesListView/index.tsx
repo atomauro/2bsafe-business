@@ -282,7 +282,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
       setNeedUpdate(false);
     }
-    if (typeUser==='sucursal' && currentView === '') {
+    /* if (typeUser==='sucursal' && currentView === '') {
       console.log("Iniciar pantalla Principal en reservas")
       getReservasList(currentView).then(response => {
         setListaReservas(response.data);
@@ -292,7 +292,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
         setListaRegistros(response.data);
       });
       handleShowReservas(name)
-    } 
+    }  */
   }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
