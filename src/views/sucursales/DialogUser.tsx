@@ -159,6 +159,43 @@ export default function DialogUser({
                     className={classes.text}
               />
             </Grid>
+            {
+                user.plan==='Digital'?
+                (
+                  <Grid
+              item={true}
+              md={6}
+              xs={12}
+            >
+                  <TextField
+                    fullWidth={true}
+                    label="Próxima anualidad"
+                        name="nextanual"
+                        value="N/A"
+                        variant="outlined"
+                        disabled={true}
+                        className={classes.text}
+                  />
+                  </Grid>
+                ):
+                (
+                  <Grid
+              item={true}
+              md={6}
+              xs={12}
+            >
+                  <TextField
+                    fullWidth={true}
+                    label="Próxima anualidad"
+                        name="nextanual"
+                        value={user.main_purchase_expired_at}
+                        variant="outlined"
+                        disabled={true}
+                        className={classes.text}
+                  />
+                  </Grid>
+                )
+              }
             <Grid
               item={true}
               md={6}
@@ -190,37 +227,61 @@ export default function DialogUser({
                     className={classes.text}
               />
             </Grid>
-            <Grid
-              item={true}
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth={true}
-                label="Departamento"
-                    name="country"
-                    value={user.name}
-                    variant="outlined"
-                    disabled={true}
-                    className={classes.text}
-              />
-            </Grid>
-            <Grid
-              item={true}
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth={true}
-                label="Ciudad"
-                name="state"                              
-                    variant="outlined"
-                    disabled={true}
-                    value={user.name  }
-                    className={classes.text}
-              />
-              
-                </Grid>
+          {user.address!==undefined?
+             (
+             <>
+             <Grid
+             item={true}
+             md={6}
+             xs={12}
+           >
+             <TextField
+               fullWidth={true}
+               label="Departamento"
+                   name="country"
+                   value={user.address.state}
+                   variant="outlined"
+                   disabled={true}
+                   className={classes.text}
+             />
+           </Grid>
+           <Grid
+             item={true}
+             md={6}
+             xs={12}
+           >
+             <TextField
+               fullWidth={true}
+               label="Ciudad"
+               name="city"                              
+                   variant="outlined"
+                   disabled={true}
+                   value={user.address.city}
+                   className={classes.text}
+             />
+             
+               </Grid>
+           
+               <Grid
+             item={true}
+             md={6}
+             xs={12}
+           >
+             <TextField
+               fullWidth={true}
+               label="Dirección"
+               name="address"                              
+                   variant="outlined"
+                   disabled={true}
+                   value={user.address.street}
+                   className={classes.text}
+             />
+             
+               </Grid>
+               </>
+               ) : null
+          }
+           
             <Grid
               item={true}
               md={6}
@@ -237,6 +298,39 @@ export default function DialogUser({
                     className={classes.text}
               />
             </Grid>
+            <Grid
+              item={true}
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth={true}
+                label="Invitaciones"
+                    name="invitations"
+                    value={user.remaining_guests}
+                    variant="outlined"
+                    disabled={true}
+                    className={classes.text}
+              />
+            </Grid>
+            <Grid
+              item={true}
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth={true}
+                label="ID del usuario"
+                    name="id"
+                    value={user.id}
+                    variant="outlined"
+                    disabled={true}
+                    className={classes.text}
+              />
+            </Grid>
+            
+              
+            
           </Grid>
         </CardContent>
         <Divider />

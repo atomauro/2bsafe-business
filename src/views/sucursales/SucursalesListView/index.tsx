@@ -282,10 +282,17 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
       setNeedUpdate(false);
     }
-    /* if (domain === 'smart-fit.com' && currentView === '') {
+    if (typeUser==='sucursal' && currentView === '') {
       console.log("Iniciar pantalla Principal en reservas")
+      getReservasList(currentView).then(response => {
+        setListaReservas(response.data);
+      });
+
+      getRegistrosList(currentView).then(response => {
+        setListaRegistros(response.data);
+      });
       handleShowReservas(name)
-    } */
+    } 
   }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
