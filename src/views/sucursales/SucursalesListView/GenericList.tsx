@@ -131,12 +131,15 @@ const GenericList = ({
                 </StyledTableRow>
               </TableHead>
               <TableBody>
+
                 {FINAL_LIST &&
                   FINAL_LIST.map((sucursal: any) => {
                     const isoStringToDiaHora = (isoDateString: string) => {
                       const response: any = {};
-                      response.dia = isoDateString.substring(0, 10);
-                      response.hora = isoDateString.substring(11, 16);
+                      if(isoDateString!==undefined){
+                        response.dia = isoDateString.substring(0, 10);
+                        response.hora = isoDateString.substring(11, 16);
+                      }
                       return response;
                     };
 
