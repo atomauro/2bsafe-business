@@ -61,7 +61,7 @@ const initialState = [
   blocks:{
     desde:'',
     hasta:'',
-    aforo:0
+    aforo:0,
   }
 }}]
 
