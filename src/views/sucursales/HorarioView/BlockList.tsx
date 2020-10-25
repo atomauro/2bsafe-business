@@ -11,16 +11,16 @@ const BlockList = (props: any ) => (
 
 
   <List style={{width:300}}>
-    {props.blocks.lenght===0?
+    {props.blocks.length===0?
       <NoHayBloques/>:
-      {props.blocks.map((block:any, index:number) => {      
+      (props.blocks.map((block:any, index:number) => {      
         const objeto = JSON.parse(block)
         const desde = objeto.desde
         const hasta = objeto.hasta
   
         return (
         <ListItem key={index.toString()} dense={true} button={true}>        
-          <ListItemText primary={desde + '-->' + hasta} />
+          <ListItemText primary={desde + ' -->' + hasta} />
           <ListItemSecondaryAction>
             <IconButton
               aria-label="Delete"
@@ -32,7 +32,7 @@ const BlockList = (props: any ) => (
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
-      )})}
+      )}))
     }
     
   </List>

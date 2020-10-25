@@ -56,12 +56,7 @@ const SearchUser = (props:any) => {
 
   return (
 
-   <Fade
-      in={true}
-      mountOnEnter={true}
-      unmountOnExit={true}
-      timeout={{ enter: 500, exit: 500 }}
-    >
+  
      <>
         <Box flexDirection="column" className={classes.message}>
             <Typography variant="h4" align="center" style={{margin:20}}>
@@ -71,14 +66,9 @@ const SearchUser = (props:any) => {
           <div style={{display:'flex', justifyContent:'center'}}>
             <Lottie options={defaultOptionsCalendario} height={200} width={200} />  
           </div>
-          <div style={{display:'flex', justifyContent:'center'}}>
-            <Lottie options={defaultOptionsMancuerna} height={100} width={100} />  
-          </div>
+         
      </>
-      
-      
-      
-      </Fade>
+
       
 
   );
