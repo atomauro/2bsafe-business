@@ -5,6 +5,7 @@ import MainLayout from './layouts/MainLayout';
 
 import SucursalesListView from './views/sucursales/SucursalesListView';
 import PerfilesView from './views/sucursales/PerfilesView';
+import HorarioView from './views/sucursales/HorarioView';
 
 import LoginView from './views/auth/LoginView';
 import NotFoundView from './views/errors/NotFoundView';
@@ -25,6 +26,10 @@ const routes = [
       {
         path: 'perfiles',
         element: <PerfilesView/>
+      },
+      {
+        path: 'horario',
+        element: <HorarioView/>
       },
       { path: '*', element: <Navigate to="/404" /> }
     ]

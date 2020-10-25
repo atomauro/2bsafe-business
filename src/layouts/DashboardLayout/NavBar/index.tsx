@@ -17,7 +17,8 @@ import {
   User as UserIcon,
   UserPlus as UserPlusIcon,
   Users as UsersIcon,
-  BarChart as BarChartIcon
+  BarChart as BarChartIcon,
+  Calendar as CalendarIcon,
 } from 'react-feather';
 
 import NavItem from './NavItem';
@@ -48,6 +49,11 @@ const itemsSucursales = [
     href: '/app/perfiles',
     icon: UserIcon,
     title: 'Perfiles'
+  },
+  {
+    href: '/app/horario',
+    icon: CalendarIcon,
+    title: 'Horario'
   }
 ];
 

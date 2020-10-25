@@ -118,10 +118,8 @@ const handleFetchUser = () => {
                 type="text"
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
-                      
-                        <SearchIcon />                      
-                        
+                    <InputAdornment position="start">                      
+                        <SearchIcon />         
                     </InputAdornment>
                   )
                 }}
