@@ -20,7 +20,7 @@ const BlockList = (props: any ) => (
   
         return (
         <ListItem key={index.toString()} dense={true} button={true}>        
-          <ListItemText primary={desde + ' -->' + hasta} />
+          <ListItemText primary={desde + ' --> ' + hasta} />
           <ListItemSecondaryAction>
             <IconButton
               aria-label="Delete"

@@ -33,23 +33,24 @@ const BlockForm = ( props: any ) => {
 
   const classes = useStyles();
 
+ 
+
   return (
  
     <Formik
     style={{width:'100%'}}
           initialValues={{
             desde: '',
-            hasta: '',
-            dia:''
+            hasta: '',          
           }}
-          validationSchema={Yup.object().shape({
-            desde: Yup.string().required('Requerido'),
-            hasta: Yup.string().required('Requerido'),
-           
-          })}
+          
           onSubmit={(form: any, actions: any) => {
-            console.log(form)
-            props.saveBlock(JSON.stringify(form))
+            if(form.desde==='' || form.hasta===''){
+              alert('Revisa los campos')
+            } else{
+              console.log(form)
+              props.saveBlock(JSON.stringify(form), props.day)
+            }
           }}
         >
           {({
@@ -63,26 +64,7 @@ const BlockForm = ( props: any ) => {
           }) => (
             <form onSubmit={handleSubmit}>  
             <Box flexDirection='column' display="flex" justifyContent="center" >                
-              <Box flexDirection='column' justifyContent="center" display="flex" style={{marginBottom:14}}>                
-                
-                  <Select                    
-                    id="dia"
-                    name="dia"
-                    value={values.dia}
-                    onChange={handleChange}
-                    label="Dia" 
-
-                  >                    
-                    <MenuItem value={'Lunes'}>Lunes</MenuItem>
-                    <MenuItem value={'Martes'}>Martes</MenuItem>
-                    <MenuItem value={'Miercoles'}>Miercoles</MenuItem>
-                    <MenuItem value={'Jueves'}>Jueves</MenuItem>
-                    <MenuItem value={'Viernes'}>Viernes</MenuItem>
-                    <MenuItem value={'Sabado'}>Sabado</MenuItem>
-                    <MenuItem value={'Domingo'}>Domingo</MenuItem>
-                  </Select>
-
-            </Box>
+             
 
               <Box flexDirection="row" display="flex" style={{marginBottom:14}}>
                 <Box flexDirection='column' display="flex" justifyContent="center" style={{marginRight:20}}>

@@ -60,7 +60,7 @@ const SearchUser = (props:any) => {
      <>
         <Box flexDirection="column" className={classes.message}>
             <Typography variant="h4" align="center" style={{margin:20}}>
-              ¡Aún no hay bloques, crealos!
+              ¡Aún no hay bloques para este dia, crealos!
             </Typography>
           </Box>
           <div style={{display:'flex', justifyContent:'center'}}>
