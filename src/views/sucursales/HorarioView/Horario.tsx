@@ -59,7 +59,8 @@ const Horario = ({
 
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [isLoading, setisLoading] = useState(false)
-  const [day, setDay] = useState(0)
+  const [dayNumber, setDayNumber] = useState(0)
+  const [day, setDay] = useState('')
   const [blocksOfDay, setBlocksOfDay] = useState({})
 
   const { semana, addBlock, deleteBlock } = useBlockState([]);
@@ -90,7 +91,8 @@ const Horario = ({
         numberDay=6
         break;
     }    
-    setDay(numberDay)
+    setDayNumber(numberDay)
+
     getBlocks(event.target.value)
   }
 
@@ -143,9 +145,7 @@ const Horario = ({
                 name="dia"
                 value={day}
                 onChange={handleChangeDay}
-                label="Dia" 
-                defaultValue="Lunes"
-
+                label="Dia"                
               >                    
                 <MenuItem value={'Lunes'}>Lunes</MenuItem>
                 <MenuItem value={'Martes'}>Martes</MenuItem>
@@ -185,11 +185,11 @@ const Horario = ({
               
               <Box className={classes.message}>
                 <BlockForm
-                        saveBlock={(blockText:string) => {
+                        saveBlock={(blockText:string) => { 
                         const trimmedText = blockText.trim();
 
                         if (trimmedText.length > 0) {
-                            addBlock(trimmedText, day);
+                            addBlock(trimmedText, 0);
                         }
                         }}/>             
               </Box>
@@ -213,30 +213,17 @@ const Horario = ({
             >
               <Card className={clsx(classes.root, className)} {...rest}>       
                 <PerfectScrollbar>          
-                  <Box width="100%" style={{display:'flex',justifyContent:'center'}}>   
-
-            
-                  {semana[day].blocks!==null?
-                    <BlockList blocks={semana[day].blocks} deleteBlock={deleteBlock} /> : null
-                  }
+                  <Box width="100%" style={{display:'flex',justifyContent:'center'}}>               
+                  
+                    <BlockList blocks={[]} deleteBlock={deleteBlock} /> 
+                  
                   </Box>
                 </PerfectScrollbar>
               </Card>
             </Fade>
           </Grid>
 
-    </Grid>
-    
-
-
-
-    
-
-    
-
-    
-      
-    
+    </Grid>    
       
       <Backdrop className={classes.backdrop} open={isLoading} onClick={()=>{console.log('dont close')}}>
         <CircularProgress color="inherit" />
