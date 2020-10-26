@@ -59,11 +59,11 @@ const PerfilesView = (props:any) => {
             <Grid item={true}>
 
             <SearchUser 
-            className={classes.searchUser} 
-            credentials={{
-                    email: userNameState,
-                    accessToken: accessTokenState
-                  }}/>
+              className={classes.searchUser} 
+              credentials={{
+                      email: userNameState,
+                      accessToken: accessTokenState
+                    }}/>
             </Grid>
           
           </Grid>

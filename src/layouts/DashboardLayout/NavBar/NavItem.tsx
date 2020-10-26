@@ -8,6 +8,7 @@ import {  User as UserIcon,
   UserPlus as UserPlusIcon,
   Users as UsersIcon,
   BarChart as BarChartIcon,
+  Calendar as CalendarIcon,
 } from 'react-feather';
 
 const useStyles = makeStyles(theme => ({
@@ -71,7 +72,9 @@ const NavItem = ({
         {
           title === 'Perfiles' ?
             (<UsersIcon className={classes.icon} size="20" /> ):
-            (<BarChartIcon className={classes.icon} size="20" /> )
+            title === 'Horario' ?
+            (<CalendarIcon className={classes.icon} size="20" /> ):
+            (<BarChartIcon className={classes.icon} size="20"/>)
         }
         
         <span className={classes.title}>{title}</span>
