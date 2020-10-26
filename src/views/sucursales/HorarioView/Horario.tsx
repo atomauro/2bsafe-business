@@ -59,18 +59,43 @@ const Horario = ({
 
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [isLoading, setisLoading] = useState(false)
-  const [day, setDay] = useState('Lunes')
+  const [day, setDay] = useState(0)
+  const [blocksOfDay, setBlocksOfDay] = useState({})
 
-  const { blocks, addBlock, deleteBlock } = useBlockState([]);
+  const { semana, addBlock, deleteBlock } = useBlockState([]);
 
 
   const handleChangeDay = (event:any) =>{
-    setDay(event.target.value)
+    let numberDay =0
+    switch (event.target.value) {
+      case 'Lunes':
+        numberDay=0
+        break;
+      case 'Martes':
+        numberDay=1
+        break;
+      case 'Miercoles':
+        numberDay=2
+        break;
+      case 'Jueves':
+        numberDay=3
+        break;
+      case 'Viernes':
+        numberDay=4
+        break;
+      case 'Sabado':
+        numberDay=5
+        break;
+      case 'Domingo':
+        numberDay=6
+        break;
+    }    
+    setDay(numberDay)
     getBlocks(event.target.value)
   }
 
   const getBlocks = (daychoosed:string) => {
-    console.log('Obtiene los bloques del dia: ' + daychoosed)
+    console.log('Obtiene los bloques del dia: ' + daychoosed)    
   }
 
 
@@ -164,7 +189,7 @@ const Horario = ({
                         const trimmedText = blockText.trim();
 
                         if (trimmedText.length > 0) {
-                            addBlock(trimmedText);
+                            addBlock(trimmedText, day);
                         }
                         }}/>             
               </Box>
@@ -190,8 +215,10 @@ const Horario = ({
                 <PerfectScrollbar>          
                   <Box width="100%" style={{display:'flex',justifyContent:'center'}}>   
 
-                  <BlockList blocks={blocks} deleteBlock={deleteBlock} />
-
+            
+                  {semana[day].blocks!==null?
+                    <BlockList blocks={semana[day].blocks} deleteBlock={deleteBlock} /> : null
+                  }
                   </Box>
                 </PerfectScrollbar>
               </Card>

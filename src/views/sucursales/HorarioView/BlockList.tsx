@@ -13,6 +13,7 @@ const BlockList = (props: any ) => (
   <List style={{width:300}}>
     {props.blocks.length===0?
       <NoHayBloques/>:
+
       (props.blocks.map((block:any, index:number) => {      
         const objeto = JSON.parse(block)
         const desde = objeto.desde
