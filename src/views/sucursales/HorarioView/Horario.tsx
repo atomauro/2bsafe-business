@@ -60,7 +60,7 @@ const Horario = ({
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [isLoading, setisLoading] = useState(false)
   const [dayNumber, setDayNumber] = useState(0)
-  const [day, setDay] = useState('')
+  const [day, setDay] = useState('Lunes')
   const [blocksOfDay, setBlocksOfDay] = useState({})
 
   const { semana, addBlock, deleteBlock } = useBlockState([]);
@@ -91,8 +91,8 @@ const Horario = ({
         numberDay=6
         break;
     }    
-    setDayNumber(numberDay)
-
+    setDayNumber(numberDay) 
+    setDay(event.target.value)
     getBlocks(event.target.value)
   }
 
@@ -123,9 +123,9 @@ const Horario = ({
 
     <Grid 
     item={true} 
-    lg={4} 
-    justify="center"
-    
+    lg={4}
+    md={8}
+    justify="center"    
     alignItems="center">
     <Slide
       direction="down"
@@ -163,9 +163,9 @@ const Horario = ({
 
 
 
-    <Grid container={true} lg={4}>
+    <Grid container={true} lg={4} md={8}>
 
-          <Grid lg={12}>
+        <Grid lg={12} md={10}>
           <Slide
           direction="down"
           in={true}
@@ -185,13 +185,9 @@ const Horario = ({
               
               <Box className={classes.message}>
                 <BlockForm
-                        saveBlock={(blockText:string) => { 
-                        const trimmedText = blockText.trim();
-
-                        if (trimmedText.length > 0) {
-                            addBlock(trimmedText, 0);
-                        }
-                        }}/>             
+                    saveBlock={(blockText:string) => {                       
+                        addBlock(blockText, dayNumber);                        
+                    }}/>             
               </Box>
             </Box>
             </>
@@ -203,6 +199,7 @@ const Horario = ({
 
           <Grid 
           lg={8} 
+          md={10}
           justify="center"
           alignItems="center">
               <Fade

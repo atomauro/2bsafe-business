@@ -7,15 +7,18 @@ const initialState = [
   fin:null,
   blocks:[{
     desde:'8:00',
-    hasta:'9:30',    
+    hasta:'9:30', 
+    tag:'0800to2130'      
   },
   {
     desde:'04:20',
     hasta:'12:00',    
+    tag:'2000to2130'   
   },
   {
     desde:'11:00',
     hasta:'12:00',    
+    tag:'2000to2130'   
   },
 ]
 }},
@@ -25,14 +28,17 @@ const initialState = [
   blocks:[{
     desde:'16:00',
     hasta:'16:30',    
+    tag:'2000to2130'   
   },
   {
     desde:'17:00',
     hasta:'18:00',    
+    tag:'2000to2130'   
   },
   {
     desde:'18:00',
     hasta:'19:00',    
+    tag:'2000to2130'   
   },
 ]
 }},
@@ -41,15 +47,18 @@ const initialState = [
   fin:'',
   blocks:[{
     desde:'20:00',
-    hasta:'21:30',    
+    hasta:'21:30', 
+    tag:'2000to2130'   
   },
   {
     desde:'21:00',
     hasta:'22:00',    
+    tag:'2000to2130'   
   },
   {
     desde:'23:00',
-    hasta:'24:00',    
+    hasta:'24:00',   
+    tag:'2000to2130'    
   },
 ]
 }},
@@ -58,15 +67,18 @@ const initialState = [
   fin:'',
   blocks:[{
     desde:'8:00',
-    hasta:'9:30',    
+    hasta:'9:30', 
+    tag:'2000to2130'      
   },
   {
     desde:'10:00',
-    hasta:'11:00',    
+    hasta:'11:00', 
+    tag:'2000to2130'      
   },
   {
     desde:'11:00',
-    hasta:'12:00',    
+    hasta:'12:00',  
+    tag:'2000to2130'     
   },
 ]
 }},
@@ -75,15 +87,18 @@ const initialState = [
   fin:'',
   blocks: [{
     desde:'8:00',
-    hasta:'9:30',    
+    hasta:'9:30',  
+    tag:'2000to2130'     
   },
   {
     desde:'20:00',
-    hasta:'12:00',    
+    hasta:'12:00', 
+    tag:'2000to2130'      
   },
   {
     desde:'15:00',
-    hasta:'15:00',    
+    hasta:'15:00',   
+    tag:'2000to2130'    
   },
 ]
 }},
@@ -93,14 +108,17 @@ const initialState = [
   blocks:[{
     desde:'12:00',
     hasta:'12:30',    
+    tag:'2000to2130'   
   },
   {
     desde:'13:00',
-    hasta:'14:00',    
+    hasta:'14:00',   
+    tag:'2000to2130'    
   },
   {
     desde:'15:00',
     hasta:'16:00',    
+    tag:'2000to2130'   
   },
 ]
 }},
@@ -110,7 +128,7 @@ const initialState = [
   blocks:[{
     desde:'',
     hasta:'',
-    
+    tag:'2000to2130'       
   }]
 }}]
 
@@ -121,7 +139,7 @@ export default (props:any) => {
   return {
     semana,
     addBlock: (blockText:string, dayChoosed:number) => {
-      // setBlocks({...semana, day: blockText });
+      setBlocks({...semana});
       console.log(semana)
       console.log(blockText)
       console.log(dayChoosed)
