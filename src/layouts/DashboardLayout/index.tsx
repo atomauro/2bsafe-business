@@ -52,7 +52,6 @@ const DashboardLayout = ({ history }: { history: any }) => {
   useEffect(() => {
     console.log('accessTokenState', accessTokenState);
     if (accessTokenState === '') {
-      console.log('Por lo tanto...');
       navigate('/login', { replace: true });
     }
   }, [accessTokenState]);

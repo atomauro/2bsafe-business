@@ -167,6 +167,7 @@ const LoginView = () => {
                       } else {
                         handleAlertStatus('success')
                         setApi2BSafe(apiResult);
+                        
                         userNameDispatch({
                           type: 'SET',
                           payload: form.email
