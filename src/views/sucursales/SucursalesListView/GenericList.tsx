@@ -5,6 +5,8 @@ import {
   Box,
   Card,
   Table,
+  MenuItem,
+  Select,
   TableBody,
   TableCell,
   TableHead,
@@ -13,12 +15,17 @@ import {
   withStyles,
   IconButton,
   Backdrop,
+  FormControl,
+  Grid,
+  TextField,
   CircularProgress,
+  InputLabel,
   Fade
 } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import DialogUser from '../DialogUser'
 
+import { Formik } from 'formik';
 
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
@@ -30,6 +37,14 @@ const useStyles = makeStyles(theme => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
+  },
+  textField: {
+    margin: theme.spacing(2),
+    width: 200
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
   },
 }));
 
@@ -73,6 +88,9 @@ const GenericList = ({
   const [userInfo, setUserInfo] = useState({} as any);
   const [page, setPage] = useState(0);
 
+  const [dateFilter, setDateFilter] = useState('')
+  const [blockFilter, setBlockFilter] = useState('')
+
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
       let response = await API2BSafe.users?.login(documentid);
@@ -97,6 +115,13 @@ const GenericList = ({
     fetchUserInfo(documento)  
     }
 
+  const getCollection = () => {
+    // const FINAL_LIST_DATE = lista.filter(elemento=> elemento===dateFilter);
+    const aux1 = blockFilter.slice(4) + 'to' + blockFilter.slice(6)
+    console.log(aux1)
+    // const FINAL_LIST_TIME = FINAL_LIST_DATE.filter(elemento=> elemento===blockFilter);    
+  }
+
   const FINAL_LIST = searchFieldState
     ? lista.filter(value => {
         console.log('value', value);
@@ -113,6 +138,60 @@ const GenericList = ({
       unmountOnExit={true}
       timeout={{ enter: 500, exit: 500 }}
     >
+      <>
+      <Card className={clsx(classes.root, className)} {...rest}>
+      
+      <Grid container={true}>
+        <Grid item={true} lg={6} md={6} xs={12} sm={6}>
+        <TextField
+          id="date"
+          label="Fecha"
+          type="date"                
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={(e:any) => {
+            setDateFilter(e.target.value);            
+          }}
+          value={dateFilter}
+        />
+        </Grid>
+        <Grid item={true} lg={6} md={6} xs={12} sm={6}>
+      <FormControl className={classes.formControl} >
+        <InputLabel shrink={true} id="label-blocks">Bloques</InputLabel>
+        <Select
+          id="blocks"
+          label="Bloques"          
+          className={classes.textField}         
+          value={blockFilter}          
+          displayEmpty={true}
+          onChange={(e:any) => {
+            setBlockFilter(e.target.value);            
+          }}
+        >
+          {/* {Object.keys(
+            
+          ).map(blockStr => (
+                      <MenuItem
+                        value={blockStr.slice(
+                          blockStr.indexOf('to') + 2,
+                          blockStr.length
+                        )}
+                      >
+                        {blockStr}
+                      </MenuItem> */}
+          <MenuItem value='0900to1000'>0900to1000</MenuItem>
+          <MenuItem value='0900to1000'>0900to1000</MenuItem>
+          <MenuItem value='0900to1000'>0900to1000</MenuItem>
+          <MenuItem value='0900to1000'>0900to1000</MenuItem>
+          <MenuItem value='0900to1000'>0900to1000</MenuItem>
+        </Select>
+        </FormControl>
+        </Grid>
+      </Grid>
+     
+      </Card>
       <Card className={clsx(classes.root, className)} {...rest}>
         <SearchField isSucursales={false} />
         <PerfectScrollbar>
@@ -180,6 +259,7 @@ const GenericList = ({
         <CircularProgress color="inherit" />
       </Backdrop>
       </Card>
+      </>
     </Fade>
   );
 };

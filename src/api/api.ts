@@ -18,7 +18,8 @@ const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 // };
 
 const SMARTFIT_BASE_URL = 'https://app.smartfit.com.br/api/public/v1';
-const API_2BSAFE_BASE_URL = 'https://api.smartfitreserva.com';
+const API_2BSAFE_BASE_URL = 'http://localhost:8000';
+// const API_2BSAFE_BASE_URL = 'https://api.smartfitreserva.com';
 const ERRORS: any[] = [];
 
 async function callApi(url: string, options: any = {}) {
@@ -227,6 +228,20 @@ async function api(credenciales: {
               options
             );
             console.log('response', response);
+            return response;
+          }
+        },
+        bloques: {
+          createBloque: async (infoBloque: any, sucursal: any) => {
+            const options = {
+              method: 'POST',
+              body: JSON.stringify(infoBloque),
+              headers: authTokenHeader
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/bloques`,
+              options
+            );
             return response;
           }
         }
