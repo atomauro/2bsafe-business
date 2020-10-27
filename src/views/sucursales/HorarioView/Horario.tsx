@@ -99,31 +99,34 @@ const Horario = ({
                 style={{ marginBottom: 20, marginRight: 5 }}
               >
                 <Box className={classes.message}>
-                  <Typography
-                    variant="h4"
-                    align="center"
-                    style={{ margin: 20 }}
-                  >
-                    DIA
-                  </Typography>
-                  <Select
-                    id="dia"
-                    name="dia"
-                    value={day}
-                    onChange={handleChangeDay}
-                    label="Dia"
-                  >
-                    {Object.keys(blocksDays).map(dayStr => (
-                      <MenuItem
-                        value={dayStr.slice(
-                          dayStr.indexOf('-') + 2,
-                          dayStr.length
-                        )}
-                      >
-                        {dayStr}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <Box flexDirection="column" justifyContent="center">
+                    <Typography
+                      variant="h4"
+                      align="center"
+                      style={{ margin: 20 }}
+                    >
+                      DIA
+                    </Typography>
+                    <Select
+                      id="dia"
+                      name="dia"
+                      value={day}
+                      onChange={handleChangeDay}
+                      label="Dia"
+                    >
+                      {Object.keys(blocksDays).map(dayStr => (
+                        <MenuItem
+                          value={dayStr.slice(
+                            dayStr.indexOf('-') + 2,
+                            dayStr.length
+                          )}
+                        >
+                          {dayStr}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+
                 </Box>
               </Box>
             </Card>
