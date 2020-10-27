@@ -5,22 +5,7 @@ const initialState = [
   lunes: {
   inicio:null,
   fin:null,
-  blocks:[{
-    desde:'8:00',
-    hasta:'9:30', 
-    tag:'0800to2130'      
-  },
-  {
-    desde:'04:20',
-    hasta:'12:00',    
-    tag:'2000to2130'   
-  },
-  {
-    desde:'11:00',
-    hasta:'12:00',    
-    tag:'2000to2130'   
-  },
-]
+  blocks:[]
 }},
 {martes: {
   inicio:'',
@@ -139,7 +124,9 @@ export default (props:any) => {
   return {
     semana,
     addBlock: (blockText:string, dayChoosed:number) => {
-      setBlocks({...semana});
+      setBlocks({...semana, });
+
+
       console.log(semana)
       console.log(blockText)
       console.log(dayChoosed)
