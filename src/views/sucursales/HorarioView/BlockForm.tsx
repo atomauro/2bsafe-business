@@ -41,7 +41,8 @@ const BlockForm = ( props: any ) => {
     style={{width:'100%'}}
           initialValues={{
             desde: '',
-            hasta: '',          
+            hasta: '',
+            aforo: 0,          
           }}
           
           onSubmit={(form: any, actions: any) => {
@@ -104,6 +105,27 @@ const BlockForm = ( props: any ) => {
                     variant="outlined"
                   />
                 </Box>
+              </Box>
+
+              <Box flexDirection="row" display="flex" style={{marginBottom:14}}>
+              <Box flexDirection='column' display="flex" justifyContent="center">
+              <Typography variant="h5" align="center">
+                    Aforo
+                  </Typography>
+                  <TextField
+                    error={Boolean(touched.aforo && (errors.aforo))}
+                    fullWidth={true}
+                    helperText={touched.aforo && (errors.aforo)}
+                    placeholder={values.aforo.toString()}
+                    margin="normal"
+                    name="aforo"                                
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    type="number"
+                    value={values.aforo}
+                    variant="outlined"
+                  />
+              </Box>
               </Box>
 
               </Box>
