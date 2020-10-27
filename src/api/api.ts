@@ -218,13 +218,17 @@ async function api(credenciales: {
             );
             return response;
           },
-          leerReservas: async (sucursal: string) => {
+          leerReservas: async (
+            sucursal: string,
+            dateTag: string,
+            blockTag: string
+          ) => {
             const options = {
               method: 'GET',
               headers: authTokenHeader
             };
             const response = await callApi(
-              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas`,
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas/${dateTag}/${blockTag}`,
               options
             );
             console.log('response', response);
@@ -240,6 +244,17 @@ async function api(credenciales: {
             };
             const response = await callApi(
               `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/bloques`,
+              options
+            );
+            return response;
+          },
+          getBloquesByDateTag: async (sucursal: string, dateTag: string) => {
+            const options = {
+              method: 'GET',
+              headers: authTokenHeader
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas/${dateTag}`,
               options
             );
             return response;

@@ -282,8 +282,12 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
       setNeedUpdate(false);
     }
-    if (typeUser==='sucursal' && domain==='smart-fit.com' && currentView === '') {
-      console.log("Iniciar pantalla Principal en reservas")
+    if (
+      typeUser === 'sucursal' &&
+      domain === 'smart-fit.com' &&
+      currentView === ''
+    ) {
+      console.log('Iniciar pantalla Principal en reservas');
       getReservasList(currentView).then(response => {
         setListaReservas(response.data);
       });
@@ -291,8 +295,8 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       getRegistrosList(currentView).then(response => {
         setListaRegistros(response.data);
       });
-      handleShowReservas(name)
-    } 
+      handleShowReservas(name);
+    }
   }, [Api2BSafe, list, needUpdate, currentView]);
 
   return (
@@ -333,7 +337,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               ) : showReservaSucursal === '' ? (
                 <GenericList
                   className={classes.sucursales}
-                  lista={listaRegistros}
+                  lista={listaReservas}
                   sucursalSelected={showIngresoSucursal}
                   isReserva={isReserva}
                   credentials={{
@@ -356,7 +360,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             ) : currentView === '' ? null : showReservaSucursal === '' ? (
               <GenericList
                 className={classes.sucursales}
-                lista={listaRegistros}
+                lista={listaReservas}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
                 credentials={{
