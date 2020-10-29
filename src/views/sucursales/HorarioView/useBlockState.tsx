@@ -48,39 +48,56 @@ const dateToDateTag = (date: Date) => {
 const BLOCKS_DAYS = populateDays({}, 7);
 
 export default (props: any) => {
-  const [blocksDays, setBlocksDays] = useState(BLOCKS_DAYS);
-  const [APIBloques, setAPIBloques] = useState(null as any);
+  const [blocksDays, setBlocksDays] = useState(BLOCKS_DAYS as any);
 
-  useEffect(() => {
-    if (!APIBloques) {
-      api(props.credentials).then(API => {
-        setAPIBloques(API);
-      });
-    }
-  }, []);
+  const updateBlocks = (dateTag: string) => {
+    api(props.credentials).then((API: any) => {
+      API.bloques
+        .getBloquesByDateTag(
+          props.credentials.email.slice(
+            0,
+            props.credentials.email.indexOf('@')
+          ),
+          dateTag
+        )
+        .then((response: any) => {
+          setBlocksDays(blocksDays);
+        });
+    });
+  };
 
   return {
     blocksDays,
-    addBlock: async (blockText: string, dayString: string) => {
-      const timeTag = `${JSON.parse(blockText).desde.slice(0, 2)}${JSON.parse(
-        blockText
-      ).desde.slice(3, 5)}to${JSON.parse(blockText).hasta.slice(
-        0,
-        2
-      )}${JSON.parse(blockText).hasta.slice(3, 5)}`;
-      const response = await APIBloques.bloques?.createBloque(
+    addBlock: async (blockObject: any, dayString: string) => {
+      const blockTag =
+        blockObject.desde.split(':').join('') +
+        'to' +
+        blockObject.hasta.split(':').join('');
+      const response = await (
+        await api(props.credentials)
+      ).bloques?.createBloque(
         {
-          blockTag: timeTag,
-          aforoMaximo: 150,
-          dateTag: dateToDateTag(stringToDate(dayString))
+          blockTag,
+          aforoMaximo: blockObject.aforo,
+          dateTag: dayString
         },
         props.credentials.email.slice(0, props.credentials.email.indexOf('@'))
       );
-      return response;
+
+      updateBlocks(dayString);
+      return !response || !response.data
+        ? response.errors.length === 0
+          ? {}
+          : {}
+        : {};
     },
-    deleteBlock: (blockIndex: number) => {
-      // const newBlocks = semana.day.blocks.filter((_:any, index: number) => index !== blockIndex);
-      console.log('Borrar: ' + blockIndex);
+    deleteBlock: async (dateTag: string, blockTag: string) => {
+      (await api(props.credentials)).bloques?.deleteBloque(
+        props.credentials.email.slice(0, props.credentials.email.indexOf('@')),
+        dateTag,
+        blockTag
+      );
+      console.log('Borrar: ' + blockTag);
       // setBlocks(newBlocks);
     }
   };

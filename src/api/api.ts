@@ -27,9 +27,13 @@ async function callApi(url: string, options: any = {}) {
   console.log('options', options);
   try {
     const response = await fetch(url, options);
+    console.log('response', response);
     const data = await response.json();
     console.log('data', data);
-    return data;
+    return {
+      ...data,
+      hasErrors: () => (data.errors ? data.errors.length > 0 : false)
+    };
   } catch (ex) {
     console.error('ex', ex);
     return {
@@ -97,34 +101,31 @@ async function api(credenciales: {
       response.hasErrors = () => response.errors.length > 0;
       return response;
     },
-    nuevaSucursal: async (sucursalName: string, sucursalDoc: any) => {
+    nuevaSucursal: async (sucursalDoc: any) => {
       const options = {
         method: 'POST',
         headers: authTokenHeader,
         body: JSON.stringify({
-          email: `${sucursalName}@${empresa}.com`,
           ...sucursalDoc
         })
       };
-      const response = await callApi(`${API_2BSAFE_BASE_URL}/signup`, options);
+      const response = await callApi(
+        `${API_2BSAFE_BASE_URL}/${empresa}`,
+        options
+      );
       return { ...response, hasErrors: () => response.errors.length > 0 };
     },
-    changePassword: async (sucursal?: string) => {
-      if (!sucursal) {
-        return; // Caso cambiar contraseña empresa
-      } else {
-        const options = {
-          method: 'POST',
-          headers: authTokenHeader,
-          body: JSON.stringify({ email: `${sucursal}@${empresa}.com` })
-        };
-        const response = await callApi(
-          `${API_2BSAFE_BASE_URL}/reset-password`,
-          options
-        );
-        response.hasErrors = () => response.errors.length > 0;
-        return response;
-      }
+    changePassword: async (sucursal: string) => {
+      const options = {
+        method: 'PUT',
+        headers: authTokenHeader
+      };
+      const response = await callApi(
+        `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reset-password`,
+        options
+      );
+      response.hasErrors = () => response.errors.length > 0;
+      return response;
     },
     eliminarSucursal: async (sucursal: string) => {
       const options = {
@@ -192,32 +193,23 @@ async function api(credenciales: {
           }
         },
         registros: {
-          leerRegistros: async (sucursal: string) => {
+          leerRegistros: async (
+            sucursal: string,
+            dateTag: string,
+            blockTag: string
+          ) => {
             const options = {
               method: 'GET',
               headers: authTokenHeader
             };
             const response = await callApi(
-              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/registros`,
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/registros/${dateTag}/${blockTag}`,
               options
             );
-            console.log('response', response);
             return response;
           }
         },
         reservas: {
-          nuevaReserva: async (sucursal: string, reservaDoc: any) => {
-            const options = {
-              method: 'POST',
-              body: JSON.stringify(reservaDoc),
-              headers: authTokenHeader
-            };
-            const response = await callApi(
-              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas`,
-              options
-            );
-            return response;
-          },
           leerReservas: async (
             sucursal: string,
             dateTag: string,
@@ -231,7 +223,6 @@ async function api(credenciales: {
               `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas/${dateTag}/${blockTag}`,
               options
             );
-            console.log('response', response);
             return response;
           }
         },
@@ -255,6 +246,21 @@ async function api(credenciales: {
             };
             const response = await callApi(
               `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas/${dateTag}`,
+              options
+            );
+            return response;
+          },
+          deleteBloque: async (
+            sucursal: string,
+            dateTag: string,
+            blockTag: string
+          ) => {
+            const options = {
+              method: 'DELETE',
+              headers: authTokenHeader
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/bloques/${dateTag}/${blockTag}`,
               options
             );
             return response;

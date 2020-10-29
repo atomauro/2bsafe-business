@@ -128,7 +128,6 @@ const GenericList = ({
 
   const FINAL_LIST = searchFieldState
     ? listaFiltradaFechaHora.filter(value => {
-        console.log('value', value);
         return (
           String(value.documentid).search(searchFieldState.toLowerCase()) !== -1
         );
@@ -186,13 +185,20 @@ const GenericList = ({
                   displayEmpty={true}
                   onChange={async (e: any) => {
                     const BLOCK_TAG = e.target.value;
-                    const response = await (
-                      await api(credentials)
-                    ).reservas?.leerReservas(
-                      sucursalSelected,
-                      dateFilter.split('-').join(''),
-                      BLOCK_TAG
-                    );
+                    let response: any = await api(credentials);
+                    if (isReserva) {
+                      response = await response.reservas?.leerReservas(
+                        sucursalSelected,
+                        dateFilter.split('-').join(''),
+                        BLOCK_TAG
+                      );
+                    } else {
+                      response = await response.registros?.leerRegistros(
+                        sucursalSelected,
+                        dateFilter.split('-').join(''),
+                        BLOCK_TAG
+                      );
+                    }
                     setBlockFilter(BLOCK_TAG);
                     setListaFiltradaFechaHora(
                       response.errors.length > 0 ? [] : response.data

@@ -171,17 +171,16 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
     await Api2BSafe.admin.eliminarSucursal(sucursalForDeleteDialog);
     setNeedUpdate(true);
     setShowDeleteDialog(false);
+    return true;
   };
 
   const classes = useStyles();
 
   const handleAddSucursal = async (sucursalInfo: any) => {
     const INFO = { ...sucursalInfo };
-    delete INFO.nameid;
-    const response = await Api2BSafe.admin.nuevaSucursal(
-      sucursalInfo.nameid,
-      INFO
-    );
+    INFO.bloques = [];
+    const response = await Api2BSafe.admin.nuevaSucursal(INFO);
+    setNeedUpdate(true);
     console.log('RESPONDE ADD SUCURSAL', response);
     return true;
   };
@@ -223,10 +222,10 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   const handleToolbarClose = (sucursalName: string) => {
     setDialogOpen(false);
-    Api2BSafe.admin.nuevaSucursal(sucursalName).then((response: any) => {
-      console.log('response', response);
-      setNeedUpdate(true);
-    });
+    // Api2BSafe.admin.nuevaSucursal({nameid: sucursalName}).then((response: any) => {
+    //   console.log('responseClient', response);
+    //   setNeedUpdate(true);
+    // });
   };
 
   const getReservasList = async (sucursal: string) => {
@@ -259,43 +258,43 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
       navigate('/login', {
         replace: true
       });
-    } else if (Api2BSafe && Api2BSafe.admin && needUpdate) {
-      Api2BSafe.admin
-        .leerSucursales()
-        .then((sucursales: any) => {
-          console.log('sucursales', sucursales);
-          if (!sucursales.hasErrors()) {
-            setList(sucursales.data);
-          }
-        })
-        .catch((ex: any) => console.log('ex', ex));
-      setNeedUpdate(false);
-    }
-    if (currentView !== '' && needUpdate) {
-      getReservasList(currentView).then(response => {
-        setListaReservas(response.data);
-      });
+    } else if (needUpdate) {
+      dispatch('');
+      if (Api2BSafe && Api2BSafe.admin) {
+        Api2BSafe.admin
+          .leerSucursales()
+          .then((sucursales: any) => {
+            console.log('sucursales', sucursales);
+            if (!sucursales.hasErrors()) {
+              setList(sucursales.data);
+            }
+          })
+          .catch((ex: any) => console.log('ex', ex));
+        setNeedUpdate(false);
+      }
 
-      getRegistrosList(currentView).then(response => {
-        setListaRegistros(response.data);
-      });
+      if (currentView !== '') {
+        getReservasList(currentView).then(response => {
+          setListaReservas(response.data);
+        });
 
-      setNeedUpdate(false);
-    }
-    if (
-      typeUser === 'sucursal' &&
-      domain === 'smart-fit.com' &&
-      currentView === ''
-    ) {
-      console.log('Iniciar pantalla Principal en reservas');
-      getReservasList(currentView).then(response => {
-        setListaReservas(response.data);
-      });
+        getRegistrosList(currentView).then(response => {
+          setListaRegistros(response.data);
+        });
 
-      getRegistrosList(currentView).then(response => {
-        setListaRegistros(response.data);
-      });
-      handleShowReservas(name);
+        setNeedUpdate(false);
+        if (typeUser === 'sucursal' && domain === 'smart-fit.com') {
+          console.log('Iniciar pantalla Principal en reservas');
+          getReservasList(currentView).then(response => {
+            setListaReservas(response.data);
+          });
+
+          getRegistrosList(currentView).then(response => {
+            setListaRegistros(response.data);
+          });
+          handleShowReservas(name);
+        }
+      }
     }
   }, [Api2BSafe, list, needUpdate, currentView]);
 
@@ -337,7 +336,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
               ) : showReservaSucursal === '' ? (
                 <GenericList
                   className={classes.sucursales}
-                  lista={listaReservas}
+                  lista={listaRegistros}
                   sucursalSelected={showIngresoSucursal}
                   isReserva={isReserva}
                   credentials={{
@@ -360,7 +359,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
             ) : currentView === '' ? null : showReservaSucursal === '' ? (
               <GenericList
                 className={classes.sucursales}
-                lista={listaReservas}
+                lista={listaRegistros}
                 sucursalSelected={showIngresoSucursal}
                 isReserva={isReserva}
                 credentials={{

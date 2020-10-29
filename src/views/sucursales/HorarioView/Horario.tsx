@@ -26,6 +26,8 @@ import BlockForm from './BlockForm';
 import BlockList from './BlockList';
 import useBlockState from './useBlockState';
 
+import api from './../../../api/api';
+
 const useStyles = makeStyles(theme => ({
   root: {},
   message: {
@@ -56,17 +58,64 @@ const Horario = ({
   const [isLoading, setisLoading] = useState(false);
   const [dayString, setDayString] = useState('');
   const [day, setDay] = useState('Lunes');
-  const [blocksOfDay, setBlocksOfDay] = useState({});
+  const [needUpdate, setNeedUpdate] = useState(true);
+  const [blocksOfDay, setBlocksOfDay] = useState([] as any[]);
 
   const { blocksDays, addBlock, deleteBlock } = useBlockState({ credentials });
 
-  const handleChangeDay = (event: any) => {
-    setDayString(event.target.value);
-    getBlocks(event.target.value);
+  useEffect(() => {
+    if (needUpdate) {
+      setNeedUpdate(false);
+      updateBlocks();
+      console.log({ blocksOfDay });
+    }
+  }, [needUpdate, blocksDays]);
+
+  const handleChangeDay = async (event: any) => {
+    const stringDayDate: string = event.target.value;
+    setDayString(
+      stringDayDate
+        .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+        .split('/')
+        .reverse()
+        .join('')
+    );
+    setDay(stringDayDate);
+    getBlocks(stringDayDate);
   };
 
-  const getBlocks = (daychoosed: string) => {
-    // setDayString(daychoosed)
+  const updateBlocks = async () => {
+    return await getBlocks(
+      day
+        .slice(day.indexOf('-') + 1, day.length)
+        .split('/')
+        .reverse()
+        .join('')
+    );
+  };
+  const getBlocks = async (stringDayDate: string) => {
+    const response = await (
+      await api(credentials)
+    ).bloques?.getBloquesByDateTag(
+      credentials.email.slice(0, credentials.email.indexOf('@')),
+      stringDayDate
+        .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+        .split('/')
+        .reverse()
+        .join('')
+    );
+    if (response && (!response.errors || response.errors.length === 0)) {
+      const newBlocks = Object.keys(response.data || {}).map(
+        (blockTag: string) => {
+          return { blockTag, aforoMaximo: response.data[blockTag] };
+        }
+      );
+      console.log({ newBlocks });
+      if (newBlocks.join() !== blocksOfDay.join()) {
+        setBlocksOfDay(newBlocks);
+        setNeedUpdate(true);
+      }
+    }
   };
 
   return (
@@ -126,7 +175,6 @@ const Horario = ({
                       ))}
                     </Select>
                   </Box>
-
                 </Box>
               </Box>
             </Card>
@@ -157,8 +205,9 @@ const Horario = ({
 
                     <Box className={classes.message}>
                       <BlockForm
-                        saveBlock={async (blockText: string) => {
-                          await addBlock(blockText, dayString);
+                        saveBlock={async (blockObject: any) => {
+                          console.log({ blockObject });
+                          await addBlock(blockObject, dayString);
                         }}
                       />
                     </Box>
@@ -182,7 +231,14 @@ const Horario = ({
                   width="100%"
                   style={{ display: 'flex', justifyContent: 'center' }}
                 >
-                  <BlockList blocks={[]} deleteBlock={deleteBlock} />
+                  <BlockList
+                    dateTag={dayString}
+                    blocks={blocksOfDay}
+                    deleteBlock={async (dateTag: string, blockTag: string) => {
+                      await deleteBlock(dateTag, blockTag);
+                      setNeedUpdate(true);
+                    }}
+                  />
                 </Box>
               </PerfectScrollbar>
             </Card>
