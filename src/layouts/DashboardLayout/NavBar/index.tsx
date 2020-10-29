@@ -149,10 +149,16 @@ const NavBar = ({
       >
         <div className={classes.divUser}>
           <Typography className={classes.name} color="textPrimary" variant="h4">
-            {typeUser === 'admin' ? 'Administrador' : 'Administrador'}
+            {typeUser === 'admin' ? 'Administrador' : 'Sucursal'}
           </Typography>
         </div>
-
+        <Typography
+          className={classes.title}
+          color="textSecondary"
+          variant="body1"
+        >
+          Usuario
+        </Typography>
         <Typography
           className={classes.title}
           color="textSecondary"

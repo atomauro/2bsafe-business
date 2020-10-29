@@ -32,7 +32,7 @@ export default function DialogDelete({
         onClose={()=>{onClose()}}
         aria-labelledby="form-dialog-deletesucur"
       >
-        <DialogTitle id="form-dialog-deletesucur">Eliminar sucursal</DialogTitle>
+        <DialogTitle id="form-dialog-deletesucur">ELIMINAR SUCURSAL</DialogTitle>
         <DialogContent>
           <DialogContentText>
             ¿Estas seguro de eliminar la Sucursal?
