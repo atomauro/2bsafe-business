@@ -198,6 +198,12 @@ async function api(credenciales: {
             dateTag: string,
             blockTag: string
           ) => {
+            blockTag =
+              blockTag.length === 7
+                ? `${blockTag.slice(0, blockTag.length - 1)}0${blockTag.charAt(
+                    blockTag.length - 1
+                  )}`
+                : blockTag;
             const options = {
               method: 'GET',
               headers: authTokenHeader
@@ -215,6 +221,12 @@ async function api(credenciales: {
             dateTag: string,
             blockTag: string
           ) => {
+            blockTag =
+              blockTag.length === 7
+                ? `${blockTag.slice(0, blockTag.length - 1)}0${blockTag.charAt(
+                    blockTag.length - 1
+                  )}`
+                : blockTag;
             const options = {
               method: 'GET',
               headers: authTokenHeader
@@ -255,6 +267,12 @@ async function api(credenciales: {
             dateTag: string,
             blockTag: string
           ) => {
+            blockTag =
+              blockTag.length === 7
+                ? `${blockTag.slice(0, blockTag.length - 1)}0${blockTag.charAt(
+                    blockTag.length - 1
+                  )}`
+                : blockTag;
             const options = {
               method: 'DELETE',
               headers: authTokenHeader
