@@ -17,7 +17,12 @@ import {
   CardContent,
   Divider,
   CardHeader,
+  IconButton,
+  FormControlLabel,
+  InputAdornment
 } from '@material-ui/core/';
+import IconCopy from '@material-ui/icons/FileCopyRounded';
+
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -117,22 +122,32 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
-              <TextField
-                fullWidth={true}
-                label="Nombre completo"
-                name="fullname"
-                    variant="outlined"
-                    disabled={true}
-                value={user.name}
-                className={classes.text}
-
-              />
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
+                  <TextField
+                  fullWidth={true}
+                  label="Nombre completo"
+                  name="fullname"
+                      variant="outlined"
+                      disabled={true}
+                  value={user.name}
+                  className={classes.text}  
+                  />
+                </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Genero"
@@ -143,12 +158,21 @@ export default function DialogUser({
                     value={user.gender}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Plan"
@@ -158,6 +182,13 @@ export default function DialogUser({
                     value={user.plan}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             {
                 user.plan==='Digital'?
@@ -167,6 +198,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
                   <TextField
                     fullWidth={true}
                     label="Próxima anualidad"
@@ -177,6 +210,13 @@ export default function DialogUser({
                         className={classes.text}
                   />
                   </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
+                  </Grid>
                 ):
                 (
                   <Grid
@@ -184,6 +224,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
                   <TextField
                     fullWidth={true}
                     label="Próxima anualidad"
@@ -194,6 +236,13 @@ export default function DialogUser({
                         className={classes.text}
                   />
                   </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
+                  </Grid>
                 )
               }
             <Grid
@@ -201,6 +250,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Correo electrónico"
@@ -210,12 +261,21 @@ export default function DialogUser({
                     disabled={true}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Telefono"
@@ -226,6 +286,13 @@ export default function DialogUser({
                     value={user.full_phone}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
           {user.address!==undefined?
              (
@@ -235,6 +302,8 @@ export default function DialogUser({
              md={6}
              xs={12}
            >
+             <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
              <TextField
                fullWidth={true}
                label="Departamento"
@@ -244,12 +313,21 @@ export default function DialogUser({
                    disabled={true}
                    className={classes.text}
              />
+             </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
            </Grid>
            <Grid
              item={true}
              md={6}
              xs={12}
            >
+             <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
              <TextField
                fullWidth={true}
                label="Ciudad"
@@ -259,6 +337,13 @@ export default function DialogUser({
                    value={user.address.city}
                    className={classes.text}
              />
+             </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
              
                </Grid>
            
@@ -267,6 +352,8 @@ export default function DialogUser({
              md={6}
              xs={12}
            >
+             <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
              <TextField
                fullWidth={true}
                label="Dirección"
@@ -276,6 +363,13 @@ export default function DialogUser({
                    value={user.address.street}
                    className={classes.text}
              />
+             </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
              
                </Grid>
                </>
@@ -287,6 +381,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Fecha de nacimiento"
@@ -297,12 +393,21 @@ export default function DialogUser({
                     value={user.birthdate}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Invitaciones"
@@ -312,12 +417,21 @@ export default function DialogUser({
                     disabled={true}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid container={true} spacing={1} alignItems="flex-end">
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="ID del usuario"
@@ -327,6 +441,13 @@ export default function DialogUser({
                     disabled={true}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                  <IconButton>
+                    <IconCopy />
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             
               

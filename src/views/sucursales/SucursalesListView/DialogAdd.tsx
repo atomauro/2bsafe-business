@@ -9,10 +9,11 @@ import {
   Typography,
   Dialog,
   DialogTitle,
+  Grid,
   DialogContent,
   DialogContentText,
   DialogActions,
-  FormControlLabel
+  
 } from '@material-ui/core';
 import MuiCheckbox from '@material-ui/core/Checkbox';
 
@@ -100,19 +101,21 @@ const IndexDialogAddSucursal = ({
             values
           }) => (
             <form onSubmit={handleSubmit}>
-              <TextField
-                error={Boolean(touched.nameid && (errors.nameid || error))}
-                fullWidth={true}
-                helperText={touched.nameid && (errors.nameid || error)}
-                label="Usuario de la Sucursal - minusculas sin espacios Ej: milladeoro"
-                margin="normal"
-                name="nameid"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                type="text"
-                value={values.nameid}
-                variant="outlined"
-              />
+          
+                  <TextField
+                  error={Boolean(touched.nameid && (errors.nameid || error))}
+                  fullWidth={true}
+                  helperText={touched.nameid && (errors.nameid || error)}
+                  label="Usuario de la Sucursal - minusculas sin espacios Ej: milladeoro"
+                  margin="normal"
+                  name="nameid"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="text"
+                  value={values.nameid}
+                  variant="outlined"                
+                />
+               
               <TextField
                 error={Boolean(touched.name && (errors.name || error))}
                 fullWidth={true}
