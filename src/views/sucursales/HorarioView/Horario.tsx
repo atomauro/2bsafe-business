@@ -94,6 +94,7 @@ const Horario = ({
     );
   };
   const getBlocks = async (stringDayDate: string) => {
+    setisLoading(true)
     const response = await (
       await api(credentials)
     ).bloques?.getBloquesByDateTag(
@@ -105,6 +106,7 @@ const Horario = ({
         .join('')
     );
     if (response && (!response.errors || response.errors.length === 0)) {
+      setisLoading(false)
       const newBlocks = Object.keys(response.data || {}).map(
         (blockTag: string) => {
           return { blockTag, aforoMaximo: response.data[blockTag] };
@@ -115,6 +117,9 @@ const Horario = ({
         setBlocksOfDay(newBlocks);
         setNeedUpdate(true);
       }
+    }
+    else{
+      setisLoading(false)
     }
   };
 

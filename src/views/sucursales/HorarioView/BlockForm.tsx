@@ -39,10 +39,16 @@ const BlockForm = (props: any) => {
         hasta: '',
         aforo: 0
       }}
+      validationSchema={Yup.object().shape({
+        aforo: Yup.string()
+          .min(0)
+      })}
       onSubmit={(form: any, actions) => {
         if (form.desde === '' || form.hasta === '') {
           alert('Revisa los campos');
-        } else {
+        } else if(form.aforo===0){
+          alert('No es posible tener aforo cero');
+        } {
           console.log(form);
           props.saveBlock(form);
           actions.resetForm();
@@ -161,7 +167,7 @@ const BlockForm = (props: any) => {
               </Button>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Fab
                 variant="extended"
                 size="small"
@@ -172,7 +178,7 @@ const BlockForm = (props: any) => {
                 <NavigationIcon className={classes.extendedIcon} />
                 Actualizar
               </Fab>
-            </div>
+            </div> */}
           </Box>
         </form>
       )}
