@@ -69,16 +69,16 @@ export default (props: any) => {
   return {
     blocksDays,
     addBlock: async (blockObject: any, dayString: string) => {
-      let blockTag =
+      const blockTag =
         blockObject.desde.split(':').join('') +
         'to' +
         blockObject.hasta.split(':').join('');
-      blockTag =
-        blockTag.length === 7
-          ? `${blockTag.slice(0, blockTag.length - 1)}0${blockTag.charAt(
-              blockTag.length - 1
+      dayString =
+        dayString && dayString.length === 7
+          ? `${dayString.slice(0, dayString.length - 1)}0${dayString.charAt(
+              dayString.length - 1
             )}`
-          : blockTag;
+          : dayString;
       const response = await (
         await api(props.credentials)
       ).bloques?.createBloque(
