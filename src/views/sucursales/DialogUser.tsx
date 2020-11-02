@@ -14,10 +14,16 @@ import {
   makeStyles,
   Grid,
   Card,
+  Tooltip,
   CardContent,
   Divider,
   CardHeader,
+  IconButton,
+  FormControlLabel,
+  InputAdornment
 } from '@material-ui/core/';
+import IconCopy from '@material-ui/icons/FileCopyRounded';
+import copy from "copy-to-clipboard"; 
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -47,6 +53,15 @@ export default function DialogUser({
   }) {
 
   const classes = useStyles()
+
+  const copyToClipboard = (str:string) => {
+    const el = document.createElement('textarea');
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  };
   
   return (
     <div>
@@ -83,8 +98,9 @@ export default function DialogUser({
             {user.name}
           </Typography>
           
-                <Box display='flex' flexDirection="row">
-                {user.status==='active'?
+
+          <Box display='flex' flexDirection="row">                
+          {user.status==='active'?
                     (<Typography
                     style={{color:'#00FF00'}}
                     variant="h4"
@@ -109,7 +125,7 @@ export default function DialogUser({
         <CardContent>
           <Grid
             container={true}
-            spacing={3}
+            spacing={2}
           >
             <Grid
               item={true}
@@ -117,22 +133,37 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
-              <TextField
-                fullWidth={true}
-                label="Nombre completo"
-                name="fullname"
-                    variant="outlined"
-                    disabled={true}
-                value={user.name}
-                className={classes.text}
-
-              />
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
+                  <TextField
+                  fullWidth={true}
+                  label="Nombre completo"
+                  name="fullname"
+                      variant="outlined"
+                      disabled={true}
+                  value={user.name}
+                  className={classes.text}  
+                  />
+                </Grid>
+                <Grid item={true}>
+                  
+                <Tooltip placement="right" arrow={true} title="Copiar Nombre" >
+                  <IconButton onClick={()=>{
+                    copy(user.name)
+                  }}>
+                    <IconCopy />
+                  </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Genero"
@@ -143,12 +174,24 @@ export default function DialogUser({
                     value={user.gender}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Genero" >
+                  <IconButton onClick={()=>{
+                    copy(user.gender)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start"  container={true}>
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Plan"
@@ -158,6 +201,16 @@ export default function DialogUser({
                     value={user.plan}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Plan" >
+                  <IconButton onClick={()=>{
+                    copy(user.plan)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             {
                 user.plan==='Digital'?
@@ -167,6 +220,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
                   <TextField
                     fullWidth={true}
                     label="Próxima anualidad"
@@ -177,6 +232,16 @@ export default function DialogUser({
                         className={classes.text}
                   />
                   </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Pŕoxima Anualidad" >
+                  <IconButton onClick={()=>{
+                    copy('N/A')
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
+                  </Grid>
                 ):
                 (
                   <Grid
@@ -184,6 +249,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
                   <TextField
                     fullWidth={true}
                     label="Próxima anualidad"
@@ -194,6 +261,16 @@ export default function DialogUser({
                         className={classes.text}
                   />
                   </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Pŕoxima Anualidad" >
+                  <IconButton onClick={()=>{
+                    copy(user.main_purchase_expired_at)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
+                  </Grid>
                 )
               }
             <Grid
@@ -201,6 +278,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Correo electrónico"
@@ -210,12 +289,24 @@ export default function DialogUser({
                     disabled={true}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Email" >
+                  <IconButton onClick={()=>{
+                    copy(user.email)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Telefono"
@@ -226,6 +317,16 @@ export default function DialogUser({
                     value={user.full_phone}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Telefono" >
+                  <IconButton onClick={()=>{
+                    copy(user.full_phone)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
           {user.address!==undefined?
              (
@@ -235,6 +336,8 @@ export default function DialogUser({
              md={6}
              xs={12}
            >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
              <TextField
                fullWidth={true}
                label="Departamento"
@@ -244,12 +347,24 @@ export default function DialogUser({
                    disabled={true}
                    className={classes.text}
              />
+             </Grid>
+                <Grid item={true}>
+                  <Tooltip placement="right" arrow={true} title="Copiar Departamento" >
+                  <IconButton onClick={()=>{
+                    copy(user.address.state)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
            </Grid>
            <Grid
              item={true}
              md={6}
              xs={12}
            >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
              <TextField
                fullWidth={true}
                label="Ciudad"
@@ -259,6 +374,16 @@ export default function DialogUser({
                    value={user.address.city}
                    className={classes.text}
              />
+             </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Ciudad" >
+                  <IconButton onClick={()=>{
+                    copy(user.address.city)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
              
                </Grid>
            
@@ -267,6 +392,8 @@ export default function DialogUser({
              md={6}
              xs={12}
            >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
              <TextField
                fullWidth={true}
                label="Dirección"
@@ -276,6 +403,16 @@ export default function DialogUser({
                    value={user.address.street}
                    className={classes.text}
              />
+             </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Dirección" >
+                  <IconButton onClick={()=>{
+                    copy(user.address.street)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
              
                </Grid>
                </>
@@ -287,6 +424,8 @@ export default function DialogUser({
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Fecha de nacimiento"
@@ -297,12 +436,24 @@ export default function DialogUser({
                     value={user.birthdate}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Fecha de Nacimiento" >
+                  <IconButton onClick={()=>{
+                    copy(user.birthdate)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+              <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="Invitaciones"
@@ -312,12 +463,25 @@ export default function DialogUser({
                     disabled={true}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar Invitaciones" >
+                  <IconButton onClick={()=>{
+                    copy(user.remaining_guests)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item={true}
               md={6}
               xs={12}
             >
+                            <Grid direction="row" justify="flex-start" alignItems="flex-start" container={true}>
+
+                <Grid item={true}>
               <TextField
                 fullWidth={true}
                 label="ID del usuario"
@@ -327,6 +491,16 @@ export default function DialogUser({
                     disabled={true}
                     className={classes.text}
               />
+              </Grid>
+                <Grid item={true}>
+                <Tooltip placement="right" arrow={true} title="Copiar ID" >
+                  <IconButton onClick={()=>{
+                    copy(user.id)
+                  }}>
+                    <IconCopy />
+                  </IconButton></Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             
               
@@ -344,7 +518,7 @@ export default function DialogUser({
         <DialogActions style={{display:'flex',justifyContent:'center'}}>        
             <Button color="primary" variant='contained' onClick={() => { onClose() }}>
               Cerrar
-          </Button> 
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

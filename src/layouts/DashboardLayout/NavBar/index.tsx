@@ -82,7 +82,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   title: {
-    margin: 20
+    marginLeft: 20,
+    marginRight: 20,
+    marginbottom: 5,
   },
   navitem: {},
   item: {
