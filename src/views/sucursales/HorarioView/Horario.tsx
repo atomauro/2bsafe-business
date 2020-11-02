@@ -54,43 +54,35 @@ const Horario = ({
 }) => {
   const classes = useStyles();
 
-  const [showDialogUser, setShowDialogUser] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [dayString, setDayString] = useState('');
   const [day, setDay] = useState('Lunes');
-  const [needUpdate, setNeedUpdate] = useState(true);
   const [blocksOfDay, setBlocksOfDay] = useState([] as any[]);
 
   const { blocksDays, addBlock, deleteBlock } = useBlockState({ credentials });
 
-  useEffect(() => {
-    if (needUpdate) {
-      setNeedUpdate(false);
-      updateBlocks();
-      console.log({ blocksOfDay });
-    }
-  }, [needUpdate, blocksDays]);
-
   const handleChangeDay = async (event: any) => {
     const stringDayDate: string = event.target.value;
-    setDayString(
-      stringDayDate
-        .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
-        .split('/')
-        .reverse()
-        .join('')
-    );
+    const dayStringTemp: string = stringDayDate
+      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+      .split('/')
+      .reverse()
+      .join('');
+    console.log({ stringDayDate, dayStringTemp });
+    setDayString(dayStringTemp);
     setDay(stringDayDate);
-    getBlocks(stringDayDate);
+    getBlocks(dayStringTemp);
   };
 
   const updateBlocks = async () => {
     return await getBlocks(
-      day
-        .slice(day.indexOf('-') + 1, day.length)
-        .split('/')
-        .reverse()
-        .join('')
+      !day
+        ? ''
+        : day
+            .slice(day.indexOf('-') + 1, day.length)
+            .split('/')
+            .reverse()
+            .join('')
     );
   };
   const getBlocks = async (stringDayDate: string) => {
@@ -112,11 +104,7 @@ const Horario = ({
           return { blockTag, aforoMaximo: response.data[blockTag] };
         }
       );
-      console.log({ newBlocks });
-      if (newBlocks.join() !== blocksOfDay.join()) {
-        setBlocksOfDay(newBlocks);
-        setNeedUpdate(true);
-      }
+      setBlocksOfDay(newBlocks);
     }
     else{
       setisLoading(false)
@@ -241,7 +229,7 @@ const Horario = ({
                     blocks={blocksOfDay}
                     deleteBlock={async (dateTag: string, blockTag: string) => {
                       await deleteBlock(dateTag, blockTag);
-                      setNeedUpdate(true);
+                      updateBlocks();
                     }}
                   />
                 </Box>

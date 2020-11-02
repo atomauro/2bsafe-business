@@ -18,7 +18,7 @@ const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 // };
 
 const SMARTFIT_BASE_URL = 'https://app.smartfit.com.br/api/public/v1';
- const API_2BSAFE_BASE_URL = 'https://api2bsafe.herokuapp.com';
+const API_2BSAFE_BASE_URL = 'https://api2bsafe.herokuapp.com';
 // const API_2BSAFE_BASE_URL = 'https://api.smartfitreserva.com';
 const ERRORS: any[] = [];
 
@@ -198,6 +198,12 @@ async function api(credenciales: {
             dateTag: string,
             blockTag: string
           ) => {
+            dateTag =
+              dateTag && dateTag.length === 7
+                ? `${dateTag.slice(0, dateTag.length - 1)}0${dateTag.charAt(
+                    dateTag.length - 1
+                  )}`
+                : dateTag;
             const options = {
               method: 'GET',
               headers: authTokenHeader
@@ -215,6 +221,12 @@ async function api(credenciales: {
             dateTag: string,
             blockTag: string
           ) => {
+            dateTag =
+              dateTag && dateTag.length === 7
+                ? `${dateTag.slice(0, dateTag.length - 1)}0${dateTag.charAt(
+                    dateTag.length - 1
+                  )}`
+                : dateTag;
             const options = {
               method: 'GET',
               headers: authTokenHeader
@@ -240,6 +252,12 @@ async function api(credenciales: {
             return response;
           },
           getBloquesByDateTag: async (sucursal: string, dateTag: string) => {
+            dateTag =
+              dateTag && dateTag.length === 7
+                ? `${dateTag.slice(0, dateTag.length - 1)}0${dateTag.charAt(
+                    dateTag.length - 1
+                  )}`
+                : dateTag;
             const options = {
               method: 'GET',
               headers: authTokenHeader
@@ -255,6 +273,12 @@ async function api(credenciales: {
             dateTag: string,
             blockTag: string
           ) => {
+            dateTag =
+              dateTag && dateTag.length === 7
+                ? `${dateTag.slice(0, dateTag.length - 1)}0${dateTag.charAt(
+                    dateTag.length - 1
+                  )}`
+                : dateTag;
             const options = {
               method: 'DELETE',
               headers: authTokenHeader

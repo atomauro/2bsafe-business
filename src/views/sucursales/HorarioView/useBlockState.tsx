@@ -73,6 +73,12 @@ export default (props: any) => {
         blockObject.desde.split(':').join('') +
         'to' +
         blockObject.hasta.split(':').join('');
+      dayString =
+        dayString && dayString.length === 7
+          ? `${dayString.slice(0, dayString.length - 1)}0${dayString.charAt(
+              dayString.length - 1
+            )}`
+          : dayString;
       const response = await (
         await api(props.credentials)
       ).bloques?.createBloque(
