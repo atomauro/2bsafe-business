@@ -16,7 +16,6 @@ const TOKEN_SMARTFIT = '875e7df451fd652e94ce6520add30404';
 //     return data.data.accessToken;
 //   }
 // };
-
 const SMARTFIT_BASE_URL = 'https://app.smartfit.com.br/api/public/v1';
 const API_2BSAFE_BASE_URL = 'https://api2bsafe.herokuapp.com';
 // const API_2BSAFE_BASE_URL = 'https://api.smartfitreserva.com';
