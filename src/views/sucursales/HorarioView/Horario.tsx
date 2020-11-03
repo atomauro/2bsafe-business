@@ -53,6 +53,7 @@ const Horario = ({
   credentials: any;
 }) => {
   const classes = useStyles();
+  
 
   const [isLoading, setisLoading] = useState(false);
   const [dayString, setDayString] = useState('');
@@ -60,6 +61,26 @@ const Horario = ({
   const [blocksOfDay, setBlocksOfDay] = useState([] as any[]);
 
   const { blocksDays, addBlock, deleteBlock } = useBlockState({ credentials });
+
+
+  useEffect(() => {  
+    const datStrAux= Object.keys(blocksDays)
+    const valueFirstBlock = datStrAux[0].slice(
+      datStrAux[0].indexOf('-') + 2,
+      datStrAux[0].length)
+
+      const stringDayDate: string = valueFirstBlock;
+    const dayStringTemp: string = stringDayDate
+      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+      .split('/')
+      .reverse()
+      .join('');
+    console.log({ stringDayDate, dayStringTemp });
+    setDayString(dayStringTemp);
+    setDay(stringDayDate);
+    getBlocks(dayStringTemp);
+    
+  }, [])
 
   const handleChangeDay = async (event: any) => {
     const stringDayDate: string = event.target.value;
@@ -86,6 +107,7 @@ const Horario = ({
     );
   };
   const getBlocks = async (stringDayDate: string) => {
+    setisLoading(true)
     const response = await (
       await api(credentials)
     ).bloques?.getBloquesByDateTag(
@@ -97,12 +119,16 @@ const Horario = ({
         .join('')
     );
     if (response && (!response.errors || response.errors.length === 0)) {
+      setisLoading(false)
       const newBlocks = Object.keys(response.data || {}).map(
         (blockTag: string) => {
           return { blockTag, aforoMaximo: response.data[blockTag] };
         }
       );
       setBlocksOfDay(newBlocks);
+    }
+    else{
+      setisLoading(false)
     }
   };
 
