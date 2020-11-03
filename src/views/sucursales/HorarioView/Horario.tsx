@@ -23,7 +23,8 @@ import {
 import DialogUser from '../DialogUser';
 
 import BlockForm from './BlockForm';
-import BlockList from './BlockList';
+import BlockList from './BlockListTable';
+// import BlockList from './BlockList';
 import useBlockState from './useBlockState';
 
 import api from './../../../api/api';

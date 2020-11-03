@@ -40,7 +40,7 @@ const BlockForm = (props: any) => {
         aforo: 0
       }}
       validationSchema={Yup.object().shape({
-        aforo: Yup.string()
+        aforo: Yup.number()
           .min(0)
       })}
       onSubmit={(form: any, actions) => {
