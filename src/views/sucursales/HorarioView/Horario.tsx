@@ -21,7 +21,7 @@ import {
   InputAdornment,
   Fab
 } from '@material-ui/core';
-import DownloadIcon from '@material-ui/icons/GetApp'
+
 
 import DialogUser from '../DialogUser';
 import BlockForm from './BlockForm';
@@ -45,9 +45,7 @@ const useStyles = makeStyles(theme => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff'
   },
-  downloadIcon: {
-    marginRight: theme.spacing(1)
-  }
+ 
 }));
 
 const Horario = ({
@@ -171,10 +169,12 @@ const Horario = ({
             timeout={{ enter: 500, exit: 500 }}
           >
             <Card>
-              <Box
-                flexDirection="column"
+              <Grid
+                direction="column"
+                container={true}
                 style={{ marginBottom: 20, marginRight: 5 }}
               >
+                <Grid item={true}>
                 <Box className={classes.message}>
                   <Box flexDirection="column" justifyContent="center">
                     <Typography
@@ -203,32 +203,16 @@ const Horario = ({
                       ))}
                     </Select>
                   </Box>
-                  <Box flexDirection="column" justifyContent="center">
-                    <Typography
-                      variant="h4"
-                      align="center"
-                      style={{ margin: 20 }}
-                    >
-                      Generar reporte
-                    </Typography>
-                    <Fab
-                      variant="extended"
-                      size="small"
-                      style={{ backgroundColor: '#FDB825' }}
-                      aria-label="downlaod"                      
-                      onClick={()=>{console.log('download')}}
-                    >
-                      <DownloadIcon className={classes.downloadIcon} />
-                      Descargar
-                    </Fab>
                   </Box>
-                </Box>
-              </Box>
+                  </Grid>
+
+                
+              </Grid>
             </Card>
           </Slide>
         </Grid>
 
-        <Grid container={true} lg={4} md={8}>
+        <Grid container={true} lg={4} md={8} justify="center" alignItems="center" >
           <Grid lg={12} md={10}>
             <Slide
               direction="down"
@@ -267,7 +251,7 @@ const Horario = ({
           </Grid>
         </Grid>
 
-        <Grid lg={8} md={10} justify="center" alignItems="center">
+        <Grid lg={8} md={10} sm={12} justify="center" alignItems="center">
           <Fade
             in={true}
             mountOnEnter={true}

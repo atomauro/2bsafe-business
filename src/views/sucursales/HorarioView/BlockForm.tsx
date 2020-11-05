@@ -67,9 +67,9 @@ const BlockForm = (props: any) => {
         <form onSubmit={handleSubmit}>
           <Box flexDirection="column" display="flex" justifyContent="center">
             <Box
-              flexDirection="row"
+              flexDirection="column"
               display="flex"
-              style={{ marginBottom: 14 }}
+              style={{ marginBottom: 5 }}
             >
               <Box
                 flexDirection="column"
@@ -147,7 +147,7 @@ const BlockForm = (props: any) => {
               </Box>
             </Box>
           </Box>
-          <Box alignSelf="flex-end" style={{ marginBottom: 20 }}>
+          <Box alignSelf="flex-end" style={{ marginBottom: 5}}>
             <div
               style={{
                 display: 'flex',
