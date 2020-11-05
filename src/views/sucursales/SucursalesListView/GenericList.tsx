@@ -28,7 +28,7 @@ import { AccountCircle } from '@material-ui/icons';
 import DialogUser from '../DialogUser';
 
 import { Formik } from 'formik';
-import DownloadIcon from '@material-ui/icons/GetApp'
+import DownloadIcon from '@material-ui/icons/GetApp';
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
@@ -46,10 +46,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     width: 200
   },
-  selectorField: {    
+  selectorField: {
     width: 200
   },
-  formControl: {    
+  formControl: {
     minWidth: 120
   },
   downloadIcon: {
@@ -104,7 +104,7 @@ const GenericList = ({
     [] as any[]
   );
 
-  const refFirstItem = useRef<HTMLLIElement>(null)
+  const refFirstItem = useRef<HTMLLIElement>(null);
 
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
@@ -144,17 +144,18 @@ const GenericList = ({
         );
       })
     : listaFiltradaFechaHora;
-    
-    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const fileExtension = '.xlsx';
 
-    const exportToCSV = (csvData:any, fileName:string) => {
-        const ws = XLSX.utils.json_to_sheet(csvData);
-        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-        const data = new Blob([excelBuffer], {type: fileType});
-        FileSaver.saveAs(data, fileName + fileExtension);
-    }
+  const fileType =
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  const fileExtension = '.xlsx';
+
+  const exportToCSV = (csvData: any, fileName: string) => {
+    const ws = XLSX.utils.json_to_sheet(csvData);
+    const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, fileName + fileExtension);
+  };
 
   return (
     <Fade
@@ -165,7 +166,7 @@ const GenericList = ({
     >
       <>
         <Card className={clsx(classes.root, className)} {...rest}>
-          <Grid container={true} style={{margin:5}}>
+          <Grid container={true} style={{ margin: 5 }}>
             <Grid item={true} lg={6} md={6} xs={12} sm={6}>
               <TextField
                 id="date"
@@ -187,16 +188,14 @@ const GenericList = ({
                     return response;
                   }
                   setBlocks(Object.keys(response.data));
-                  console.log(blocks)
+                  console.log(blocks);
                   setListaFiltradaFechaHora([]);
                   setDateFilter(VALUE);
 
-                  if(refFirstItem.current!==null){
-                    refFirstItem.current.click()
-                    console.log('selecciona primer elemntos')
+                  if (refFirstItem.current !== null) {
+                    refFirstItem.current.click();
+                    console.log('selecciona primer elemntos');
                   }
-
-
                 }}
                 value={dateFilter}
               />
@@ -234,12 +233,29 @@ const GenericList = ({
                     );
                   }}
                 >
-                  {blocks.filter((blockInfo:any)=>blockInfo!=='NH').map((blockTag: any, index:number) => (                    
-                    (index===0?
-                      <MenuItem ref={refFirstItem} value={blockTag}>{blockTag.slice(0,2) + ':' + blockTag.slice(2,4) + ' hasta ' + blockTag.slice(6,8) + ':' + blockTag.slice(8,10)}</MenuItem>:
-                      <MenuItem value={blockTag}>{blockTag.slice(0,2) + ':' + blockTag.slice(2,4) + ' hasta ' + blockTag.slice(6,8) + ':' + blockTag.slice(8,10)}</MenuItem>
+                  {blocks.map((blockTag: any, index: number) =>
+                    index === 0 ? (
+                      <MenuItem ref={refFirstItem} value={blockTag}>
+                        {blockTag.slice(0, 2) +
+                          ':' +
+                          blockTag.slice(2, 4) +
+                          ' hasta ' +
+                          blockTag.slice(6, 8) +
+                          ':' +
+                          blockTag.slice(8, 10)}
+                      </MenuItem>
+                    ) : (
+                      <MenuItem value={blockTag}>
+                        {blockTag.slice(0, 2) +
+                          ':' +
+                          blockTag.slice(2, 4) +
+                          ' hasta ' +
+                          blockTag.slice(6, 8) +
+                          ':' +
+                          blockTag.slice(8, 10)}
+                      </MenuItem>
                     )
-                  ))}
+                  )}
                 </Select>
               </FormControl>
             </Grid>
