@@ -67,10 +67,10 @@ const StyledTableRow = withStyles(theme => ({
 const BlockListTable = (props: any) => {
   const classes = useStyles();
 
-  const [blocks, setBlocks] = useState(props.blocks);
+  const [blocks, setBlocks] = useState((props.blocks).filter((blockInfo:any)=>blockInfo.blockTag!=='NH'));
 
   useEffect(() => {
-    setBlocks(props.blocks);
+    setBlocks((props.blocks).filter((blockInfo:any)=>blockInfo.blockTag!=='NH'));
   }, [props.blocks]);
 
   return (
@@ -106,8 +106,8 @@ const BlockListTable = (props: any) => {
                       return (                        
                         <StyledTableRow key={blockInfo}>
                           <StyledTableCell>{index+1}</StyledTableCell>
-                          <StyledTableCell>{blockObject.desde}</StyledTableCell>
-                          <StyledTableCell>{blockObject.hasta}</StyledTableCell>
+                          <StyledTableCell>{blockObject.desde.slice(0,2) + ':'+ blockObject.desde.slice(2,4)}</StyledTableCell>
+                          <StyledTableCell>{blockObject.hasta.slice(0,2) + ':'+ blockObject.hasta.slice(2,4)}</StyledTableCell>                                               
                           <StyledTableCell>{blockObject.aforoMaximo}</StyledTableCell>                                               
                           <StyledTableCell>
                             <IconButton

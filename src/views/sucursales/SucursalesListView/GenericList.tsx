@@ -206,7 +206,7 @@ const GenericList = ({
                   }}
                 >
                   {blocks.map((blockTag: any) => (
-                    <MenuItem value={blockTag}>{blockTag}</MenuItem>
+                    <MenuItem value={blockTag}>{blockTag.slice(0,2) + ':' + blockTag.slice(2,4) + ' hasta ' + blockTag.slice(6,8) + ':' + blockTag.slice(8,10)}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

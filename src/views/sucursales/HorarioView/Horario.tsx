@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -17,11 +18,12 @@ import {
   Select,
   MenuItem,
   Grid,
-  InputAdornment
+  InputAdornment,
+  Fab
 } from '@material-ui/core';
+import DownloadIcon from '@material-ui/icons/GetApp'
 
 import DialogUser from '../DialogUser';
-
 import BlockForm from './BlockForm';
 import BlockList from './BlockListTable';
 // import BlockList from './BlockList';
@@ -42,6 +44,9 @@ const useStyles = makeStyles(theme => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff'
+  },
+  downloadIcon: {
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -53,15 +58,16 @@ const Horario = ({
   className: any;
   credentials: any;
 }) => {
-  const classes = useStyles();
-  
+  const classes = useStyles();  
 
   const [isLoading, setisLoading] = useState(false);
   const [dayString, setDayString] = useState('');
   const [day, setDay] = useState('Lunes');
   const [blocksOfDay, setBlocksOfDay] = useState([] as any[]);
+  const [selection, setSelection] = useState('')
 
   const { blocksDays, addBlock, deleteBlock } = useBlockState({ credentials });
+  
 
 
   useEffect(() => {  
@@ -69,7 +75,7 @@ const Horario = ({
     const valueFirstBlock = datStrAux[0].slice(
       datStrAux[0].indexOf('-') + 2,
       datStrAux[0].length)
-
+      setSelection(valueFirstBlock)
       const stringDayDate: string = valueFirstBlock;
     const dayStringTemp: string = stringDayDate
       .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
@@ -84,6 +90,8 @@ const Horario = ({
   }, [])
 
   const handleChangeDay = async (event: any) => {
+    setSelection(event.target.value);
+
     const stringDayDate: string = event.target.value;
     const dayStringTemp: string = stringDayDate
       .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
@@ -96,17 +104,22 @@ const Horario = ({
     getBlocks(dayStringTemp);
   };
 
-  const updateBlocks = async () => {
-    return await getBlocks(
-      !day
-        ? ''
-        : day
-            .slice(day.indexOf('-') + 1, day.length)
-            .split('/')
-            .reverse()
-            .join('')
-    );
-  };
+  const update = () =>{
+    console.log('Updating.....')
+
+    const stringDayDate: string = selection;
+    const dayStringTemp: string = stringDayDate
+      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+      .split('/')
+      .reverse()
+      .join('');
+    console.log({ stringDayDate, dayStringTemp });
+    setDayString(dayStringTemp);
+    setDay(stringDayDate);
+    getBlocks(dayStringTemp);
+  }
+
+  
   const getBlocks = async (stringDayDate: string) => {
     setisLoading(true)
     const response = await (
@@ -190,6 +203,25 @@ const Horario = ({
                       ))}
                     </Select>
                   </Box>
+                  <Box flexDirection="column" justifyContent="center">
+                    <Typography
+                      variant="h4"
+                      align="center"
+                      style={{ margin: 20 }}
+                    >
+                      Generar reporte
+                    </Typography>
+                    <Fab
+                      variant="extended"
+                      size="small"
+                      style={{ backgroundColor: '#FDB825' }}
+                      aria-label="downlaod"                      
+                      onClick={()=>{console.log('download')}}
+                    >
+                      <DownloadIcon className={classes.downloadIcon} />
+                      Descargar
+                    </Fab>
+                  </Box>
                 </Box>
               </Box>
             </Card>
@@ -220,9 +252,11 @@ const Horario = ({
 
                     <Box className={classes.message}>
                       <BlockForm
+                        update={update}
                         saveBlock={async (blockObject: any) => {
                           console.log({ blockObject });
                           await addBlock(blockObject, dayString);
+                          update()
                         }}
                       />
                     </Box>
@@ -251,7 +285,8 @@ const Horario = ({
                     blocks={blocksOfDay}
                     deleteBlock={async (dateTag: string, blockTag: string) => {
                       await deleteBlock(dateTag, blockTag);
-                      updateBlocks();
+                      
+                      update()                     
                     }}
                   />
                 </Box>
