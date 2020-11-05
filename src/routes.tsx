@@ -24,7 +24,7 @@ const routes = [
         element: <SucursalesListView empresa={'smart-fit'} />
       },
       {
-        path: 'perfiles',
+        path: 'alumnos',
         element: <PerfilesView/>
       },
       {

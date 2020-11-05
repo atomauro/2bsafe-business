@@ -13,7 +13,7 @@ import {
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 import AddIcon from '@material-ui/icons/Add';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import NavigationIcon from '@material-ui/icons/Refresh';
 import PlusIcon from '@material-ui/icons/AddCircle';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -67,9 +67,9 @@ const BlockForm = (props: any) => {
         <form onSubmit={handleSubmit}>
           <Box flexDirection="column" display="flex" justifyContent="center">
             <Box
-              flexDirection="row"
+              flexDirection="column"
               display="flex"
-              style={{ marginBottom: 14 }}
+              style={{ marginBottom: 5 }}
             >
               <Box
                 flexDirection="column"
@@ -147,7 +147,7 @@ const BlockForm = (props: any) => {
               </Box>
             </Box>
           </Box>
-          <Box alignSelf="flex-end" style={{ marginBottom: 20 }}>
+          <Box alignSelf="flex-end" style={{ marginBottom: 5}}>
             <div
               style={{
                 display: 'flex',
@@ -167,18 +167,19 @@ const BlockForm = (props: any) => {
               </Button>
             </div>
 
-            {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
+             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Fab
                 variant="extended"
                 size="small"
                 style={{ backgroundColor: '#FDB825' }}
                 aria-label="add"
                 className={classes.margin}
+                onClick={()=>{props.update()}}
               >
                 <NavigationIcon className={classes.extendedIcon} />
                 Actualizar
               </Fab>
-            </div> */}
+            </div> 
           </Box>
         </form>
       )}

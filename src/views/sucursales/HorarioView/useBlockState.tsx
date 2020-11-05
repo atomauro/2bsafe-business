@@ -90,7 +90,7 @@ export default (props: any) => {
         props.credentials.email.slice(0, props.credentials.email.indexOf('@'))
       );
 
-      updateBlocks(dayString);
+      // updateBlocks(dayString);
       return !response || !response.data
         ? response.errors.length === 0
           ? {}

@@ -70,7 +70,7 @@ const NavItem = ({
         to={href}
       >
         {
-          title === 'Perfiles' ?
+          title === 'Alumnos' ?
             (<UsersIcon className={classes.icon} size="20" /> ):
             title === 'Horario' ?
             (<CalendarIcon className={classes.icon} size="20" /> ):

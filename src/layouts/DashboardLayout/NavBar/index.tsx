@@ -33,9 +33,9 @@ const items = [
     title: 'Sucursales'
   },
   {
-    href: '/app/perfiles',
+    href: '/app/alumnos',
     icon: UserIcon,
-    title: 'Perfiles'
+    title: 'Alumnos'
   }
 ];
 
@@ -46,9 +46,9 @@ const itemsSucursales = [
     title: 'Principal'
   },
   {
-    href: '/app/perfiles',
+    href: '/app/alumnos',
     icon: UserIcon,
-    title: 'Perfiles'
+    title: 'Alumnos'
   },
   {
     href: '/app/horario',

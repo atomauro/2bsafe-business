@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -18,18 +18,22 @@ import {
   FormControl,
   Grid,
   TextField,
+  Typography,
   CircularProgress,
   InputLabel,
+  Fab,
   Fade
 } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import DialogUser from '../DialogUser';
 
 import { Formik } from 'formik';
-
+import DownloadIcon from '@material-ui/icons/GetApp'
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 import api from '../../../api/api';
 
 const useStyles = makeStyles(theme => ({
@@ -42,9 +46,14 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     width: 200
   },
-  formControl: {
-    margin: theme.spacing(1),
+  selectorField: {    
+    width: 200
+  },
+  formControl: {    
     minWidth: 120
+  },
+  downloadIcon: {
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -95,6 +104,8 @@ const GenericList = ({
     [] as any[]
   );
 
+  const refFirstItem = useRef<HTMLLIElement>(null)
+
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
       let response = await API2BSafe.users?.login(documentid);
@@ -133,6 +144,17 @@ const GenericList = ({
         );
       })
     : listaFiltradaFechaHora;
+    
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+
+    const exportToCSV = (csvData:any, fileName:string) => {
+        const ws = XLSX.utils.json_to_sheet(csvData);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        FileSaver.saveAs(data, fileName + fileExtension);
+    }
 
   return (
     <Fade
@@ -143,13 +165,13 @@ const GenericList = ({
     >
       <>
         <Card className={clsx(classes.root, className)} {...rest}>
-          <Grid container={true}>
+          <Grid container={true} style={{margin:5}}>
             <Grid item={true} lg={6} md={6} xs={12} sm={6}>
               <TextField
                 id="date"
                 label="Fecha"
                 type="date"
-                className={classes.textField}
+                className={classes.selectorField}
                 InputLabelProps={{
                   shrink: true
                 }}
@@ -165,9 +187,16 @@ const GenericList = ({
                     return response;
                   }
                   setBlocks(Object.keys(response.data));
+                  console.log(blocks)
                   setListaFiltradaFechaHora([]);
-                  setBlockFilter('');
                   setDateFilter(VALUE);
+
+                  if(refFirstItem.current!==null){
+                    refFirstItem.current.click()
+                    console.log('selecciona primer elemntos')
+                  }
+
+
                 }}
                 value={dateFilter}
               />
@@ -205,13 +234,37 @@ const GenericList = ({
                     );
                   }}
                 >
-                  {blocks.map((blockTag: any) => (
-                    <MenuItem value={blockTag}>{blockTag}</MenuItem>
+                  {blocks.filter((blockInfo:any)=>blockInfo!=='NH').map((blockTag: any, index:number) => (                    
+                    (index===0?
+                      <MenuItem ref={refFirstItem} value={blockTag}>{blockTag.slice(0,2) + ':' + blockTag.slice(2,4) + ' hasta ' + blockTag.slice(6,8) + ':' + blockTag.slice(8,10)}</MenuItem>:
+                      <MenuItem value={blockTag}>{blockTag.slice(0,2) + ':' + blockTag.slice(2,4) + ' hasta ' + blockTag.slice(6,8) + ':' + blockTag.slice(8,10)}</MenuItem>
+                    )
                   ))}
                 </Select>
               </FormControl>
             </Grid>
           </Grid>
+          {/* <Box flexDirection="column" justifyContent="center">
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      style={{ margin: 5 }}
+                    >
+                      Generar reporte
+                    </Typography>
+                    <div style={{display:'flex', justifyContent:'center'}}>
+                    <Fab
+                      variant="extended"
+                      size="small"
+                      style={{ backgroundColor: '#FDB825', marginBottom:5 }}
+                      aria-label="downlaod"                      
+                      onClick={()=>{console.log('download')}}
+                    >
+                      <DownloadIcon className={classes.downloadIcon} />
+                      Descargar
+                    </Fab>
+                    </div>
+                  </Box> */}
         </Card>
         <Card className={clsx(classes.root, className)} {...rest}>
           <SearchField isSucursales={false} />

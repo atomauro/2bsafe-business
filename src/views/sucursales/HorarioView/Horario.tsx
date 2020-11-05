@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -17,11 +18,11 @@ import {
   Select,
   MenuItem,
   Grid,
-  InputAdornment
+  InputAdornment,
+  Fab
 } from '@material-ui/core';
 
 import DialogUser from '../DialogUser';
-
 import BlockForm from './BlockForm';
 import BlockList from './BlockListTable';
 // import BlockList from './BlockList';
@@ -59,32 +60,48 @@ const Horario = ({
   const [dayString, setDayString] = useState('');
   const [day, setDay] = useState('');
   const [blocksOfDay, setBlocksOfDay] = useState([] as any[]);
+  const [selection, setSelection] = useState('');
 
   const { blocksDays, addBlock, deleteBlock } = useBlockState({ credentials });
 
   useEffect(() => {
-    if (!day) {
-      const datStrAux = Object.keys(blocksDays);
-      const valueFirstBlock = datStrAux[0].slice(
-        datStrAux[0].indexOf('-') + 2,
-        datStrAux[0].length
-      );
-
-      const stringDayDate: string = valueFirstBlock;
-      const dayStringTemp: string = stringDayDate
-        .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
-        .split('/')
-        .reverse()
-        .join('');
-      console.log({ stringDayDate, dayStringTemp });
-      setDayString(dayStringTemp);
-      setDay(stringDayDate);
-      getBlocks(dayStringTemp);
-    }
-  }, [blocksOfDay]);
+    const datStrAux = Object.keys(blocksDays);
+    const valueFirstBlock = datStrAux[0].slice(
+      datStrAux[0].indexOf('-') + 2,
+      datStrAux[0].length
+    );
+    setSelection(valueFirstBlock);
+    const stringDayDate: string = valueFirstBlock;
+    const dayStringTemp: string = stringDayDate
+      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+      .split('/')
+      .reverse()
+      .join('');
+    console.log({ stringDayDate, dayStringTemp });
+    setDayString(dayStringTemp);
+    setDay(stringDayDate);
+    getBlocks(dayStringTemp);
+  }, []);
 
   const handleChangeDay = async (event: any) => {
+    setSelection(event.target.value);
+
     const stringDayDate: string = event.target.value;
+    const dayStringTemp: string = stringDayDate
+      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+      .split('/')
+      .reverse()
+      .join('');
+    console.log({ stringDayDate, dayStringTemp });
+    setDayString(dayStringTemp);
+    setDay(stringDayDate);
+    update();
+  };
+
+  const update = () => {
+    console.log('Updating.....');
+
+    const stringDayDate: string = selection;
     const dayStringTemp: string = stringDayDate
       .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
       .split('/')
@@ -96,17 +113,6 @@ const Horario = ({
     getBlocks(dayStringTemp);
   };
 
-  const updateBlocks = async () => {
-    return await getBlocks(
-      !day
-        ? ''
-        : day
-            .slice(day.indexOf('-') + 1, day.length)
-            .split('/')
-            .reverse()
-            .join('')
-    );
-  };
   const getBlocks = async (stringDayDate: string) => {
     setisLoading(true);
     await api(credentials).then(async API => {
@@ -125,6 +131,7 @@ const Horario = ({
             return { blockTag, aforoMaximo: response.data[blockTag] };
           }
         );
+
         console.log({ title: 'Uploading blocks...', newBlocks });
         setBlocksOfDay(newBlocks);
       }
@@ -157,45 +164,54 @@ const Horario = ({
             timeout={{ enter: 500, exit: 500 }}
           >
             <Card>
-              <Box
-                flexDirection="column"
+              <Grid
+                direction="column"
+                container={true}
                 style={{ marginBottom: 20, marginRight: 5 }}
               >
-                <Box className={classes.message}>
-                  <Box flexDirection="column" justifyContent="center">
-                    <Typography
-                      variant="h4"
-                      align="center"
-                      style={{ margin: 20 }}
-                    >
-                      DIA
-                    </Typography>
-                    <Select
-                      id="dia"
-                      name="dia"
-                      value={day}
-                      onChange={handleChangeDay}
-                      label="Dia"
-                    >
-                      {Object.keys(blocksDays).map(dayStr => (
-                        <MenuItem
-                          value={dayStr.slice(
-                            dayStr.indexOf('-') + 2,
-                            dayStr.length
-                          )}
-                        >
-                          {dayStr}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                <Grid item={true}>
+                  <Box className={classes.message}>
+                    <Box flexDirection="column" justifyContent="center">
+                      <Typography
+                        variant="h4"
+                        align="center"
+                        style={{ margin: 20 }}
+                      >
+                        DIA
+                      </Typography>
+                      <Select
+                        id="dia"
+                        name="dia"
+                        value={day}
+                        onChange={handleChangeDay}
+                        label="Dia"
+                      >
+                        {Object.keys(blocksDays).map(dayStr => (
+                          <MenuItem
+                            value={dayStr.slice(
+                              dayStr.indexOf('-') + 2,
+                              dayStr.length
+                            )}
+                          >
+                            {dayStr}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Box>
                   </Box>
-                </Box>
-              </Box>
+                </Grid>
+              </Grid>
             </Card>
           </Slide>
         </Grid>
 
-        <Grid container={true} lg={4} md={8}>
+        <Grid
+          container={true}
+          lg={4}
+          md={8}
+          justify="center"
+          alignItems="center"
+        >
           <Grid lg={12} md={10}>
             <Slide
               direction="down"
@@ -219,9 +235,11 @@ const Horario = ({
 
                     <Box className={classes.message}>
                       <BlockForm
+                        update={update}
                         saveBlock={async (blockObject: any) => {
                           console.log({ blockObject });
                           await addBlock(blockObject, dayString);
+                          update();
                         }}
                       />
                     </Box>
@@ -232,7 +250,7 @@ const Horario = ({
           </Grid>
         </Grid>
 
-        <Grid lg={8} md={10} justify="center" alignItems="center">
+        <Grid lg={8} md={10} sm={12} justify="center" alignItems="center">
           <Fade
             in={true}
             mountOnEnter={true}
@@ -250,7 +268,8 @@ const Horario = ({
                     blocks={blocksOfDay}
                     deleteBlock={async (dateTag: string, blockTag: string) => {
                       await deleteBlock(dateTag, blockTag);
-                      updateBlocks();
+
+                      update();
                     }}
                   />
                 </Box>
