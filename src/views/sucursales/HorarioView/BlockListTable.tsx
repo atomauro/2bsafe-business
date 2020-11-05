@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  ListItem, 
+  ListItem,
   ListItemSecondaryAction,
   List,
   ListItemText,
@@ -11,10 +11,10 @@ import {
   TableCell,
   TableHead,
   Card,
-  Box,  
+  Box,
   TableRow,
   makeStyles,
-  withStyles,
+  withStyles
 } from '@material-ui/core';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -31,7 +31,7 @@ const parseStringToBlockObject = (blockTag: string, aforoMaximo: number) => {
 };
 
 const useStyles = makeStyles(theme => ({
-  root: {width: '100%'},
+  root: { width: '100%' },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff'
@@ -70,64 +70,65 @@ const BlockListTable = (props: any) => {
   const [blocks, setBlocks] = useState(props.blocks);
 
   useEffect(() => {
-    setBlocks(props.blocks);
+    console.log({ title: 'Blocks change', newBlocks: props.blocks });
+    setBlocks(
+      props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH')
+    );
   }, [props.blocks]);
 
   return (
     <>
-      {blocks && blocks.length === 0 ? (
+      {!blocks || (blocks && blocks.length === 0) ? (
         <NoHayBloques />
       ) : (
-
-
-
-        <Card className={classes.root}>          
+        <Card className={classes.root}>
           <PerfectScrollbar>
             <Box width="100%">
               <Table stickyHeader={true}>
                 <TableHead>
                   <StyledTableRow>
-                  <StyledTableCell>#</StyledTableCell>
+                    <StyledTableCell>#</StyledTableCell>
                     <StyledTableCell>Desde</StyledTableCell>
                     <StyledTableCell>Hasta</StyledTableCell>
-                    <StyledTableCell>Aforo</StyledTableCell> 
-                    <StyledTableCell>Eliminar</StyledTableCell> 
+                    <StyledTableCell>Aforo</StyledTableCell>
+                    <StyledTableCell>Eliminar</StyledTableCell>
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
-
-
-        
-        {blocks.filter((blockInfo:any)=>blockInfo.blockTag!=='NH').map((blockInfo: any, index:number) => {
-          const blockObject = parseStringToBlockObject(
-            blockInfo.blockTag,
-            blockInfo.aforoMaximo
-          );          
-                      return (                        
-                        <StyledTableRow key={blockInfo}>
-                          <StyledTableCell>{index+1}</StyledTableCell>
-                          <StyledTableCell>{blockObject.desde}</StyledTableCell>
-                          <StyledTableCell>{blockObject.hasta}</StyledTableCell>
-                          <StyledTableCell>{blockObject.aforoMaximo}</StyledTableCell>                                               
-                          <StyledTableCell>
-                            <IconButton
-                              aria-label="Delete"
-                              onClick={() => {
-                                props.deleteBlock(props.dateTag, blockInfo.blockTag);
-                              }}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      );
-            })}
+                  {blocks.map((blockInfo: any, index: number) => {
+                    const blockObject = parseStringToBlockObject(
+                      blockInfo.blockTag,
+                      blockInfo.aforoMaximo
+                    );
+                    return (
+                      <StyledTableRow key={blockInfo}>
+                        <StyledTableCell>{index + 1}</StyledTableCell>
+                        <StyledTableCell>{blockObject.desde}</StyledTableCell>
+                        <StyledTableCell>{blockObject.hasta}</StyledTableCell>
+                        <StyledTableCell>
+                          {blockObject.aforoMaximo}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            aria-label="Delete"
+                            onClick={() => {
+                              props.deleteBlock(
+                                props.dateTag,
+                                blockInfo.blockTag
+                              );
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </Box>
-          </PerfectScrollbar> 
+          </PerfectScrollbar>
         </Card>
-
       )}
     </>
   );
