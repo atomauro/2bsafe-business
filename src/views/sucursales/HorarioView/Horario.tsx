@@ -98,10 +98,6 @@ const Horario = ({
     getBlocks(dayStringTemp);
   }, []);
 
-/*   useEffect(() => {
-   update()   
-  }, [responseAPI]) */
-
   const handleChangeDay = async (event: any) => {
     setSelection(event.target.value);
 
@@ -115,6 +111,7 @@ const Horario = ({
     setDayString(dayStringTemp);
     setDay(stringDayDate);
     update();
+    
   };
 
   
