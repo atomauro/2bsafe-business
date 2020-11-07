@@ -107,9 +107,10 @@ const GenericList = ({
   const refFirstItem = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
-    setDateFilter('')
-    setBlockFilter('')
-  }, [isReserva])
+    setDateFilter('');
+    setBlockFilter('');
+    setListaFiltradaFechaHora([]);
+  }, [isReserva]);
 
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
@@ -177,6 +178,7 @@ const GenericList = ({
                 id="date"
                 label="Fecha"
                 type="date"
+                defaultValue={new Date()}
                 className={classes.selectorField}
                 InputLabelProps={{
                   shrink: true
@@ -192,10 +194,11 @@ const GenericList = ({
                   if (response.errors.length > 0) {
                     return response;
                   }
-                  setBlocks(Object.keys(response.data));
+                  setBlocks(Object.keys(response.data).sort());
                   console.log(blocks);
                   setListaFiltradaFechaHora([]);
                   setDateFilter(VALUE);
+                  setBlockFilter(Object.keys(response.data)[0]);
 
                   if (refFirstItem.current !== null) {
                     refFirstItem.current.click();
@@ -239,16 +242,8 @@ const GenericList = ({
                   }}
                 >
                   {blocks.map((blockTag: any, index: number) =>
-                    index === 0 ? (
-                      <MenuItem ref={refFirstItem} value={blockTag}>
-                        {blockTag.slice(0, 2) +
-                          ':' +
-                          blockTag.slice(2, 4) +
-                          ' hasta ' +
-                          blockTag.slice(6, 8) +
-                          ':' +
-                          blockTag.slice(8, 10)}
-                      </MenuItem>
+                    blockTag.slice(0, 2) === 'NH' ? (
+                      <MenuItem value={blockTag}>Alumnos sin horario</MenuItem>
                     ) : (
                       <MenuItem value={blockTag}>
                         {blockTag.slice(0, 2) +
