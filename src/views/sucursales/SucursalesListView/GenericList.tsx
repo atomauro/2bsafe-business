@@ -178,7 +178,6 @@ const GenericList = ({
                 id="date"
                 label="Fecha"
                 type="date"
-                defaultValue={new Date()}
                 className={classes.selectorField}
                 InputLabelProps={{
                   shrink: true
@@ -237,7 +236,7 @@ const GenericList = ({
                     }
                     setBlockFilter(BLOCK_TAG);
                     setListaFiltradaFechaHora(
-                      response.errors.length > 0 ? [] : response.data
+                      response.errors.length > 0 ? [] : response.data.sort()
                     );
                   }}
                 >

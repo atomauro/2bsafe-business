@@ -75,6 +75,7 @@ const BlockListTable = (props: any) => {
     setBlocks(
       props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH')
     );
+    console.log('BLOCKS', blocks);
   }, [props.blocks]);
 
   return (
@@ -96,45 +97,43 @@ const BlockListTable = (props: any) => {
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                  {blocks
-                    .filter((blockInfo: any) => blockInfo.blockTag !== 'NH')
-                    .map((blockInfo: any, index: number) => {
-                      const blockObject = parseStringToBlockObject(
-                        blockInfo.blockTag,
-                        blockInfo.aforoMaximo
-                      );
-                      return (
-                        <StyledTableRow key={blockInfo}>
-                          <StyledTableCell>{index + 1}</StyledTableCell>
-                          <StyledTableCell>
-                            {blockObject.desde.slice(0, 2) +
-                              ':' +
-                              blockObject.desde.slice(2, 4)}
-                          </StyledTableCell>
-                          <StyledTableCell>
-                            {blockObject.hasta.slice(0, 2) +
-                              ':' +
-                              blockObject.hasta.slice(2, 4)}
-                          </StyledTableCell>
-                          <StyledTableCell>
-                            {blockObject.aforoMaximo}
-                          </StyledTableCell>
-                          <StyledTableCell>
-                            <IconButton
-                              aria-label="Delete"
-                              onClick={() => {
-                                props.deleteBlock(
-                                  props.dateTag,
-                                  blockInfo.blockTag
-                                );
-                              }}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      );
-                    })}
+                  {blocks.map((blockInfo: any, index: number) => {
+                    const blockObject = parseStringToBlockObject(
+                      blockInfo.blockTag,
+                      blockInfo.aforoMaximo
+                    );
+                    return (
+                      <StyledTableRow key={blockInfo}>
+                        <StyledTableCell>{index + 1}</StyledTableCell>
+                        <StyledTableCell>
+                          {blockObject.desde.slice(0, 2) +
+                            ':' +
+                            blockObject.desde.slice(2, 4)}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {blockObject.hasta.slice(0, 2) +
+                            ':' +
+                            blockObject.hasta.slice(2, 4)}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {blockObject.aforoMaximo}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            aria-label="Delete"
+                            onClick={() => {
+                              props.deleteBlock(
+                                props.dateTag,
+                                blockInfo.blockTag
+                              );
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </Box>

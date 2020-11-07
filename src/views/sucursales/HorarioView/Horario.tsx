@@ -54,7 +54,7 @@ const Horario = ({
   className: any;
   credentials: any;
 }) => {
-  const classes = useStyles();  
+  const classes = useStyles();
 
   const [isLoading, setisLoading] = useState(false);
   const [dayString, setDayString] = useState('');
@@ -77,7 +77,10 @@ const Horario = ({
     getBlocks(dayStringTemp);
   };
 
-  const { blocksDays, addBlock, deleteBlock } = useBlockState({ credentials, update} );
+  const { blocksDays, addBlock, deleteBlock } = useBlockState({
+    credentials,
+    update
+  });
 
   useEffect(() => {
     const datStrAux = Object.keys(blocksDays);
@@ -111,12 +114,10 @@ const Horario = ({
     setDayString(dayStringTemp);
     setDay(stringDayDate);
     update();
-    
   };
 
-  
-
   const getBlocks = async (stringDayDate: string) => {
+    setBlocksOfDay([]);
     setisLoading(true);
     await api(credentials).then(async API => {
       const response = await API.bloques?.getBloquesByDateTag(
@@ -135,7 +136,7 @@ const Horario = ({
           }
         );
 
-        console.log({ title: 'Uploading blocks...', newBlocks });
+        console.log({ title: 'Uploading blocks...' });
         setBlocksOfDay(newBlocks);
       }
       setisLoading(false);
@@ -241,8 +242,7 @@ const Horario = ({
                         update={update}
                         saveBlock={async (blockObject: any) => {
                           console.log({ blockObject });
-                          addBlock(blockObject, dayString)                         
-
+                          addBlock(blockObject, dayString);
                         }}
                       />
                     </Box>
@@ -269,9 +269,8 @@ const Horario = ({
                   <BlockList
                     dateTag={dayString}
                     blocks={blocksOfDay}
-                    deleteBlock={(dateTag: string, blockTag: string) => {                      
-                        deleteBlock(dateTag, blockTag)
-                                              
+                    deleteBlock={(dateTag: string, blockTag: string) => {
+                      deleteBlock(dateTag, blockTag);
                     }}
                   />
                 </Box>
