@@ -106,6 +106,11 @@ const GenericList = ({
 
   const refFirstItem = useRef<HTMLLIElement>(null);
 
+  useEffect(() => {
+    setDateFilter('')
+    setBlockFilter('')
+  }, [isReserva])
+
   const fetchUserInfo = (documentid: string) => {
     api(credentials).then(async API2BSafe => {
       let response = await API2BSafe.users?.login(documentid);

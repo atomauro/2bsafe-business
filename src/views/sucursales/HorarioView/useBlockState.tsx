@@ -91,19 +91,26 @@ export default (props: any) => {
       );
 
       // updateBlocks(dayString);
+      props.update()
+
       return !response || !response.data
         ? response.errors.length === 0
           ? {}
           : {}
         : {};
+
     },
     deleteBlock: async (dateTag: string, blockTag: string) => {
-      (await api(props.credentials)).bloques?.deleteBloque(
+      const response = (await api(props.credentials)).bloques?.deleteBloque(
         props.credentials.email.slice(0, props.credentials.email.indexOf('@')),
         dateTag,
         blockTag
-      );
+      ).then(res => {
+        props.update()
+      });
       console.log('Borrar: ' + blockTag);
+      
+      
       // setBlocks(newBlocks);
     }
   };

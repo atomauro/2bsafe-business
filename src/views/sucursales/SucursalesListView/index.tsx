@@ -294,19 +294,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
           });
           handleShowReservas(name);
         }
-      } else{
-        if (typeUser === 'sucursal' && domain === 'smart-fit.com') {
-          console.log('Iniciar pantalla Principal en reservas');
-          getReservasList(currentView).then(response => {
-            setListaReservas(response.data);
-          });
-
-          getRegistrosList(currentView).then(response => {
-            setListaRegistros(response.data);
-          });
-          handleShowReservas(name);
-        }
-      }
+      } 
     }
   }, [Api2BSafe, list, needUpdate, currentView]);
 
