@@ -220,24 +220,28 @@ const GenericList = ({
                   displayEmpty={true}
                   onChange={async (e: any) => {
                     const BLOCK_TAG = e.target.value;
-                    let response: any = await api(credentials);
-                    if (isReserva) {
-                      response = await response.reservas?.leerReservas(
-                        sucursalSelected,
-                        dateFilter.split('-').join(''),
-                        BLOCK_TAG
+                    if(dateFilter!==''){
+                      let response: any = await api(credentials);
+                      if (isReserva) {
+                        response = await response.reservas?.leerReservas(
+                          sucursalSelected,
+                          dateFilter.split('-').join(''),
+                          BLOCK_TAG
+                        );
+                      } else {
+                        response = await response.registros?.leerRegistros(
+                          sucursalSelected,
+                          dateFilter.split('-').join(''),
+                          BLOCK_TAG
+                        );
+                      }
+                      setBlockFilter(BLOCK_TAG);
+                      setListaFiltradaFechaHora(
+                        response.errors.length > 0 ? [] : response.data.sort()
                       );
-                    } else {
-                      response = await response.registros?.leerRegistros(
-                        sucursalSelected,
-                        dateFilter.split('-').join(''),
-                        BLOCK_TAG
-                      );
+                    }else{
+                      alert('Selecciona primero una fecha')
                     }
-                    setBlockFilter(BLOCK_TAG);
-                    setListaFiltradaFechaHora(
-                      response.errors.length > 0 ? [] : response.data.sort()
-                    );
                   }}
                 >
                   {blocks.sort().map((blockTag: any, index: number) =>
@@ -294,7 +298,7 @@ const GenericList = ({
                     <StyledTableCell>Fecha</StyledTableCell>
                     <StyledTableCell>Hora</StyledTableCell>
                     {!isReserva && (
-                      <StyledTableCell>Temperatura</StyledTableCell>
+                      <StyledTableCell>Temperatura (°C)</StyledTableCell>
                     )}
                     <StyledTableCell>Encuesta</StyledTableCell>
                     <StyledTableCell>Ver Perfil</StyledTableCell>
