@@ -75,7 +75,7 @@ const BlockListTable = (props: any) => {
     setBlocks(
       props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH')
     );
-    console.log('BLOCKS', blocks);
+    console.log('BLOCKS UPDATED', blocks);
   }, [props.blocks]);
 
   return (
