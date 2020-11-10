@@ -309,10 +309,14 @@ const GenericList = ({
                           response.dia = isoDateString.substring(0, 10);
                           response.hora = isoDateString.substring(11, 16);
                         }
+                        console.log({responseGenericList: response})
                         return response;
                       };
 
                       const { dia, hora } = isoStringToDiaHora(sucursal.date);
+
+                      
+                      console.log({sucursalDate: sucursal})
 
                       return (
                         <StyledTableRow key={sucursal.id}>
@@ -321,8 +325,8 @@ const GenericList = ({
                           <StyledTableCell>
                             {sucursal.documentid}
                           </StyledTableCell>
-                          <StyledTableCell>{dia}</StyledTableCell>
-                          <StyledTableCell>{hora}</StyledTableCell>
+                          <StyledTableCell>{dia.slice(0,4)+'/'+dia.slice(4,6)+'/' +dia.slice(6,8)}</StyledTableCell>
+                          <StyledTableCell>{(sucursal.time).toString().slice(0,2)+':'+(sucursal.time).toString().slice(2,4)}</StyledTableCell>
                           {sucursal.temperature && (
                             <StyledTableCell>
                               {sucursal.temperature}
