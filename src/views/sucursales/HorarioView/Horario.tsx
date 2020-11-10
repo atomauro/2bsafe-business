@@ -130,7 +130,7 @@ const Horario = ({
       );
       console.log({ title: 'getBlocks', response });
       if (response && (!response.errors || response.errors.length === 0)) {
-        const newBlocks = Object.keys(response.data || {}).map(
+        const newBlocks = Object.keys(response.data || {}).sort().map(
           (blockTag: string) => {
             return { blockTag, aforoMaximo: response.data[blockTag] };
           }

@@ -240,7 +240,7 @@ const GenericList = ({
                     );
                   }}
                 >
-                  {blocks.map((blockTag: any, index: number) =>
+                  {blocks.sort().map((blockTag: any, index: number) =>
                     blockTag.slice(0, 2) === 'NH' ? (
                       <MenuItem value={blockTag}>Alumnos sin horario</MenuItem>
                     ) : (

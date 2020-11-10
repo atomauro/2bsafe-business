@@ -68,12 +68,13 @@ const BlockListTable = (props: any) => {
   const classes = useStyles();
 
   const [blocks, setBlocks] = useState(
-    props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH')
+    props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH').sort()
   );
 
   useEffect(() => {
+    console.log('BLOCKS BEFORE UPDATED', blocks)
     setBlocks(
-      props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH')
+      props.blocks.filter((blockInfo: any) => blockInfo.blockTag !== 'NH').sort()
     );
     console.log('BLOCKS UPDATED', blocks);
   }, [props.blocks]);
