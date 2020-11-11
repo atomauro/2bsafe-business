@@ -14,7 +14,7 @@ import {
   makeStyles,
   withStyles,
   IconButton,
-  Backdrop,
+  Backdrop,  
   FormControl,
   Grid,
   TextField,
@@ -292,6 +292,18 @@ const GenericList = ({
         </Card>
         <Card className={clsx(classes.root, className)} {...rest}>
           <SearchField isSucursales={false} />
+          {FINAL_LIST?
+           <Fade
+           in={true}
+           mountOnEnter={true}
+           unmountOnExit={true}
+           timeout={{ enter: 500, exit: 500 }}
+         >
+          <div style={{width:'100%', height:'auto', display:'flex',justifyContent:'center',alignItems:'center'}}>
+          <Typography variant='h4' style={{fontWeight:"bold"}}>Total: {FINAL_LIST.length}</Typography>
+          </div>
+          </Fade> : null
+          }
           <PerfectScrollbar>
             <Box width="100%">
               <Table stickyHeader={true}>
