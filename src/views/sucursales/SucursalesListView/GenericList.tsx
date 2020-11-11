@@ -46,6 +46,12 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     width: 200
   },
+  blockstextField: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    width: 200
+  },
   selectorField: {
     width: 200
   },
@@ -104,8 +110,6 @@ const GenericList = ({
     [] as any[]
   );
 
-  const refFirstItem = useRef<HTMLLIElement>(null);
-
   useEffect(() => {
     setDateFilter('');
     setBlockFilter('');
@@ -163,6 +167,34 @@ const GenericList = ({
     FileSaver.saveAs(data, fileName + fileExtension);
   };
 
+  const handleChangeBlocks = async (e: any, newDateFilter: string) => {
+    const BLOCK_TAG = e.target.value;
+    console.log({BLOCK_TAG})
+    if(newDateFilter!==''){
+      let response: any = await api(credentials);
+      if (isReserva) {
+        response = await response.reservas?.leerReservas(
+          sucursalSelected,
+          newDateFilter.split('-').join(''),
+          BLOCK_TAG
+        );
+      } else {
+        response = await response.registros?.leerRegistros(
+          sucursalSelected,
+          newDateFilter.split('-').join(''),
+          BLOCK_TAG
+        );
+      }
+      console.log({response})
+      setBlockFilter(BLOCK_TAG);
+      setListaFiltradaFechaHora(
+        response.errors.length > 0 ? [] : response.data.sort()
+      );
+    }else{
+      alert('Selecciona primero una fecha')
+    }
+  }
+
   return (
     <Fade
       in={true}
@@ -194,15 +226,10 @@ const GenericList = ({
                     return response;
                   }
                   setBlocks(Object.keys(response.data).sort());
-                  console.log(blocks);
                   setListaFiltradaFechaHora([]);
                   setDateFilter(VALUE);
-                  setBlockFilter(Object.keys(response.data)[0]);
-
-                  if (refFirstItem.current !== null) {
-                    refFirstItem.current.click();
-                    console.log('selecciona primer elemntos');
-                  }
+                  setBlockFilter('NH');
+                  handleChangeBlocks({target: {value: 'NH'}}, VALUE)
                 }}
                 value={dateFilter}
               />
@@ -215,39 +242,16 @@ const GenericList = ({
                 <Select
                   id="blocks"
                   label="Bloques"
-                  className={classes.textField}
+                  className={classes.blockstextField}
                   value={blockFilter}
                   displayEmpty={true}
-                  onChange={async (e: any) => {
-                    const BLOCK_TAG = e.target.value;
-                    if(dateFilter!==''){
-                      let response: any = await api(credentials);
-                      if (isReserva) {
-                        response = await response.reservas?.leerReservas(
-                          sucursalSelected,
-                          dateFilter.split('-').join(''),
-                          BLOCK_TAG
-                        );
-                      } else {
-                        response = await response.registros?.leerRegistros(
-                          sucursalSelected,
-                          dateFilter.split('-').join(''),
-                          BLOCK_TAG
-                        );
-                      }
-                      setBlockFilter(BLOCK_TAG);
-                      setListaFiltradaFechaHora(
-                        response.errors.length > 0 ? [] : response.data.sort()
-                      );
-                    }else{
-                      alert('Selecciona primero una fecha')
-                    }
-                  }}
+                  onChange={e => handleChangeBlocks(e, dateFilter)}
                 >
-                  {blocks.sort().map((blockTag: any, index: number) =>
-                    blockTag.slice(0, 2) === 'NH' ? (
+                  {blocks.sort().map((blockTag: any, index: number) => {
+
+                   return blockTag.slice(0, 2) === 'NH' ? (
                       <MenuItem value={blockTag}>Alumnos sin horario</MenuItem>
-                    ) : (
+                      ) : (
                       <MenuItem value={blockTag}>
                         {blockTag.slice(0, 2) +
                           ':' +
@@ -258,6 +262,7 @@ const GenericList = ({
                           blockTag.slice(8, 10)}
                       </MenuItem>
                     )
+                  }
                   )}
                 </Select>
               </FormControl>
