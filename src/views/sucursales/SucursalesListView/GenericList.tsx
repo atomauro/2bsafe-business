@@ -29,12 +29,16 @@ import DialogUser from '../DialogUser';
 
 import { Formik } from 'formik';
 import DownloadIcon from '@material-ui/icons/GetApp';
+import QRIcon from '@material-ui/icons/CropFree';
+
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import api from '../../../api/api';
+
+import DialogQR from '../DialogQR';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -99,6 +103,9 @@ const GenericList = ({
 
   const { searchFieldState } = useContext(SearchFieldContext);
   const [showDialogUser, setShowDialogUser] = useState(false);
+  const [showDialogQR, setShowDialogQR] = useState(false);
+  const [QRpath, setQRpath] = useState('');
+
   const [isLoading, setisLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({} as any);
   const [page, setPage] = useState(0);
@@ -194,6 +201,7 @@ const GenericList = ({
       alert('Selecciona primero una fecha')
     }
   }
+
 
   return (
     <Fade
@@ -319,6 +327,9 @@ const GenericList = ({
                     )}
                     <StyledTableCell>Encuesta</StyledTableCell>
                     <StyledTableCell>Ver Perfil</StyledTableCell>
+                    {/* {isReserva && (
+                      <StyledTableCell>Ver QR</StyledTableCell>
+                    )} */}
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
@@ -363,6 +374,25 @@ const GenericList = ({
                               <AccountCircle />
                             </IconButton>
                           </StyledTableCell>
+                          {/* {isReserva?
+                            (
+                              ((sucursal.time).toString().slice(0,2) < (new Date()).getHours())?
+                              "N/A" :
+                              <StyledTableCell>
+                                <IconButton                              
+                              onClick={() => {                               
+                               setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setShowDialogQR(true)
+                              }}
+                            >
+                              <QRIcon />
+                            </IconButton>
+                            </StyledTableCell>
+                            )
+                          : null
+                          }       */}                  
+                            
+                          
                         </StyledTableRow>
                       );
                     })}
@@ -377,7 +407,13 @@ const GenericList = ({
             }}
             user={userInfo}
           />
-
+          <DialogQR
+            show={showDialogQR}
+            onClose={() => {
+              setShowDialogQR(false);
+            }}
+            qrpath={QRpath}
+          />
           <Backdrop
             className={classes.backdrop}
             open={isLoading}

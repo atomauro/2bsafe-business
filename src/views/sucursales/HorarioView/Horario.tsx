@@ -102,18 +102,22 @@ const Horario = ({
   }, []);
 
   const handleChangeDay = async (event: any) => {
-    setSelection(event.target.value);
-
     const stringDayDate: string = event.target.value;
+    setSelection(stringDayDate);
+    setDay(stringDayDate);
     const dayStringTemp: string = stringDayDate
       .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
       .split('/')
       .reverse()
       .join('');
     console.log({ stringDayDate, dayStringTemp });
+    
+
+   
     setDayString(dayStringTemp);
     setDay(stringDayDate);
-    update();
+    getBlocks(dayStringTemp);
+
   };
 
   const getBlocks = async (stringDayDate: string) => {
