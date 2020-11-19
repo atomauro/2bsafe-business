@@ -352,13 +352,23 @@ const GenericList = ({
 
                       return (
                         <StyledTableRow key={sucursal.id}>
-                          <StyledTableCell>{sucursal.id}</StyledTableCell>
-                          <StyledTableCell>{sucursal.name}</StyledTableCell>
-                          <StyledTableCell>
-                            {sucursal.documentid}
-                          </StyledTableCell>
+                          {sucursal.id && (
+                          <StyledTableCell>{sucursal.id}</StyledTableCell>)
+                          }
+                          {sucursal.name && (
+                            <StyledTableCell>{sucursal.name}</StyledTableCell>
+                          )}
+                          {sucursal.documentid && (
+                            <StyledTableCell>
+                              {sucursal.documentid}
+                            </StyledTableCell>
+                          )}
                           <StyledTableCell>{dia.slice(0,4)+'/'+dia.slice(4,6)+'/' +dia.slice(6,8)}</StyledTableCell>
-                          <StyledTableCell>{(sucursal.time).toString().slice(0,2)+':'+(sucursal.time).toString().slice(2,4)}</StyledTableCell>
+                          {sucursal.time && (
+                            <StyledTableCell>
+                              {(sucursal.time).toString().slice(0,2)+':'+(sucursal.time).toString().slice(2,4)}
+                            </StyledTableCell>
+                            )}
                           {sucursal.temperature && (
                             <StyledTableCell>
                               {sucursal.temperature}
