@@ -327,9 +327,9 @@ const GenericList = ({
                     )}
                     <StyledTableCell>Encuesta</StyledTableCell>
                     <StyledTableCell>Ver Perfil</StyledTableCell>
-                    {/* {isReserva && (
+                     {isReserva && (
                       <StyledTableCell>Ver QR</StyledTableCell>
-                    )} */}
+                    )} 
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
@@ -387,7 +387,15 @@ const GenericList = ({
                           {/* {isReserva?
                             (
                               ((sucursal.time).toString().slice(0,2) < (new Date()).getHours())?
-                              "N/A" :
+                              (<IconButton
+                                disabled={true}                              
+                                onClick={() => {                               
+                                 setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                                 setShowDialogQR(true)
+                                }}
+                              >
+                                <QRIcon />
+                              </IconButton>) :
                               <StyledTableCell>
                                 <IconButton                              
                               onClick={() => {                               
@@ -400,8 +408,22 @@ const GenericList = ({
                             </StyledTableCell>
                             )
                           : null
-                          }       */}                  
-                            
+                          }    */}                      
+                          {isReserva?
+                            (                              
+                              <StyledTableCell>
+                                <IconButton                              
+                              onClick={() => {                               
+                               setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setShowDialogQR(true)
+                              }}
+                            >
+                              <QRIcon />
+                            </IconButton>
+                            </StyledTableCell>
+                            )
+                          : null
+                          }     
                           
                         </StyledTableRow>
                       );
