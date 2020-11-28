@@ -158,7 +158,7 @@ const LoginView = () => {
                   setTimeout(() => {
                     if (form.email.toLowerCase() === 'smart-fit@2bsafe.com') { 
                         api({
-                    email: form.email,
+                    email: form.email.toLowerCase(),
                     password: form.password
                     }).then(apiResult => {
                       if (apiResult.loginError) {
