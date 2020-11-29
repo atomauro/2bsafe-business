@@ -334,7 +334,7 @@ const GenericList = ({
                 </TableHead>
                 <TableBody>
                   {FINAL_LIST &&
-                    FINAL_LIST.map((sucursal: any) => {
+                    FINAL_LIST.sort((a:any,b:any)=>(a.createdat.seconds > b.createdat.seconds) ? 1 : -1).map((sucursal: any) => {
                       const isoStringToDiaHora = (isoDateString: string) => {
                         const response: any = {};
                         if (isoDateString !== undefined) {
