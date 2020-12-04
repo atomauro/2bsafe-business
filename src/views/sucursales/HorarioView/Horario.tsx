@@ -102,18 +102,22 @@ const Horario = ({
   }, []);
 
   const handleChangeDay = async (event: any) => {
-    setSelection(event.target.value);
-
     const stringDayDate: string = event.target.value;
+    setSelection(stringDayDate);
+    setDay(stringDayDate);
     const dayStringTemp: string = stringDayDate
       .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
       .split('/')
       .reverse()
       .join('');
     console.log({ stringDayDate, dayStringTemp });
+    
+
+   
     setDayString(dayStringTemp);
     setDay(stringDayDate);
-    update();
+    getBlocks(dayStringTemp);
+
   };
 
   const getBlocks = async (stringDayDate: string) => {
@@ -130,7 +134,7 @@ const Horario = ({
       );
       console.log({ title: 'getBlocks', response });
       if (response && (!response.errors || response.errors.length === 0)) {
-        const newBlocks = Object.keys(response.data || {}).map(
+        const newBlocks = Object.keys(response.data || {}).sort().map(
           (blockTag: string) => {
             return { blockTag, aforoMaximo: response.data[blockTag] };
           }

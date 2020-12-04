@@ -46,9 +46,11 @@ const BlockForm = (props: any) => {
       onSubmit={(form: any, actions) => {
         if (form.desde === '' || form.hasta === '') {
           alert('Revisa los campos');
-        } else if(form.aforo===0){
+        } 
+        /* else if(form.aforo===0){
           alert('No es posible tener aforo cero');
-        } {
+        } */ 
+        else {
           console.log(form);
           props.saveBlock(form);
           actions.resetForm();

@@ -158,7 +158,7 @@ const LoginView = () => {
                   setTimeout(() => {
                     if (form.email.toLowerCase() === 'smart-fit@2bsafe.com') { 
                         api({
-                    email: form.email,
+                    email: form.email.toLowerCase(),
                     password: form.password
                     }).then(apiResult => {
                       if (apiResult.loginError) {
@@ -170,14 +170,14 @@ const LoginView = () => {
                         
                         userNameDispatch({
                           type: 'SET',
-                          payload: form.email
+                          payload: form.email.toLowerCase()
                         });                        
                     }
                     });
                     }
                     else {
                        api({
-                    email: form.email + '@smart-fit.com',
+                    email: form.email.toLowerCase() + '@smart-fit.com',
                     password: form.password
                     }).then(apiResult => {
                       if (apiResult.loginError) {
@@ -188,7 +188,7 @@ const LoginView = () => {
                         setApi2BSafe(apiResult);
                         userNameDispatch({
                           type: 'SET',
-                          payload: form.email + '@smart-fit.com'
+                          payload: form.email.toLowerCase() + '@smart-fit.com'
                         });                        
                     }
                     });

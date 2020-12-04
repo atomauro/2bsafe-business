@@ -14,7 +14,7 @@ import {
   makeStyles,
   withStyles,
   IconButton,
-  Backdrop,
+  Backdrop,  
   FormControl,
   Grid,
   TextField,
@@ -29,12 +29,16 @@ import DialogUser from '../DialogUser';
 
 import { Formik } from 'formik';
 import DownloadIcon from '@material-ui/icons/GetApp';
+import QRIcon from '@material-ui/icons/CropFree';
+
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
 import { SearchFieldContext } from '.';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import api from '../../../api/api';
+
+import DialogQR from '../DialogQR';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -44,6 +48,12 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     margin: theme.spacing(2),
+    width: 200
+  },
+  blockstextField: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    marginRight: theme.spacing(2),
     width: 200
   },
   selectorField: {
@@ -93,6 +103,9 @@ const GenericList = ({
 
   const { searchFieldState } = useContext(SearchFieldContext);
   const [showDialogUser, setShowDialogUser] = useState(false);
+  const [showDialogQR, setShowDialogQR] = useState(false);
+  const [QRpath, setQRpath] = useState('');
+
   const [isLoading, setisLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({} as any);
   const [page, setPage] = useState(0);
@@ -103,8 +116,6 @@ const GenericList = ({
   const [listaFiltradaFechaHora, setListaFiltradaFechaHora] = useState(
     [] as any[]
   );
-
-  const refFirstItem = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     setDateFilter('');
@@ -163,6 +174,35 @@ const GenericList = ({
     FileSaver.saveAs(data, fileName + fileExtension);
   };
 
+  const handleChangeBlocks = async (e: any, newDateFilter: string) => {
+    const BLOCK_TAG = e.target.value;
+    console.log({BLOCK_TAG})
+    if(newDateFilter!==''){
+      let response: any = await api(credentials);
+      if (isReserva) {
+        response = await response.reservas?.leerReservas(
+          sucursalSelected,
+          newDateFilter.split('-').join(''),
+          BLOCK_TAG
+        );
+      } else {
+        response = await response.registros?.leerRegistros(
+          sucursalSelected,
+          newDateFilter.split('-').join(''),
+          BLOCK_TAG
+        );
+      }
+      console.log({response})
+      setBlockFilter(BLOCK_TAG);
+      setListaFiltradaFechaHora(
+        response.errors.length > 0 ? [] : response.data.sort()
+      );
+    }else{
+      alert('Selecciona primero una fecha')
+    }
+  }
+
+
   return (
     <Fade
       in={true}
@@ -194,15 +234,10 @@ const GenericList = ({
                     return response;
                   }
                   setBlocks(Object.keys(response.data).sort());
-                  console.log(blocks);
                   setListaFiltradaFechaHora([]);
                   setDateFilter(VALUE);
-                  setBlockFilter(Object.keys(response.data)[0]);
-
-                  if (refFirstItem.current !== null) {
-                    refFirstItem.current.click();
-                    console.log('selecciona primer elemntos');
-                  }
+                  setBlockFilter('NH');
+                  handleChangeBlocks({target: {value: 'NH'}}, VALUE)
                 }}
                 value={dateFilter}
               />
@@ -215,35 +250,16 @@ const GenericList = ({
                 <Select
                   id="blocks"
                   label="Bloques"
-                  className={classes.textField}
+                  className={classes.blockstextField}
                   value={blockFilter}
                   displayEmpty={true}
-                  onChange={async (e: any) => {
-                    const BLOCK_TAG = e.target.value;
-                    let response: any = await api(credentials);
-                    if (isReserva) {
-                      response = await response.reservas?.leerReservas(
-                        sucursalSelected,
-                        dateFilter.split('-').join(''),
-                        BLOCK_TAG
-                      );
-                    } else {
-                      response = await response.registros?.leerRegistros(
-                        sucursalSelected,
-                        dateFilter.split('-').join(''),
-                        BLOCK_TAG
-                      );
-                    }
-                    setBlockFilter(BLOCK_TAG);
-                    setListaFiltradaFechaHora(
-                      response.errors.length > 0 ? [] : response.data.sort()
-                    );
-                  }}
+                  onChange={e => handleChangeBlocks(e, dateFilter)}
                 >
-                  {blocks.map((blockTag: any, index: number) =>
-                    blockTag.slice(0, 2) === 'NH' ? (
+                  {blocks.sort().map((blockTag: any, index: number) => {
+
+                   return blockTag.slice(0, 2) === 'NH' ? (
                       <MenuItem value={blockTag}>Alumnos sin horario</MenuItem>
-                    ) : (
+                      ) : (
                       <MenuItem value={blockTag}>
                         {blockTag.slice(0, 2) +
                           ':' +
@@ -254,6 +270,7 @@ const GenericList = ({
                           blockTag.slice(8, 10)}
                       </MenuItem>
                     )
+                  }
                   )}
                 </Select>
               </FormControl>
@@ -283,6 +300,18 @@ const GenericList = ({
         </Card>
         <Card className={clsx(classes.root, className)} {...rest}>
           <SearchField isSucursales={false} />
+          {FINAL_LIST?
+           <Fade
+           in={true}
+           mountOnEnter={true}
+           unmountOnExit={true}
+           timeout={{ enter: 500, exit: 500 }}
+         >
+          <div style={{width:'100%', height:'auto', display:'flex',justifyContent:'center',alignItems:'center'}}>
+          <Typography variant='h4' style={{fontWeight:"bold"}}>Total: {FINAL_LIST.length}</Typography>
+          </div>
+          </Fade> : null
+          }
           <PerfectScrollbar>
             <Box width="100%">
               <Table stickyHeader={true}>
@@ -294,35 +323,52 @@ const GenericList = ({
                     <StyledTableCell>Fecha</StyledTableCell>
                     <StyledTableCell>Hora</StyledTableCell>
                     {!isReserva && (
-                      <StyledTableCell>Temperatura</StyledTableCell>
+                      <StyledTableCell>Temperatura (°C)</StyledTableCell>
                     )}
                     <StyledTableCell>Encuesta</StyledTableCell>
                     <StyledTableCell>Ver Perfil</StyledTableCell>
+                     {isReserva && (
+                      <StyledTableCell>Ver QR</StyledTableCell>
+                    )} 
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
                   {FINAL_LIST &&
-                    FINAL_LIST.map((sucursal: any) => {
+                    FINAL_LIST.sort((a:any,b:any)=>(a.createdat.seconds > b.createdat.seconds) ? 1 : -1).map((sucursal: any) => {
                       const isoStringToDiaHora = (isoDateString: string) => {
                         const response: any = {};
                         if (isoDateString !== undefined) {
                           response.dia = isoDateString.substring(0, 10);
                           response.hora = isoDateString.substring(11, 16);
                         }
+                        console.log({responseGenericList: response})
                         return response;
                       };
 
                       const { dia, hora } = isoStringToDiaHora(sucursal.date);
 
+                      
+                      console.log({sucursalDate: sucursal})
+
                       return (
                         <StyledTableRow key={sucursal.id}>
-                          <StyledTableCell>{sucursal.id}</StyledTableCell>
-                          <StyledTableCell>{sucursal.name}</StyledTableCell>
-                          <StyledTableCell>
-                            {sucursal.documentid}
-                          </StyledTableCell>
-                          <StyledTableCell>{dia}</StyledTableCell>
-                          <StyledTableCell>{hora}</StyledTableCell>
+                          {sucursal.id && (
+                          <StyledTableCell>{sucursal.id}</StyledTableCell>)
+                          }
+                          {sucursal.name && (
+                            <StyledTableCell>{sucursal.name}</StyledTableCell>
+                          )}
+                          {sucursal.documentid && (
+                            <StyledTableCell>
+                              {sucursal.documentid}
+                            </StyledTableCell>
+                          )}
+                          <StyledTableCell>{dia.slice(0,4)+'/'+dia.slice(4,6)+'/' +dia.slice(6,8)}</StyledTableCell>
+                          {sucursal.time && (
+                            <StyledTableCell>
+                              {(sucursal.time).toString().slice(0,2)+':'+(sucursal.time).toString().slice(2,4)}
+                            </StyledTableCell>
+                            )}
                           {sucursal.temperature && (
                             <StyledTableCell>
                               {sucursal.temperature}
@@ -338,6 +384,47 @@ const GenericList = ({
                               <AccountCircle />
                             </IconButton>
                           </StyledTableCell>
+                          {/* {isReserva?
+                            (
+                              ((sucursal.time).toString().slice(0,2) < (new Date()).getHours())?
+                              (<IconButton
+                                disabled={true}                              
+                                onClick={() => {                               
+                                 setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                                 setShowDialogQR(true)
+                                }}
+                              >
+                                <QRIcon />
+                              </IconButton>) :
+                              <StyledTableCell>
+                                <IconButton                              
+                              onClick={() => {                               
+                               setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setShowDialogQR(true)
+                              }}
+                            >
+                              <QRIcon />
+                            </IconButton>
+                            </StyledTableCell>
+                            )
+                          : null
+                          }    */}                      
+                          {isReserva?
+                            (                              
+                              <StyledTableCell>
+                                <IconButton                              
+                              onClick={() => {                               
+                               setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setShowDialogQR(true)
+                              }}
+                            >
+                              <QRIcon />
+                            </IconButton>
+                            </StyledTableCell>
+                            )
+                          : null
+                          }     
+                          
                         </StyledTableRow>
                       );
                     })}
@@ -352,7 +439,13 @@ const GenericList = ({
             }}
             user={userInfo}
           />
-
+          <DialogQR
+            show={showDialogQR}
+            onClose={() => {
+              setShowDialogQR(false);
+            }}
+            qrpath={QRpath}
+          />
           <Backdrop
             className={classes.backdrop}
             open={isLoading}
