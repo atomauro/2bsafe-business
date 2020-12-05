@@ -91,8 +91,19 @@ export default function DialogQR({
               </div>
               }
               unloader={
-                <Lottie options={defaultOptions} height={200} width={200}                   
-                />          
+                <Grid 
+                  container={true} 
+                  justify="center" 
+                  alignItems="center" 
+                  direction="column"
+                  style={{margin:20}}
+                  >
+                  
+                <Lottie options={defaultOptions} height={200} width={200}/>                          
+                
+                <Button variant="contained" style={{color:'#FFFFFF', backgroundColor:'#FDB825'}} onClick={()=>window.open(qrpath, '_blank')}>Abrir</Button>
+                <a >Ver aqui</a>
+                </Grid>
               } 
               onError={()=>{
                 console.log('error cargando QR - dialogQR')

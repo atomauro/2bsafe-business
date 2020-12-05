@@ -414,7 +414,14 @@ const GenericList = ({
                               <StyledTableCell>
                                 <IconButton                              
                               onClick={() => {                               
-                               setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               // setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setQRpath(
+                                "https://api2bsafe.herokuapp.com"
+                                  + "/tmp/qrs/qr-"
+                                  + (sucursal.documentid).toString() 
+                                  + (sucursal.dia).toString() 
+                                  + (sucursal.id).toString() 
+                                  + ".jpg")
                                setShowDialogQR(true)
                               }}
                             >
