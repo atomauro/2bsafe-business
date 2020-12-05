@@ -105,6 +105,7 @@ const GenericList = ({
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [showDialogQR, setShowDialogQR] = useState(false);
   const [QRpath, setQRpath] = useState('');
+  const [QRpathAlterno, setQRpathAlterno] = useState('');
 
   const [isLoading, setisLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({} as any);
@@ -409,19 +410,24 @@ const GenericList = ({
                             )
                           : null
                           }    */}                      
-                          {isReserva?
+                          {isReserva && sucursal!==undefined?
                             (                              
                               <StyledTableCell>
                                 <IconButton                              
                               onClick={() => {                               
                                // setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
                                setQRpath(
-                                "https://api2bsafe.herokuapp.com"
+                                "https://api.smartfitreserva.com"
                                   + "/tmp/qrs/qr-"
-                                  + (sucursal.documentid).toString() 
-                                  + (sucursal.dia).toString() 
-                                  + (sucursal.id).toString() 
+                                  + (sucursal.documentid)
+                                  + (dia)
+                                  + (sucursal.id)
                                   + ".jpg")
+                                setQRpathAlterno(
+                                  "https://api.smartfitreserva.com"
+                                      + "/tmp/qrs/qr-"
+                                      + (sucursal.id)
+                                      + ".jpg")
                                setShowDialogQR(true)
                               }}
                             >
@@ -452,6 +458,7 @@ const GenericList = ({
               setShowDialogQR(false);
             }}
             qrpath={QRpath}
+            qrpathalterno={QRpathAlterno}
           />
           <Backdrop
             className={classes.backdrop}

@@ -47,15 +47,15 @@ const useStyles = makeStyles(() => ({
 
 export default function DialogQR({
   show,
-  onClose,
-  
+  onClose,  
   qrpath,
+  qrpathalterno,
     ...rest
   }: {
-    show: boolean,   
- 
-        onClose: any,
+    show: boolean,    
+    onClose: any,
     qrpath:string,
+    qrpathalterno:string,
   }) {
 
   const classes = useStyles()
@@ -79,8 +79,8 @@ export default function DialogQR({
         <DialogTitle id="form-dialog-deletesucur">          
           CODIGO QR DE RESERVA
         </DialogTitle>
-        <DialogContent>
-          <Paper elevation={2}>
+        <DialogContent style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          
             <Img 
               src={qrpath} 
               alt={qrpath}
@@ -95,14 +95,23 @@ export default function DialogQR({
                   container={true} 
                   justify="center" 
                   alignItems="center" 
-                  direction="column"
-                  style={{margin:20}}
+                  direction="column"                  
                   >
-                  
-                <Lottie options={defaultOptions} height={200} width={200}/>                          
-                
-                <Button variant="contained" style={{color:'#FFFFFF', backgroundColor:'#FDB825'}} onClick={()=>window.open(qrpath, '_blank')}>Abrir</Button>
-                <a >Ver aqui</a>
+                 <Grid container={true} justify="center">
+                   <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
+                    <Lottie options={defaultOptions} height={200} width={200}/>                          
+                   </div>
+                  </Grid> 
+                  <Grid container={true} justify="center">
+                  <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
+                    <Button variant="contained" style={{margin:20,color:'#FFFFFF', backgroundColor:'#FDB825'}} onClick={()=>window.open(qrpath, '_blank')}>Ver Aqui</Button>               
+                  </div>
+                  </Grid> 
+                  <Grid container={true} justify="center">
+                  <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
+                    <Button variant="contained" color="primary" style={{marginBottom:20,color:'#FFFFFF'}} onClick={()=>window.open(qrpathalterno, '_blank')}>Link alterno temporal</Button>               
+                  </div>
+                  </Grid> 
                 </Grid>
               } 
               onError={()=>{
@@ -112,7 +121,7 @@ export default function DialogQR({
                 console.log('error cargando QR - dialogQR')
                 onClose()}}
               />
-          </Paper>
+          
         </DialogContent>
         <DialogActions style={{display:'flex',justifyContent:'center'}}>        
             <Button color="primary" variant='contained' onClick={() => { onClose() }}>
@@ -123,3 +132,4 @@ export default function DialogQR({
     </div>
   );
 }
+
