@@ -107,11 +107,7 @@ export default function DialogQR({
                     <Button variant="contained" style={{margin:20,color:'#FFFFFF', backgroundColor:'#FDB825'}} onClick={()=>window.open(qrpath, '_blank')}>Ver Aqui</Button>               
                   </div>
                   </Grid> 
-                  <Grid container={true} justify="center">
-                  <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
-                    <Button variant="contained" color="primary" style={{marginBottom:20,color:'#FFFFFF'}} onClick={()=>window.open(qrpathalterno, '_blank')}>Link alterno temporal</Button>               
-                  </div>
-                  </Grid> 
+                  
                 </Grid>
               } 
               onError={()=>{
