@@ -217,6 +217,34 @@ async function api(credenciales: {
           }
         },
         reservas: {
+          buscarReservaPorId: async (id: string, dateTag: string, timeTag: string, sucursal: string) => {
+            const options = {
+              method: 'GET',
+              headers: authTokenHeader,
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas/${dateTag}/${timeTag}`,
+              options
+            );
+            if (response.data) {
+              return response.data.find((reserva: any) => reserva.id === id);
+            } else {
+              return;
+            }
+          },
+          actualizarReserva: async (id: string, info: any, sucursal: string) => {
+            const options = {
+              method: 'POST',
+              headers: authTokenHeader,
+              body: JSON.stringify(info),
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/reservas/${id}`,
+              options
+            );
+
+            return response;
+          },
           leerReservas: async (
             sucursal: string,
             dateTag: string,

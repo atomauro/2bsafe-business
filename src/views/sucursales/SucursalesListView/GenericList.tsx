@@ -30,6 +30,7 @@ import DialogUser from '../DialogUser';
 import { Formik } from 'formik';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import QRIcon from '@material-ui/icons/CropFree';
+import IngresoIcon from '@material-ui/icons/ChangeHistoryTwoTone';
 
 import { AccessTokenContext } from '../../../App';
 import SearchField from '../../../components/SearchField';
@@ -39,6 +40,7 @@ import * as XLSX from 'xlsx';
 import api from '../../../api/api';
 
 import DialogQR from '../DialogQR';
+import DialogIngresoManual from '../DialogIngresoManual';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -77,6 +79,16 @@ const StyledTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
+const StyledTableCellIngreso = withStyles(theme => ({
+  head: {
+    backgroundColor: '#000000',
+    color: theme.palette.common.white
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
+
 const StyledTableRow = withStyles(theme => ({
   root: {
     '&:nth-of-type(odd)': {
@@ -104,8 +116,12 @@ const GenericList = ({
   const { searchFieldState } = useContext(SearchFieldContext);
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [showDialogQR, setShowDialogQR] = useState(false);
-  const [QRpath, setQRpath] = useState('');
-  const [QRpathAlterno, setQRpathAlterno] = useState('');
+  const [showDialogIngresoManual, setShowDialogIngresoManual] = useState(false);
+
+  // Solo para próposito de Dialogs, se pasan como props
+  const [dialogQRpath, setDialogQRpath] = useState('');
+  const [dialogId, setDialogId] = useState('');
+  const [dialogSedeName, setDialogSedeName] = useState('');
 
   const [isLoading, setisLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({} as any);
@@ -331,6 +347,9 @@ const GenericList = ({
                      {isReserva && (
                       <StyledTableCell>Ver QR</StyledTableCell>
                     )} 
+                    {isReserva && (
+                      <StyledTableCellIngreso>Ingresar </StyledTableCellIngreso>
+                    )} 
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
@@ -385,22 +404,20 @@ const GenericList = ({
                               <AccountCircle />
                             </IconButton>
                           </StyledTableCell>
-                          {/* {isReserva?
-                            (
-                              ((sucursal.time).toString().slice(0,2) < (new Date()).getHours())?
-                              (<IconButton
-                                disabled={true}                              
-                                onClick={() => {                               
-                                 setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
-                                 setShowDialogQR(true)
-                                }}
-                              >
-                                <QRIcon />
-                              </IconButton>) :
+                                               
+                          {isReserva && sucursal!==undefined?
+                            (                              
                               <StyledTableCell>
                                 <IconButton                              
                               onClick={() => {                               
-                               setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setDialogQRpath(
+                                "https://api.smartfitreserva.com"
+                                  + "/tmp/qrs/qr-"
+                                  + (sucursal.documentid)
+                                  + (dia)
+                                  + (sucursal.id)
+                                  + ".jpg")                               
                                setShowDialogQR(true)
                               }}
                             >
@@ -409,29 +426,26 @@ const GenericList = ({
                             </StyledTableCell>
                             )
                           : null
-                          }    */}                      
+                          }     
                           {isReserva && sucursal!==undefined?
                             (                              
                               <StyledTableCell>
                                 <IconButton                              
                               onClick={() => {                               
-                               // setQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
-                               setQRpath(
+                               // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                               setDialogQRpath(
                                 "https://api.smartfitreserva.com"
                                   + "/tmp/qrs/qr-"
                                   + (sucursal.documentid)
                                   + (dia)
                                   + (sucursal.id)
-                                  + ".jpg")
-                                setQRpathAlterno(
-                                  "https://api.smartfitreserva.com"
-                                      + "/tmp/qrs/qr-"
-                                      + (sucursal.id)
-                                      + ".jpg")
-                               setShowDialogQR(true)
+                                  + ".jpg") 
+                                setDialogId(sucursal.id)
+                                setDialogSedeName(sucursal.name)                               
+                               setShowDialogIngresoManual(true)
                               }}
                             >
-                              <QRIcon />
+                              <IngresoIcon />
                             </IconButton>
                             </StyledTableCell>
                             )
@@ -457,8 +471,17 @@ const GenericList = ({
             onClose={() => {
               setShowDialogQR(false);
             }}
-            qrpath={QRpath}
-            qrpathalterno={QRpathAlterno}
+            QRpath={dialogQRpath}
+          />
+          <DialogIngresoManual
+            show={showDialogIngresoManual}
+            onClose={() => {
+              setShowDialogIngresoManual(false);
+            }}
+            QRpath={dialogQRpath}
+            sedeName={dialogSedeName}
+            id={dialogId}
+            
           />
           <Backdrop
             className={classes.backdrop}

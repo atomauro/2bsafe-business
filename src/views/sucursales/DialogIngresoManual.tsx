@@ -49,14 +49,19 @@ export default function DialogQR({
   show,
   onClose,  
   QRpath,
+  id,
+  sedeName,
     ...rest
   }: {
     show: boolean,    
     onClose: any,
     QRpath:string,
+    id:string,
+    sedeName:string
   }) {
 
   const classes = useStyles()
+  const [isLoading, setIsLoading] = useState(false)
 
   const defaultOptions = {
     loop: false,      
@@ -64,21 +69,30 @@ export default function DialogQR({
   };
   
   useEffect(() => {
-    console.log("DIALOGQR props", QRpath)
+    console.log("DIALOGINGRESOMANUAL props",{
+      QRpath,
+      id,
+      sedeName,
+    })
   }, [])
 
   return (
     <div>
       <Dialog
         open={show}
+        keepMounted={true}
         onClose={()=>{onClose()}}
         aria-labelledby="form-dialog-deletesucur"
       >
         <DialogTitle id="form-dialog-deletesucur">          
-          CODIGO QR DE RESERVA
+          INGRESO MANUAL
         </DialogTitle>
         <DialogContent style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-          
+          {isLoading?
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%', height:'100%'}}>
+              <CircularProgress size={64} style={{ color: '#FDB825' }}/>
+            </div>
+            :
             <Img 
               src={QRpath} 
               alt={QRpath}
@@ -115,11 +129,16 @@ export default function DialogQR({
                 console.log('error cargando QR - dialogQR')
                 onClose()}}
               />
-          
+          }
+            
+            
         </DialogContent>
         <DialogActions style={{display:'flex',justifyContent:'center'}}>        
-            <Button color="primary" variant='contained' onClick={() => { onClose() }}>
+        <Button color="primary" variant='outlined' onClick={() => { onClose() }}>
               Cerrar
+          </Button>
+          <Button color="primary" variant='contained' disabled={isLoading} onClick={() => { onClose() }}>
+              Ingresar
           </Button>
         </DialogActions>
       </Dialog>
