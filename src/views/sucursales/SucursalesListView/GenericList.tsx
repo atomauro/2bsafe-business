@@ -41,6 +41,9 @@ import api from '../../../api/api';
 
 import DialogQR from '../DialogQR';
 import DialogIngresoManual from '../DialogIngresoManual';
+import DialogIngresoManualSuccess from '../DialogIngresoManualSuccess';
+import DialogIngresoManualFailed from '../DialogIngresoManualFailed';
+import DialogIngresoManualTimeout from '../DialogIngresoManualTimeout';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -117,6 +120,9 @@ const GenericList = ({
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [showDialogQR, setShowDialogQR] = useState(false);
   const [showDialogIngresoManual, setShowDialogIngresoManual] = useState(false);
+  const [showDialogIngresoManualSuccess, setShowDialogIngresoManualSuccess] = useState(false);
+  const [showDialogIngresoManualFailed, setShowDialogIngresoManualFailed] = useState(false);
+  const [showDialogIngresoManualTimeout, setShowDialogIngresoManualTimeout] = useState(false);
 
   // Para Dialogo Visualizar QR
   const [dialogQRpath, setDialogQRpath] = useState('');
@@ -250,19 +256,69 @@ const GenericList = ({
   }
 
   const intentarRegistro = async () => {
-    
+    setShowDialogIngresoManual(false)
+    setisLoading(true)
       api(credentials).then(async API2BSafe => {
         const response = await API2BSafe.registros?.nuevoRegistro({...infoReserva, temperature:Number(temperature)}, credentials.email.substring(0, credentials.email.lastIndexOf('@')));
         if (response && response.data){
           console.log('ingreso exitosa', response)
+          setisLoading(false)
+          setShowDialogIngresoManualSuccess(true)
         }else{
           console.log('ingreso fallida', response)
+          setShowDialogIngresoManualFailed(true)
+          setisLoading(false)
         }
     });
   }
 
   const handleChangeTemperature = (e: any) => {
     setTemperature(e.target.value)
+  }
+
+  const isLessThanCurrentTime = (dateSelected: Date) => {
+    const today = new Date();
+    const differenceMilliseconds =
+      (dateSelected.getTime() - today.getTime()) * -1;
+    const differenceMinutes = Math.floor(differenceMilliseconds / 60000);
+
+    if (differenceMinutes > 30) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const isBeforeThanCurrentTime = (dateSelected: Date) => {
+    const today = new Date();
+    const differenceMilliseconds =
+      (dateSelected.getTime() - today.getTime()) * -1;
+    const differenceMinutes = Math.floor(differenceMilliseconds / 60000);
+
+    if (differenceMinutes > -60) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const constructDate = (dateTag:string,timeTag:string)=>{
+    const auxiliarDate = new Date()
+
+    const year=dateTag.slice(0,4)
+    const month=dateTag.slice(4,6)
+    const day=dateTag.slice(6,8)
+    const hour = timeTag.slice(0,2)
+    const minutes = timeTag.slice(2,4)
+
+    auxiliarDate.setFullYear(Number(year));
+    auxiliarDate.setMonth(Number(month)-1);
+    auxiliarDate.setDate(Number(day))
+    auxiliarDate.setHours(Number(hour))
+    auxiliarDate.setMinutes(Number(minutes))
+    console.log({dateTag,timeTag})
+    console.log({auxiliarDate, year, month, day, hour, minutes})
+    return auxiliarDate
   }
 
   return (
@@ -392,9 +448,11 @@ const GenericList = ({
                      {isReserva && (
                       <StyledTableCell>Ver QR</StyledTableCell>
                     )} 
-                    {isReserva && (
-                      <StyledTableCellIngreso>Ingresar </StyledTableCellIngreso>
-                    )} 
+                    { credentials.email.substring(credentials.email.lastIndexOf('@') + 1)!=='2bsafe.com'?
+                      (isReserva && (
+                        <StyledTableCellIngreso>Ingresar </StyledTableCellIngreso>
+                      )):null
+                    }
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
@@ -472,34 +530,46 @@ const GenericList = ({
                             )
                           : null
                           }     
-                          {isReserva && sucursal!==undefined?
-                            (                              
-                              <StyledTableCell>
-                                <IconButton                              
-                              onClick={() => {                               
-                               // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
-                               setDialogQRpath(
-                                "https://api.smartfitreserva.com"
-                                  + "/tmp/qrs/qr-"
-                                  + (sucursal.documentid)
-                                  + (dia)
-                                  + (sucursal.id)
-                                  + ".jpg") 
-                                
-                                buscarReserva(
-                                  sucursal.id,
-                                  sucursal.date,
-                                  blockFilter,
-                                  credentials.email.substring(0, credentials.email.lastIndexOf('@')),                               
+                          { credentials.email.substring(credentials.email.lastIndexOf('@') + 1)!=='2bsafe.com'?
+                              (
+                                isReserva && sucursal!==undefined?
+                                (                              
+                                  <StyledTableCell>
+                                    <IconButton                              
+                                  onClick={() => {                               
+                                  // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+                                  
+                                  const dateObject = constructDate(sucursal.date, sucursal.time)
+                                  
+                                  if(!isLessThanCurrentTime(dateObject) && isBeforeThanCurrentTime(dateObject)){
+                                    setDialogQRpath(
+                                      "https://api.smartfitreserva.com"
+                                        + "/tmp/qrs/qr-"
+                                        + (sucursal.documentid)
+                                        + (dia)
+                                        + (sucursal.id)
+                                        + ".jpg") 
+                                      
+                                      buscarReserva(
+                                        sucursal.id,
+                                        sucursal.date,
+                                        blockFilter,
+                                        credentials.email.substring(0, credentials.email.lastIndexOf('@')),                               
+                                      )
+                                  } else{
+                                    setShowDialogIngresoManualTimeout(true)
+                                  }
+
+                                  
+                                  }}
+                                >
+                                  <IngresoIcon />
+                                </IconButton>
+                                </StyledTableCell>
                                 )
-                              }}
-                            >
-                              <IngresoIcon />
-                            </IconButton>
-                            </StyledTableCell>
-                            )
-                          : null
-                          }     
+                              : null
+                              )  :null
+                           }  
                           
                         </StyledTableRow>
                       );
@@ -530,6 +600,25 @@ const GenericList = ({
             }}
             onChange={handleChangeTemperature}
             onClick={intentarRegistro}
+          />
+          <DialogIngresoManualSuccess
+            show={showDialogIngresoManualSuccess}
+            onClose={() => {
+              setShowDialogIngresoManualSuccess(false);
+              // Refrescar
+            }}
+          />
+          <DialogIngresoManualFailed
+            show={showDialogIngresoManualFailed}
+            onClose={() => {
+              setShowDialogIngresoManualFailed(false);
+            }}
+          />
+          <DialogIngresoManualTimeout
+            show={showDialogIngresoManualTimeout}
+            onClose={() => {
+              setShowDialogIngresoManualTimeout(false);
+            }}
           />
           <Backdrop
             className={classes.backdrop}
