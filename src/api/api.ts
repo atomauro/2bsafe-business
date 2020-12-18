@@ -214,7 +214,20 @@ async function api(credenciales: {
               options
             );
             return response;
-          }
+          },
+          nuevoRegistro: async (registroInfo: any, sucursal:string) => {
+            const options = {
+              method: 'POST',
+              headers: authTokenHeader,
+              body: JSON.stringify(registroInfo),
+            };
+            const response = await callApi(
+              `${API_2BSAFE_BASE_URL}/${empresa}/${sucursal}/registros`,
+              options
+            );
+
+            return response;
+          },
         },
         reservas: {
           buscarReservaPorId: async (id: string, dateTag: string, timeTag: string, sucursal: string) => {

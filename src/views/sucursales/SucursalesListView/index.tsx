@@ -92,6 +92,7 @@ const CustomerListView = ({ empresa }: { empresa: string }) => {
 
   // Son para cerrar dialogos
   const handleCloseEditPass = () => {
+    setEmail('')
     setShowEditDialog(false);
   };
   const handleCloseDeleteSucursal = () => {

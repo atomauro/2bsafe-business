@@ -118,10 +118,11 @@ const GenericList = ({
   const [showDialogQR, setShowDialogQR] = useState(false);
   const [showDialogIngresoManual, setShowDialogIngresoManual] = useState(false);
 
-  // Solo para próposito de Dialogs, se pasan como props
+  // Para Dialogo Visualizar QR
   const [dialogQRpath, setDialogQRpath] = useState('');
-  const [dialogId, setDialogId] = useState('');
-  const [dialogSedeName, setDialogSedeName] = useState('');
+
+  // Para Ingreso Manual
+  const [infoReserva, setInfoReserva] = useState({})
 
   const [isLoading, setisLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({} as any);
@@ -133,11 +134,13 @@ const GenericList = ({
   const [listaFiltradaFechaHora, setListaFiltradaFechaHora] = useState(
     [] as any[]
   );
+  const [temperature, setTemperature] = useState('')
 
   useEffect(() => {
     setDateFilter('');
     setBlockFilter('');
     setListaFiltradaFechaHora([]);
+    
   }, [isReserva]);
 
   const fetchUserInfo = (documentid: string) => {
@@ -219,6 +222,48 @@ const GenericList = ({
     }
   }
 
+  const buscarReserva = (i:string,d:string,t:string,s:string) =>{
+    setisLoading(true)
+    console.log('Buscar reserva',{
+      i,
+      d,
+      t,
+      s
+    })
+      api(credentials).then(async API2BSafe => {
+        const response = await API2BSafe.reservas?.buscarReservaPorId(
+              i,
+              d,
+              t,
+              s
+          );
+        if (response){
+          console.log('busqueda exitosa', response)
+          setisLoading(false)
+          setInfoReserva({...response})
+          setShowDialogIngresoManual(true)
+        }else{
+          console.log('busqueda fallida', response)
+          setisLoading(false)
+        }
+    });
+  }
+
+  const intentarRegistro = async () => {
+    
+      api(credentials).then(async API2BSafe => {
+        const response = await API2BSafe.registros?.nuevoRegistro({...infoReserva, temperature:Number(temperature)}, credentials.email.substring(0, credentials.email.lastIndexOf('@')));
+        if (response && response.data){
+          console.log('ingreso exitosa', response)
+        }else{
+          console.log('ingreso fallida', response)
+        }
+    });
+  }
+
+  const handleChangeTemperature = (e: any) => {
+    setTemperature(e.target.value)
+  }
 
   return (
     <Fade
@@ -440,9 +485,13 @@ const GenericList = ({
                                   + (dia)
                                   + (sucursal.id)
                                   + ".jpg") 
-                                setDialogId(sucursal.id)
-                                setDialogSedeName(sucursal.name)                               
-                               setShowDialogIngresoManual(true)
+                                
+                                buscarReserva(
+                                  sucursal.id,
+                                  sucursal.date,
+                                  blockFilter,
+                                  credentials.email.substring(0, credentials.email.lastIndexOf('@')),                               
+                                )
                               }}
                             >
                               <IngresoIcon />
@@ -477,11 +526,10 @@ const GenericList = ({
             show={showDialogIngresoManual}
             onClose={() => {
               setShowDialogIngresoManual(false);
+              setTemperature('')
             }}
-            QRpath={dialogQRpath}
-            sedeName={dialogSedeName}
-            id={dialogId}
-            
+            onChange={handleChangeTemperature}
+            onClick={intentarRegistro}
           />
           <Backdrop
             className={classes.backdrop}
