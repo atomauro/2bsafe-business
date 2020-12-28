@@ -466,7 +466,7 @@ const GenericList = ({
                     <StyledTableCell>Encuesta</StyledTableCell>
                     <StyledTableCell>Ver Perfil</StyledTableCell>
                     {isReserva && <StyledTableCell>Ver QR</StyledTableCell>}
-                    {credentials.email.substring(
+                    {/* {credentials.email.substring(
                       credentials.email.lastIndexOf('@') + 1
                     ) !== '2bsafe.com'
                       ? isReserva && (
@@ -474,7 +474,7 @@ const GenericList = ({
                             Ingresar{' '}
                           </StyledTableCellIngreso>
                         )
-                      : null}
+                      : null} */}
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
@@ -559,7 +559,7 @@ const GenericList = ({
                               </IconButton>
                             </StyledTableCell>
                           ) : null}
-                          {credentials.email.substring(
+                          {/* {credentials.email.substring(
                             credentials.email.lastIndexOf('@') + 1
                           ) !== '2bsafe.com' ? (
                             isReserva && sucursal !== undefined ? (
@@ -604,7 +604,7 @@ const GenericList = ({
                                 </IconButton>
                               </StyledTableCell>
                             ) : null
-                          ) : null}
+                          ) : null} */}
                         </StyledTableRow>
                       );
                     })}
