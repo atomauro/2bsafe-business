@@ -1,31 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
   makeStyles,
   Fade,
   Slide,
-  Button,
-  CardContent,
   Backdrop,
   CircularProgress,
   Typography,
-  TextField,
-  Paper,
   Select,
   MenuItem,
-  Grid,
-  InputAdornment,
-  Fab
+  Grid
 } from '@material-ui/core';
 
-import DialogUser from '../DialogUser';
 import BlockForm from './BlockForm';
 import BlockList from './BlockListTable';
-// import BlockList from './BlockList';
 import useBlockState from './useBlockState';
 
 import api from './../../../api/api';
@@ -63,18 +54,7 @@ const Horario = ({
   const [selection, setSelection] = useState('');
 
   const update = () => {
-    console.log('Updating.....');
-
-    const stringDayDate: string = selection;
-    const dayStringTemp: string = stringDayDate
-      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
-      .split('/')
-      .reverse()
-      .join('');
-    console.log({ stringDayDate, dayStringTemp });
-    setDayString(dayStringTemp);
-    setDay(stringDayDate);
-    getBlocks(dayStringTemp);
+    changeDay(selection);
   };
 
   const { blocksDays, addBlock, deleteBlock } = useBlockState({
@@ -88,36 +68,22 @@ const Horario = ({
       datStrAux[0].indexOf('-') + 2,
       datStrAux[0].length
     );
-    setSelection(valueFirstBlock);
-    const stringDayDate: string = valueFirstBlock;
-    const dayStringTemp: string = stringDayDate
-      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
-      .split('/')
-      .reverse()
-      .join('');
-    console.log({ stringDayDate, dayStringTemp });
-    setDayString(dayStringTemp);
-    setDay(stringDayDate);
-    getBlocks(dayStringTemp);
+
+    changeDay(valueFirstBlock);
   }, []);
 
-  const handleChangeDay = async (event: any) => {
-    const stringDayDate: string = event.target.value;
-    setSelection(stringDayDate);
-    setDay(stringDayDate);
-    const dayStringTemp: string = stringDayDate
-      .slice(stringDayDate.indexOf('-') + 1, stringDayDate.length)
+  const changeDay = (newDaySelection: string): void => {
+    setSelection(newDaySelection);
+
+    const dayStringTemp: string = newDaySelection
+      .slice(newDaySelection.indexOf('-') + 1, newDaySelection.length)
       .split('/')
       .reverse()
       .join('');
-    console.log({ stringDayDate, dayStringTemp });
-    
 
-   
     setDayString(dayStringTemp);
-    setDay(stringDayDate);
+    setDay(newDaySelection);
     getBlocks(dayStringTemp);
-
   };
 
   const getBlocks = async (stringDayDate: string) => {
@@ -134,11 +100,11 @@ const Horario = ({
       );
       console.log({ title: 'getBlocks', response });
       if (response && (!response.errors || response.errors.length === 0)) {
-        const newBlocks = Object.keys(response.data || {}).sort().map(
-          (blockTag: string) => {
+        const newBlocks = Object.keys(response.data || {})
+          .sort()
+          .map((blockTag: string) => {
             return { blockTag, aforoMaximo: response.data[blockTag] };
-          }
-        );
+          });
 
         console.log({ title: 'Uploading blocks...' });
         setBlocksOfDay(newBlocks);
@@ -191,7 +157,9 @@ const Horario = ({
                         id="dia"
                         name="dia"
                         value={day}
-                        onChange={handleChangeDay}
+                        onChange={async (event: any) => {
+                          changeDay(event.target.value || '');
+                        }}
                         label="Dia"
                       >
                         {Object.keys(blocksDays).map(dayStr => (

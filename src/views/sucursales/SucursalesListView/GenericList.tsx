@@ -14,7 +14,7 @@ import {
   makeStyles,
   withStyles,
   IconButton,
-  Backdrop,  
+  Backdrop,
   FormControl,
   Grid,
   TextField,
@@ -120,15 +120,24 @@ const GenericList = ({
   const [showDialogUser, setShowDialogUser] = useState(false);
   const [showDialogQR, setShowDialogQR] = useState(false);
   const [showDialogIngresoManual, setShowDialogIngresoManual] = useState(false);
-  const [showDialogIngresoManualSuccess, setShowDialogIngresoManualSuccess] = useState(false);
-  const [showDialogIngresoManualFailed, setShowDialogIngresoManualFailed] = useState(false);
-  const [showDialogIngresoManualTimeout, setShowDialogIngresoManualTimeout] = useState(false);
+  const [
+    showDialogIngresoManualSuccess,
+    setShowDialogIngresoManualSuccess
+  ] = useState(false);
+  const [
+    showDialogIngresoManualFailed,
+    setShowDialogIngresoManualFailed
+  ] = useState(false);
+  const [
+    showDialogIngresoManualTimeout,
+    setShowDialogIngresoManualTimeout
+  ] = useState(false);
 
   // Para Dialogo Visualizar QR
   const [dialogQRpath, setDialogQRpath] = useState('');
 
   // Para Ingreso Manual
-  const [infoReserva, setInfoReserva] = useState({})
+  const [infoReserva, setInfoReserva] = useState({});
 
   const [isLoading, setisLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({} as any);
@@ -140,13 +149,12 @@ const GenericList = ({
   const [listaFiltradaFechaHora, setListaFiltradaFechaHora] = useState(
     [] as any[]
   );
-  const [temperature, setTemperature] = useState('')
+  const [temperature, setTemperature] = useState('');
 
   useEffect(() => {
     setDateFilter('');
     setBlockFilter('');
     setListaFiltradaFechaHora([]);
-    
   }, [isReserva]);
 
   const fetchUserInfo = (documentid: string) => {
@@ -202,8 +210,8 @@ const GenericList = ({
 
   const handleChangeBlocks = async (e: any, newDateFilter: string) => {
     const BLOCK_TAG = e.target.value;
-    console.log({BLOCK_TAG})
-    if(newDateFilter!==''){
+    console.log({ BLOCK_TAG });
+    if (newDateFilter !== '') {
       let response: any = await api(credentials);
       if (isReserva) {
         response = await response.reservas?.leerReservas(
@@ -218,66 +226,70 @@ const GenericList = ({
           BLOCK_TAG
         );
       }
-      console.log({response})
+      console.log({ response });
       setBlockFilter(BLOCK_TAG);
       setListaFiltradaFechaHora(
         response.errors.length > 0 ? [] : response.data.sort()
       );
-    }else{
-      alert('Selecciona primero una fecha')
+    } else {
+      alert('Selecciona primero una fecha');
     }
-  }
+  };
 
-  const buscarReserva = (i:string,d:string,t:string,s:string) =>{
-    setisLoading(true)
-    console.log('Buscar reserva',{
+  const buscarReserva = (i: string, d: string, t: string, s: string) => {
+    setisLoading(true);
+    console.log('Buscar reserva', {
       i,
       d,
       t,
       s
-    })
-      api(credentials).then(async API2BSafe => {
-        const response = await API2BSafe.reservas?.buscarReservaPorId(
-              i,
-              d,
-              t,
-              s
-          );
-        if (response){
-          console.log('busqueda exitosa', response)
-          setisLoading(false)
-          setInfoReserva({...response})
-          setShowDialogIngresoManual(true)
-        }else{
-          console.log('busqueda fallida', response)
-          setisLoading(false)
-        }
     });
-  }
+    api(credentials).then(async API2BSafe => {
+      const response = await API2BSafe.reservas?.buscarReservaPorId(i, d, t, s);
+      if (response) {
+        console.log('busqueda exitosa', response);
+        setisLoading(false);
+        setInfoReserva({ ...response });
+        setShowDialogIngresoManual(true);
+      } else {
+        console.log('busqueda fallida', response);
+        setisLoading(false);
+      }
+    });
+  };
 
   const intentarRegistro = async () => {
-    setShowDialogIngresoManual(false)
-    setisLoading(true)
-      api(credentials).then(async API2BSafe => {
-        const response = await API2BSafe.registros?.nuevoRegistro({...infoReserva, temperature:Number(temperature)}, credentials.email.substring(0, credentials.email.lastIndexOf('@')));
-        if (response && response.data){
-          console.log('ingreso exitosa', response)
-          setisLoading(false)
-          setShowDialogIngresoManualSuccess(true)
-        }else{
-          console.log('ingreso fallida', response)
-          setShowDialogIngresoManualFailed(true)
-          setisLoading(false)
-        }
+    setShowDialogIngresoManual(false);
+    setisLoading(true);
+    api(credentials).then(async API2BSafe => {
+      const response = await API2BSafe.registros?.nuevoRegistro(
+        { ...infoReserva, temperature: Number(temperature) },
+        credentials.email.substring(0, credentials.email.lastIndexOf('@'))
+      );
+      if (response && response.data) {
+        console.log('ingreso exitosa', response);
+        setisLoading(false);
+        setShowDialogIngresoManualSuccess(true);
+      } else {
+        console.log('ingreso fallida', response);
+        setShowDialogIngresoManualFailed(true);
+        setisLoading(false);
+      }
     });
-  }
+  };
 
   const handleChangeTemperature = (e: any) => {
-    setTemperature(e.target.value)
-  }
+    setTemperature(e.target.value);
+  };
+
+  const getColDate = (): Date => {
+    const date = new Date();
+    const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+    return new Date(utc + 3600000 * -5);
+  };
 
   const isLessThanCurrentTime = (dateSelected: Date) => {
-    const today = new Date();
+    const today = getColDate();
     const differenceMilliseconds =
       (dateSelected.getTime() - today.getTime()) * -1;
     const differenceMinutes = Math.floor(differenceMilliseconds / 60000);
@@ -290,7 +302,7 @@ const GenericList = ({
   };
 
   const isBeforeThanCurrentTime = (dateSelected: Date) => {
-    const today = new Date();
+    const today = getColDate();
     const differenceMilliseconds =
       (dateSelected.getTime() - today.getTime()) * -1;
     const differenceMinutes = Math.floor(differenceMilliseconds / 60000);
@@ -302,24 +314,24 @@ const GenericList = ({
     }
   };
 
-  const constructDate = (dateTag:string,timeTag:string)=>{
-    const auxiliarDate = new Date()
+  const constructDate = (dateTag: string, timeTag: string) => {
+    const auxiliarDate = getColDate();
 
-    const year=dateTag.slice(0,4)
-    const month=dateTag.slice(4,6)
-    const day=dateTag.slice(6,8)
-    const hour = timeTag.slice(0,2)
-    const minutes = timeTag.slice(2,4)
+    const year = dateTag.slice(0, 4);
+    const month = dateTag.slice(4, 6);
+    const day = dateTag.slice(6, 8);
+    const hour = timeTag.slice(0, 2);
+    const minutes = timeTag.slice(2, 4);
 
     auxiliarDate.setFullYear(Number(year));
-    auxiliarDate.setMonth(Number(month)-1);
-    auxiliarDate.setDate(Number(day))
-    auxiliarDate.setHours(Number(hour))
-    auxiliarDate.setMinutes(Number(minutes))
-    console.log({dateTag,timeTag})
-    console.log({auxiliarDate, year, month, day, hour, minutes})
-    return auxiliarDate
-  }
+    auxiliarDate.setMonth(Number(month) - 1);
+    auxiliarDate.setDate(Number(day));
+    auxiliarDate.setHours(Number(hour));
+    auxiliarDate.setMinutes(Number(minutes));
+    console.log({ dateTag, timeTag });
+    console.log({ auxiliarDate, year, month, day, hour, minutes });
+    return auxiliarDate;
+  };
 
   return (
     <Fade
@@ -355,7 +367,7 @@ const GenericList = ({
                   setListaFiltradaFechaHora([]);
                   setDateFilter(VALUE);
                   setBlockFilter('NH');
-                  handleChangeBlocks({target: {value: 'NH'}}, VALUE)
+                  handleChangeBlocks({ target: { value: 'NH' } }, VALUE);
                 }}
                 value={dateFilter}
               />
@@ -374,10 +386,9 @@ const GenericList = ({
                   onChange={e => handleChangeBlocks(e, dateFilter)}
                 >
                   {blocks.sort().map((blockTag: any, index: number) => {
-
-                   return blockTag.slice(0, 2) === 'NH' ? (
+                    return blockTag.slice(0, 2) === 'NH' ? (
                       <MenuItem value={blockTag}>Alumnos sin horario</MenuItem>
-                      ) : (
+                    ) : (
                       <MenuItem value={blockTag}>
                         {blockTag.slice(0, 2) +
                           ':' +
@@ -387,9 +398,8 @@ const GenericList = ({
                           ':' +
                           blockTag.slice(8, 10)}
                       </MenuItem>
-                    )
-                  }
-                  )}
+                    );
+                  })}
                 </Select>
               </FormControl>
             </Grid>
@@ -418,18 +428,28 @@ const GenericList = ({
         </Card>
         <Card className={clsx(classes.root, className)} {...rest}>
           <SearchField isSucursales={false} />
-          {FINAL_LIST?
-           <Fade
-           in={true}
-           mountOnEnter={true}
-           unmountOnExit={true}
-           timeout={{ enter: 500, exit: 500 }}
-         >
-          <div style={{width:'100%', height:'auto', display:'flex',justifyContent:'center',alignItems:'center'}}>
-          <Typography variant='h4' style={{fontWeight:"bold"}}>Total: {FINAL_LIST.length}</Typography>
-          </div>
-          </Fade> : null
-          }
+          {FINAL_LIST ? (
+            <Fade
+              in={true}
+              mountOnEnter={true}
+              unmountOnExit={true}
+              timeout={{ enter: 500, exit: 500 }}
+            >
+              <div
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Typography variant="h4" style={{ fontWeight: 'bold' }}>
+                  Total: {FINAL_LIST.length}
+                </Typography>
+              </div>
+            </Fade>
+          ) : null}
           <PerfectScrollbar>
             <Box width="100%">
               <Table stickyHeader={true}>
@@ -445,39 +465,42 @@ const GenericList = ({
                     )}
                     <StyledTableCell>Encuesta</StyledTableCell>
                     <StyledTableCell>Ver Perfil</StyledTableCell>
-                     {isReserva && (
-                      <StyledTableCell>Ver QR</StyledTableCell>
-                    )} 
-                    { credentials.email.substring(credentials.email.lastIndexOf('@') + 1)!=='2bsafe.com'?
-                      (isReserva && (
-                        <StyledTableCellIngreso>Ingresar </StyledTableCellIngreso>
-                      )):null
-                    }
+                    {isReserva && <StyledTableCell>Ver QR</StyledTableCell>}
+                    {credentials.email.substring(
+                      credentials.email.lastIndexOf('@') + 1
+                    ) !== '2bsafe.com'
+                      ? isReserva && (
+                          <StyledTableCellIngreso>
+                            Ingresar{' '}
+                          </StyledTableCellIngreso>
+                        )
+                      : null}
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
                   {FINAL_LIST &&
-                    FINAL_LIST.sort((a:any,b:any)=>(a.createdat.seconds > b.createdat.seconds) ? 1 : -1).map((sucursal: any) => {
+                    FINAL_LIST.sort((a: any, b: any) =>
+                      a.createdat.seconds > b.createdat.seconds ? 1 : -1
+                    ).map((sucursal: any) => {
                       const isoStringToDiaHora = (isoDateString: string) => {
                         const response: any = {};
                         if (isoDateString !== undefined) {
                           response.dia = isoDateString.substring(0, 10);
                           response.hora = isoDateString.substring(11, 16);
                         }
-                        console.log({responseGenericList: response})
+                        console.log({ responseGenericList: response });
                         return response;
                       };
 
                       const { dia, hora } = isoStringToDiaHora(sucursal.date);
 
-                      
-                      console.log({sucursalDate: sucursal})
+                      console.log({ sucursalDate: sucursal });
 
                       return (
                         <StyledTableRow key={sucursal.id}>
                           {sucursal.id && (
-                          <StyledTableCell>{sucursal.id}</StyledTableCell>)
-                          }
+                            <StyledTableCell>{sucursal.id}</StyledTableCell>
+                          )}
                           {sucursal.name && (
                             <StyledTableCell>{sucursal.name}</StyledTableCell>
                           )}
@@ -486,12 +509,20 @@ const GenericList = ({
                               {sucursal.documentid}
                             </StyledTableCell>
                           )}
-                          <StyledTableCell>{dia.slice(0,4)+'/'+dia.slice(4,6)+'/' +dia.slice(6,8)}</StyledTableCell>
+                          <StyledTableCell>
+                            {dia.slice(0, 4) +
+                              '/' +
+                              dia.slice(4, 6) +
+                              '/' +
+                              dia.slice(6, 8)}
+                          </StyledTableCell>
                           {sucursal.time && (
                             <StyledTableCell>
-                              {(sucursal.time).toString().slice(0,2)+':'+(sucursal.time).toString().slice(2,4)}
+                              {sucursal.time.toString().slice(0, 2) +
+                                ':' +
+                                sucursal.time.toString().slice(2, 4)}
                             </StyledTableCell>
-                            )}
+                          )}
                           {sucursal.temperature && (
                             <StyledTableCell>
                               {sucursal.temperature}
@@ -507,70 +538,73 @@ const GenericList = ({
                               <AccountCircle />
                             </IconButton>
                           </StyledTableCell>
-                                               
-                          {isReserva && sucursal!==undefined?
-                            (                              
-                              <StyledTableCell>
-                                <IconButton                              
-                              onClick={() => {                               
-                               // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
-                               setDialogQRpath(
-                                "https://api.smartfitreserva.com"
-                                  + "/tmp/qrs/qr-"
-                                  + (sucursal.documentid)
-                                  + (dia)
-                                  + (sucursal.id)
-                                  + ".jpg")                               
-                               setShowDialogQR(true)
-                              }}
-                            >
-                              <QRIcon />
-                            </IconButton>
-                            </StyledTableCell>
-                            )
-                          : null
-                          }     
-                          { credentials.email.substring(credentials.email.lastIndexOf('@') + 1)!=='2bsafe.com'?
-                              (
-                                isReserva && sucursal!==undefined?
-                                (                              
-                                  <StyledTableCell>
-                                    <IconButton                              
-                                  onClick={() => {                               
+
+                          {isReserva && sucursal !== undefined ? (
+                            <StyledTableCell>
+                              <IconButton
+                                onClick={() => {
                                   // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
-                                  
-                                  const dateObject = constructDate(sucursal.date, sucursal.time)
-                                  
-                                  if(!isLessThanCurrentTime(dateObject) && isBeforeThanCurrentTime(dateObject)){
-                                    setDialogQRpath(
-                                      "https://api.smartfitreserva.com"
-                                        + "/tmp/qrs/qr-"
-                                        + (sucursal.documentid)
-                                        + (dia)
-                                        + (sucursal.id)
-                                        + ".jpg") 
-                                      
+                                  setDialogQRpath(
+                                    'https://api.smartfitreserva.com' +
+                                      '/tmp/qrs/qr-' +
+                                      sucursal.documentid +
+                                      dia +
+                                      sucursal.id +
+                                      '.jpg'
+                                  );
+                                  setShowDialogQR(true);
+                                }}
+                              >
+                                <QRIcon />
+                              </IconButton>
+                            </StyledTableCell>
+                          ) : null}
+                          {credentials.email.substring(
+                            credentials.email.lastIndexOf('@') + 1
+                          ) !== '2bsafe.com' ? (
+                            isReserva && sucursal !== undefined ? (
+                              <StyledTableCell>
+                                <IconButton
+                                  onClick={() => {
+                                    // setDialogQRpath("https://api.smartfitreserva.com/tmp/qrs/qr-" + (sucursal.id).toString() + ".jpg")
+
+                                    const dateObject = constructDate(
+                                      sucursal.date,
+                                      sucursal.time
+                                    );
+
+                                    if (
+                                      !isLessThanCurrentTime(dateObject) &&
+                                      isBeforeThanCurrentTime(dateObject)
+                                    ) {
+                                      setDialogQRpath(
+                                        'https://api.smartfitreserva.com' +
+                                          '/tmp/qrs/qr-' +
+                                          sucursal.documentid +
+                                          dia +
+                                          sucursal.id +
+                                          '.jpg'
+                                      );
+
                                       buscarReserva(
                                         sucursal.id,
                                         sucursal.date,
                                         blockFilter,
-                                        credentials.email.substring(0, credentials.email.lastIndexOf('@')),                               
-                                      )
-                                  } else{
-                                    setShowDialogIngresoManualTimeout(true)
-                                  }
-
-                                  
+                                        credentials.email.substring(
+                                          0,
+                                          credentials.email.lastIndexOf('@')
+                                        )
+                                      );
+                                    } else {
+                                      setShowDialogIngresoManualTimeout(true);
+                                    }
                                   }}
                                 >
                                   <IngresoIcon />
                                 </IconButton>
-                                </StyledTableCell>
-                                )
-                              : null
-                              )  :null
-                           }  
-                          
+                              </StyledTableCell>
+                            ) : null
+                          ) : null}
                         </StyledTableRow>
                       );
                     })}
@@ -596,7 +630,7 @@ const GenericList = ({
             show={showDialogIngresoManual}
             onClose={() => {
               setShowDialogIngresoManual(false);
-              setTemperature('')
+              setTemperature('');
             }}
             onChange={handleChangeTemperature}
             onClick={intentarRegistro}
