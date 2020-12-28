@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import api from './../../../api/api';
 
@@ -86,7 +87,18 @@ export default (props: any) => {
     },
     deleteBlock: async (dateTag: string, blockTag: string) => {
       console.log('Borrar: ' + blockTag);
-
+      const response = (await api(props.credentials)).bloques
+      ?.deleteBloque(
+        props.credentials.email.slice(
+          0,
+          props.credentials.email.indexOf('@')
+        ),
+        dateTag,
+        blockTag
+      )
+      .then((res) => {
+        props.update();
+      });
       // setBlocks(newBlocks);
     }
   };
